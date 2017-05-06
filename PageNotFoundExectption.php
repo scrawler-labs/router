@@ -1,10 +1,9 @@
 <?php
 
 /**
- * content goes here
+ * An Exception to be thrown on 404 error
  * 
  * @author : Pranjal Pandey
- * @package : Scrawler
  */
 namespace Ghost\Route;
 
