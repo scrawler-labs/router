@@ -59,10 +59,10 @@ class Router {
         $this->path_info = explode('/', $this->path_info);
         array_shift($this->path_info);
 
-        /*Todo: Fixing problems with subdir
+        //Workaround for subdir - please refer to doc
         if (defined('SUBDIR') && SUBDIR == $this->path_info[0]) {
             array_splice($this->path_info, 0, 1);
-        }*/
+        }
 
         //Set corrosponding controller
         if (isset($this->path_info[0]) && !empty($this->path_info[0])) {
