@@ -1,0 +1,29 @@
+{
+    "name": "ghost/route",
+    "type": "library",
+    "description": "An Fully Automatic RESTful PHP Router.",
+    "keywords": [
+        "framework",
+        "php",
+        "router",
+        "restful",
+        "automatic"
+    ],
+    "homepage": "http://github.com/ghost-php/route",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pranjal Pandey",
+            "email": "pranjaltech10@gmail.com",
+            "homepage": "https://physcocode.com/",
+            "role": "Developer"
+        }
+        
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+   "autoload": {
+        "psr-4": {"Ghost\\Route\\": "src/"}
+    }
+}

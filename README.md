@@ -6,6 +6,43 @@ Why Ghost Route?
 Ghost Route is an library for automatic restful routing, you do not have to define a single route, it automatically detects the url and calls the corrosponding controler.
 Automatic routing is made possible by following some conventions.
 
+Installation
+--------------
+
+### Using Composer
+
+Install composer in your project:
+
+```sh
+$ curl -s https://getcomposer.org/installer | php
+```
+**Caution**: The above command requires you to place a lot of trust in the composer team to not get hacked and have a backdoor installed in their installer script. If secuity is a concern, consider doing the following:
+
+```sh
+$ curl -s https://getcomposer.org/installer > installer.php
+$ less installer.php
+$ # When you're certain it's safe...
+$ php installer.php
+```
+
+
+Create a `composer.json` file in your project root:
+
+```js
+{
+    "require": {
+        "ghost/route": "dev-master"
+    }
+}
+```
+
+Install via composer:
+
+```sh
+$ php composer.phar install
+```
+
+
 Getting Started
 ----------------
 In your index.php
