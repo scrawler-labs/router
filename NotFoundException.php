@@ -7,6 +7,6 @@
  */
 namespace Ghost\Route;
 
-class PageNotFoundException extends Exception{
+class NotFoundException extends Exception{
     
 }

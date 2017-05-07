@@ -90,7 +90,7 @@ class Router {
      * Function to throw 404 error.
      */
     protected function error() {
-        throw new PageNotFondException('oops its an 404 error');
+        throw new NotFondException('oops its an 404 error');
     }
 
 //---------------------------------------------------------------//
