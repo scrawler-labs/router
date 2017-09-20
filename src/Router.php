@@ -29,6 +29,16 @@ class Router {
      * Stores the RouterCollection object.
      */
     private $collection;
+    
+    /**
+     * Stores the controller being dispatched
+     */
+    private $controller;
+    
+    /**
+     * Store the method bring dispatched
+     */
+    private $method;
 
 //---------------------------------------------------------------//
 
@@ -66,22 +76,24 @@ class Router {
 
         //Set corrosponding controller
         if (isset($this->path_info[0]) && !empty($this->path_info[0])) {
-            $controller = $this->collection->getController(ucfirst($this->path_info[0]));
+            $this->controller = $this->collection->getController(ucfirst($this->path_info[0]));
         } else {
-            $controller = $this->collection->getNamespace().'\Main';
+            $this->controller = $this->collection->getNamespace().'\Main';
         }
 
         //Dispach the method according to URL
-        if (class_exists($controller)) {
-            $controller = new $controller();
-            $function = $this->getMethod($controller);
-            $this->dispatch($controller, $function);
+        if (class_exists($this->controller)) {
+            $controller = new $this->controller();
+            $this->method = $this->getMethod($controller);
+            //We are not going to call dispatch method until user manually calls it
+            //$this->dispatch();
         } else {
             $controller = $collection->getNamespace().'\Main';
             array_unshift($this->path_info, '');
-            $function = $this->getMethod($controller);
-            $this->dispatch($controller, $function);
-        }
+            $this->method = $this->getMethod($controller);
+            //We are not going to call dispatch method until user manually calls it
+            //$this->dispatch();        
+            }
     }
 
 //---------------------------------------------------------------//
@@ -104,10 +116,11 @@ class Router {
     /**
      * Function to dispach the method if method exist.
      *
-     * @param string $controller
-     * @param string $method
      */
-    protected function dispatch($controller, $method) {
+    public function dispatch() {
+        $controller = new $this->controller;
+        $method = $this->method;
+        
         if (method_exists($controller, $method)) {
             //Set Arguments from URL
             $i = count($this->path_info);
@@ -164,4 +177,24 @@ class Router {
     }
 
 //---------------------------------------------------------------//
+    
+  /**
+   * Returns fully qualified class name of controller being dipatched
+   * 
+   * @return String
+   */  
+    public function getRoutedController(){
+        return $this->controller;
+    }
+   
+//----------------------------------------------------------------//
+    /*
+     * Returns the method to be called
+     * 
+     * @return String
+     */
+    public function getRoutedMethod(){
+        return $this->method;
+    }
+    
 }

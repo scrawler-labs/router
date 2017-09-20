@@ -58,6 +58,8 @@ $namespace = Namespace\of\your\controllers;
 
 $collection = new RouteCollection($dir,$namespace);
 $router = new Router($collection);
+//Dispatch route using controller and method found
+$router->dispatch()
 ```
 
 Done now whatever request occurs it will be automatically routed . You dont have define a single route
