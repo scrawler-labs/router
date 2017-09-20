@@ -88,4 +88,16 @@ class RouteCollection {
     public function getNamespace(){
         return $this->namespace;
     }
+    
+    //---------------------------------------------------------------//
+    
+    /**
+     * Function to return list of all controller currently registerd with route collction
+     * 
+     * @return array
+     */
+    public function getControllers(){
+        return $this->controllers;
+    }
+}
 }

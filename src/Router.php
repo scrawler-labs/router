@@ -92,7 +92,11 @@ class Router {
      *@param string $message
      */
     protected function error($message) {
-        throw new NotFoundException('Oops its an 404 error! :'.$msg);
+        $controllers = $this->collection->getControllers();
+        foreach($controllers as $name => $class){
+        $list = $list.''.$name.':'.$class;
+        }
+        throw new NotFoundException('Oops its an 404 error! :'.$msg.' List of currently registerd controllers:'.$list);
     }
 
 //---------------------------------------------------------------//
