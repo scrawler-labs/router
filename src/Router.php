@@ -66,9 +66,9 @@ class Router {
 
         //Set corrosponding controller
         if (isset($this->path_info[0]) && !empty($this->path_info[0])) {
-            $controller = $collection->getController(ucfirst($this->path_info[0]));
+            $controller = $this->collection->getController(ucfirst($this->path_info[0]));
         } else {
-            $controller = $collection->getNamespace().'\Main';
+            $controller = $this->collection->getNamespace().'\Main';
         }
 
         //Dispach the method according to URL
@@ -88,9 +88,11 @@ class Router {
 
     /**
      * Function to throw 404 error.
+     *
+     *@param string $message
      */
-    protected function error() {
-        throw new NotFondException('oops its an 404 error');
+    protected function error($message) {
+        throw new NotFoundException('Oops its an 404 error! :'.$msg);
     }
 
 //---------------------------------------------------------------//
@@ -114,7 +116,7 @@ class Router {
             $classMethod = new \ReflectionMethod($controller, $method);
             $argumentCount = count($classMethod->getParameters());
             if (count($arguments) < $argumentCount) {
-                $this->error();
+                $this->error('Not enough arguments given to the method');
             } else {
                 //Finally call the function
                 $result = call_user_func_array([$controller, $method], $arguments);
@@ -141,7 +143,7 @@ class Router {
             } elseif (method_exists($controller, 'all' . ucfirst($this->path_info[1]))) {
                 return 'all' . ucfirst($this->path_info[1]);
             } else {
-                $this->error();
+                $this->error('The'.$function.'method you are looking for is not found in given controller');
             }
         }
         //If second argument not set switch to Index function
@@ -152,7 +154,7 @@ class Router {
             } elseif (method_exists($controller, 'allIndex')) {
                 return 'allIndex';
             } else {
-                $this->error();
+                $this->error('The index method could not be found in given controller');
             }
         }
     }
