@@ -9,10 +9,10 @@ namespace Ghost\Route;
 
 use Throwable;
 
-class NotFoundException extends \Exception {
+class NotImplementedException extends \Exception {
 
     public function __construct(string $message = "", int $code = 0, Throwable $previous = null) {
-        http_response_code(404);
+        http_response_code(501);
         parent::__construct($message, $code, $previous);
     }
 }

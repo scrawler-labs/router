@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This class routes the URL to corrosponding controller.
  *
@@ -7,6 +6,14 @@
  */
 
 namespace Ghost\Route;
+
+include_once __DIR__.'/../../../../api/Box.php'; // used for bytbox management
+include_once __DIR__.'/../../../../api/Carrier.php'; // used by delivery carriers
+include_once __DIR__.'/../../../../api/Client.php'; // used by delivery carriers
+include_once __DIR__.'/../../../../api/Consignment.php'; // handle consigments
+
+
+use Api;
 
 class Router {
     //---------------------------------------------------------------//
@@ -45,8 +52,8 @@ class Router {
     /**
      * constructor overloading for auto routing.
      */
-    public function __construct(RouterCollection $collection) {
-        $this->$collection = $collection;
+    public function __construct(RouteCollection $collection) {
+        $this->collection = $collection;
         $this->route();
     }
 
@@ -69,7 +76,7 @@ class Router {
         $this->path_info = explode('/', $this->path_info);
         array_shift($this->path_info);
 
-        //Workaround for subdir - please refer to doc
+//        //Workaround for subdir - please refer to doc
         if (defined('SUBDIR') && SUBDIR == $this->path_info[0]) {
             array_splice($this->path_info, 0, 1);
         }
@@ -81,14 +88,17 @@ class Router {
             $this->controller = $this->collection->getNamespace().'\Main';
         }
 
+
+
         //Dispach the method according to URL
+
         if (class_exists($this->controller)) {
             $controller = new $this->controller();
             $this->method = $this->getMethod($controller);
             //We are not going to call dispatch method until user manually calls it
             //$this->dispatch();
         } else {
-            $controller = $collection->getNamespace().'\Main';
+            $controller = $this->collection->getNamespace().'\Main';
             array_unshift($this->path_info, '');
             $this->method = $this->getMethod($controller);
             //We are not going to call dispatch method until user manually calls it
@@ -105,10 +115,11 @@ class Router {
      */
     protected function error($message) {
         $controllers = $this->collection->getControllers();
+        $list = '';
         foreach($controllers as $name => $class){
-        $list = $list.''.$name.':'.$class;
+            $list = $list.''.$name.':'.$class;
         }
-        throw new NotFoundException('Oops its an 404 error! :'.$msg.' List of currently registerd controllers:'.$list);
+        throw new NotFoundException('Oops its an 404 error! :'.$message.' List of currently registerd controllers:'.$list);
     }
 
 //---------------------------------------------------------------//
@@ -132,6 +143,7 @@ class Router {
             //Check weather arguments are passed else throw a 404 error
             $classMethod = new \ReflectionMethod($controller, $method);
             $argumentCount = count($classMethod->getParameters());
+
             if (count($arguments) < $argumentCount) {
                 $this->error('Not enough arguments given to the method');
             } else {
@@ -160,7 +172,7 @@ class Router {
             } elseif (method_exists($controller, 'all' . ucfirst($this->path_info[1]))) {
                 return 'all' . ucfirst($this->path_info[1]);
             } else {
-                $this->error('The'.$function.'method you are looking for is not found in given controller');
+                $this->error('The \''.$function.'\' method you are looking for is not found in given controller');
             }
         }
         //If second argument not set switch to Index function
