@@ -160,7 +160,7 @@ class RouterEngine {
      *
      * @return string
      */
-    protected function getMethod($controller) {
+    private function getMethod($controller) {
 
         //Set Method from second argument from URL
         if (isset($this->path_info[1])) {
