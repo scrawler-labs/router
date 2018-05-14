@@ -1,5 +1,5 @@
 <?php
-namespace Test\Controllers;
+namespace Tests\Controllers;
 class Hello{
 
 public function getWorld($name){

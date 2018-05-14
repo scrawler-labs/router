@@ -1,5 +1,5 @@
 <?php
-namespace Test;
+namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ class RouterEngineTest extends TestCase
     parent::__construct();
 
     $dir = __DIR__."/controllers";
-    $namespace = "Test\Controllers";
+    $namespace = "Tests\Controllers";
 
     $collection = new \Scrawler\Router\RouteCollection($dir,$namespace);
     $this->request = Request::create(
@@ -30,13 +30,15 @@ class RouterEngineTest extends TestCase
     }
 
       public function testGetRoutedController(){
+        $this->engine->route();
         $this->assertEquals('Test\Controllers\Hello',$this->engine->getRoutedController());
 
       }
 
 
       public function testGetRoutedMethod(){
-        $this->assertEquals('world',$this->engine->getRoutedMethod());
+        $this->engine->route();
+        $this->assertEquals('getWorld',$this->engine->getRoutedMethod());
 
       }
 
