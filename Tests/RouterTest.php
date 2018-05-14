@@ -24,7 +24,6 @@ class RouterTest extends TestCase
     }
 
     /**
-     *
      * @covers Scrawler\Router\Router
      */
     function testDispatch(){
