@@ -11,8 +11,8 @@ class RouterEngineTest extends TestCase
     function __construct(){
     parent::__construct();
 
-    $dir = __DIR__."/Controllers";
-    $namespace = "Tests\Controllers";
+    $dir = __DIR__."/Demo";
+    $namespace = "Tests\Demo";
 
     $collection = new \Scrawler\Router\RouteCollection($dir,$namespace);
     $this->request = Request::create(
