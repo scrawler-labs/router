@@ -1,9 +1,9 @@
 <?php
 namespace Tests\Demo;
-class Hello{
+class Bye{
 
 public function getWorld($name){
-return "Hello ".$name;
+return "Bye ".$name;
 }
 
 }
