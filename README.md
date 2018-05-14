@@ -1,4 +1,6 @@
 # Router
+[![Build Status](https://travis-ci.org/Scrawler-php/Router.svg?branch=master)](https://travis-ci.org/Scrawler-php/Router)
+
 An Fully Automatic, Framework independent, RESTful PHP Router component used in scrawler.
 
 Why Scrawler Router?
