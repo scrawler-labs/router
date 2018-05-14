@@ -92,10 +92,13 @@ class RouterEngine {
             $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
         } else {
             $this->controller = $this->collection->getNamespace().'\Main';
+            if(class_exists($this->controller)){
             array_unshift($this->path_info, '');
             $this->method = $this->getMethod($this->controller);
             $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
-
+          }else{
+            $this->error('No Controller could be found');
+          }
             }
             $this->setArguments();
     }

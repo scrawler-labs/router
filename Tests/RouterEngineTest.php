@@ -11,7 +11,7 @@ class RouterEngineTest extends TestCase
     function __construct(){
     parent::__construct();
 
-    $dir = __DIR__."/controllers";
+    $dir = __DIR__."/Controllers";
     $namespace = "Tests\Controllers";
 
     $collection = new \Scrawler\Router\RouteCollection($dir,$namespace);
@@ -30,14 +30,12 @@ class RouterEngineTest extends TestCase
     }
 
       public function testGetRoutedController(){
-        $this->engine->route();
         $this->assertEquals('Test\Controllers\Hello',$this->engine->getRoutedController());
 
       }
 
 
       public function testGetRoutedMethod(){
-        $this->engine->route();
         $this->assertEquals('getWorld',$this->engine->getRoutedMethod());
 
       }
