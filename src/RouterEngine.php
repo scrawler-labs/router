@@ -166,7 +166,7 @@ class RouterEngine {
             } elseif (method_exists($controller, 'all' . ucfirst($this->path_info[1]))) {
                 return 'all' . ucfirst($this->path_info[1]);
             } else {
-                $this->error('The'.$function.'method you are looking for is not found in given controller');
+                $this->error('The '.$function.' method you are looking for is not found in '.$controller.' controller');
             }
         }
         //If second argument not set switch to Index function
