@@ -1,9 +1,9 @@
 # Router
 An Fully Automatic, Framework independent, RESTful PHP Router component used in scrawler.
 
-Why Ghost Route?
+Why Scrawler Router?
 ------------------
-Ghost Route is an library for automatic restful routing, you do not have to define a single route, it automatically detects the url and calls the corrosponding controler.
+Ghost Route is an library for automatic restful routing, you do not have to define a single route, it automatically detects the url and calls the corresponding controller.
 Automatic routing is made possible by following some conventions.
 
 Installation
