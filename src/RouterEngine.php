@@ -110,6 +110,7 @@ class RouterEngine {
      */
     protected function error($message) {
         $controllers = $this->collection->getControllers();
+        $list=""; 
         foreach($controllers as $name => $class){
         $list = $list.''.$name.':'.$class;
         }

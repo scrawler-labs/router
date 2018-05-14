@@ -7,6 +7,6 @@
  */
 namespace Scrawler\Router;
 
-class NotFoundException extends Exception{
+class NotFoundException extends \Exception{
 
 }
