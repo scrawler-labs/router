@@ -52,7 +52,7 @@ class RouterEngine {
     /**
      * constructor overloading for auto routing.
      */
-    public function __construct(Request $request, RouterCollection $collection) {
+    public function __construct(Request $request, RouteCollection $collection) {
         $this->request = $request;
         $this->$collection = $collection;
         $this->route();

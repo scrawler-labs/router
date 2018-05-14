@@ -33,7 +33,7 @@ class Router{
     /**
      * constructor overloading for auto routing.
      */
-    public function __construct(RouterCollection $collection,Request $request = null) {
+    public function __construct(RouteCollection $collection,Request $request = null) {
         if($request == null)
         $this->request = Request::createFromGlobals();
         else
@@ -53,7 +53,7 @@ class Router{
 
          $controller = $controller->getController($this->request);
          $arguments = $arguments->getArguments($this->request);
-        call_user_func_array($controller,$arguments);   
+        call_user_func_array($controller,$arguments);
       }
 
 
