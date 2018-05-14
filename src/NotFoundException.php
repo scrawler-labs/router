@@ -2,11 +2,11 @@
 
 /**
  * An Exception to be thrown on 404 error
- * 
+ *
  * @author : Pranjal Pandey
  */
-namespace Ghost\Route;
+namespace Scrawler\Router;
 
 class NotFoundException extends Exception{
-    
+
 }

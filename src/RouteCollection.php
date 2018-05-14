@@ -6,7 +6,7 @@
  * @author : Pranjal Pandey
  */
 
-namespace Ghost\Route;
+namespace Scrawler\Router;
 
 class RouteCollection {
 
@@ -79,25 +79,24 @@ class RouteCollection {
     }
 
     //---------------------------------------------------------------//
-    
+
     /**
      * Function to get the namespace of controllers
-     * 
+     *
      * @return string
      */
     public function getNamespace(){
         return $this->namespace;
     }
-    
+
     //---------------------------------------------------------------//
-    
+
     /**
      * Function to return list of all controller currently registerd with route collction
-     * 
+     *
      * @return array
      */
     public function getControllers(){
         return $this->controllers;
     }
 }
-
