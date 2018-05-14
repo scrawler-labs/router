@@ -1,11 +1,11 @@
 language: php
 php:
- - '7.0'
+ - '7.1'
 
 branches:
   only:
     - master
-   
+
 
 before_script:
   - sudo apt-get update
