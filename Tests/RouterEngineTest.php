@@ -25,8 +25,8 @@ class RouterEngineTest extends TestCase
 
     function testRoute(){
       $this->engine->route();
-      $this->assertEquals($this->request->attribute->get('_controller'),'Test\Controllers\Hello::world');
-      $this->assertEquals($this->request->attribute->get('_arguments'),'pranjal');
+      $this->assertEquals($this->request->attributes->get('_controller'),'Test\Controllers\Hello::world');
+      $this->assertEquals($this->request->attributes->get('_arguments'),'pranjal');
     }
 
       public function testGetRoutedController(){
