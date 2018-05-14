@@ -113,7 +113,7 @@ class RouterEngine {
         foreach($controllers as $name => $class){
         $list = $list.''.$name.':'.$class;
         }
-        throw new NotFoundException('Oops its an 404 error! :'.$message.' List of currently registerd controllers:'.$list);
+        throw new NotFoundException('Oops its an 404 error! :'.$message.' ---- Url: '.$this->request->getPathInfo());
     }
 
 //---------------------------------------------------------------//

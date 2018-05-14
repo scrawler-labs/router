@@ -30,13 +30,13 @@ class RouterEngineTest extends TestCase
     }
 
       public function testGetRoutedController(){
-        $this->assertEquals($this->engine->getRoutedController(),'Test\Controllers\Hello');
+        $this->assertEquals('Test\Controllers\Hello',$this->engine->getRoutedController());
 
       }
 
 
       public function testGetRoutedMethod(){
-        $this->assertEquals($this->engine->getRoutedMethod(),'world');
+        $this->assertEquals('world',$this->engine->getRoutedMethod());
 
       }
 
