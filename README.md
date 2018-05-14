@@ -5,7 +5,7 @@ An Fully Automatic, Framework independent, RESTful PHP Router component used in 
 
 Why Scrawler Router?
 ------------------
-Ghost Route is an library for automatic restful routing, you do not have to define a single route, it automatically detects the url and calls the corresponding controller.
+This is an library for automatic restful routing, you do not have to define a single route, it automatically detects the url and calls the corresponding controller.
 Automatic routing is made possible by following some conventions.
 
 Installation
@@ -13,23 +13,6 @@ Installation
 
 ### Using Composer
 
-Install composer in your project:
-
-```sh
-$ curl -s https://getcomposer.org/installer | php
-```
-**Caution**: The above command requires you to place a lot of trust in the composer team to not get hacked and have a backdoor installed in their installer script. If secuity is a concern, consider doing the following:
-
-```sh
-$ curl -s https://getcomposer.org/installer > installer.php
-$ less installer.php
-$ # When you're certain it's safe...
-$ php installer.php
-```
-
-
-
-Install via composer:
 
 ```sh
 composer require scrawler/router
@@ -186,5 +169,5 @@ location / {
 
 License
 -------
-Ghost Route is created by [Pranjal Pandey](https://www.physcocode.com) and released under
+Scrawler Router is created by [Pranjal Pandey](https://www.physcocode.com) and released under
 the MIT License.
