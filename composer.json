@@ -26,5 +26,10 @@
     },
    "autoload": {
         "psr-4": {"Scrawler\\Router\\": "src/"}
-    }
+    },
+    "autoload-dev": {
+            "psr-4": {
+                "Tests\\": "Tests/"
+            }
+        }
 }
