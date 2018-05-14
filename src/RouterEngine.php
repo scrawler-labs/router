@@ -70,13 +70,8 @@ class RouterEngine {
         $this->path_info = $this->request->getPathInfo();
 
         //Break URL into segments
-        if ($this->path_info === 'Index.php') {
-            $this->path_info = '/';
-        }
-
         $this->path_info = explode('/', $this->path_info);
         array_shift($this->path_info);
-
 
 
         //Set corrosponding controller
@@ -97,7 +92,7 @@ class RouterEngine {
             $this->method = $this->getMethod($this->controller);
             $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
           }else{
-            $this->error('No Controller could be found');
+            $this->error('No Controller could be resolved');
           }
             }
             $this->setArguments();
@@ -111,11 +106,6 @@ class RouterEngine {
      *@param string $message
      */
     protected function error($message) {
-        $controllers = $this->collection->getControllers();
-        $list="";
-        foreach($controllers as $name => $class){
-        $list = $list.''.$name.':'.$class;
-        }
 
         throw new NotFoundException('Oops its an 404 error! :'.$message);
     }
@@ -181,7 +171,7 @@ class RouterEngine {
             } elseif (method_exists($controller, 'allIndex')) {
                 return 'allIndex';
             } else {
-                $this->error('The index method could not be found in given controller');
+                $this->error('The allIndex method you are looking for is not found in '.$controller.' controller');
             }
         }
     }
@@ -198,7 +188,7 @@ class RouterEngine {
     }
 
 //----------------------------------------------------------------//
-    /*
+    /**
      * Returns the method to be called
      *
      * @return String

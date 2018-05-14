@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Argument Resolver Class
+ * Controller Resolver Class
  *
  * @author : Pranjal Pandey
  */
