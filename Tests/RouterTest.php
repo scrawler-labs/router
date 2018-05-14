@@ -23,6 +23,10 @@ class RouterTest extends TestCase
     $this->router = new \Scrawler\Router\Router($collection,$this->request);
     }
 
+    /**
+     *
+     * @covers Router
+     */
     function testDispatch(){
       $result=$this->router->dispatch();
       $this->assertEquals('Hello pranjal',$result);

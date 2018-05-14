@@ -23,6 +23,9 @@ class RouterEngineTest extends TestCase
     $this->engine = new \Scrawler\Router\RouterEngine($this->request,$collection);
     }
 
+    /**
+     * @covers RouterEngine::<private>
+     */
     function testRoute(){
       $this->engine->route();
       $this->assertEquals('Tests\Demo\Hello::getWorld',$this->request->attributes->get('_controller'));
