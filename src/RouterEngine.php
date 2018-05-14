@@ -66,7 +66,7 @@ class RouterEngine {
      */
     public function route() {
         // Get URL and request method.
-        $this->request_method = $this->request->getMethod();
+        $this->request_method = strtolower($this->request->getMethod());
         $this->path_info = $this->request->getPathInfo();
 
         //Break URL into segments
@@ -110,11 +110,11 @@ class RouterEngine {
      */
     protected function error($message) {
         $controllers = $this->collection->getControllers();
-        $list=""; 
+        $list="";
         foreach($controllers as $name => $class){
         $list = $list.''.$name.':'.$class;
         }
-        throw new NotFoundException('Oops its an 404 error! :'.$msg.' List of currently registerd controllers:'.$list);
+        throw new NotFoundException('Oops its an 404 error! :'.$message.' List of currently registerd controllers:'.$list);
     }
 
 //---------------------------------------------------------------//
