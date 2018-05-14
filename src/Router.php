@@ -53,7 +53,7 @@ class Router{
 
          $controller = $controller->getController($this->request);
          $arguments = $arguments->getArguments($this->request);
-        call_user_func_array($controller,$arguments);
+         return call_user_func_array($controller,$arguments);
       }
 
 
