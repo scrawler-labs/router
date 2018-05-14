@@ -17,7 +17,7 @@ class RouterEngineTest extends TestCase
     $collection = new Scrawler\Router\RouteCollection($dir,$namespace);
     $this->request = Request::create(
     '/hello/world/pranjal',
-    'GET',
+    'GET'
      );
 
     $this->engine = new Scrawler\Router\RouterEngine($this->request,$collection);
