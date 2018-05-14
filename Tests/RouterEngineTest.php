@@ -14,13 +14,13 @@ class RouterEngineTest extends TestCase
     $dir = __DIR__."/controllers";
     $namespace = "Test\Controllers";
 
-    $collection = new Scrawler\Router\RouteCollection($dir,$namespace);
+    $collection = new \Scrawler\Router\RouteCollection($dir,$namespace);
     $this->request = Request::create(
     '/hello/world/pranjal',
     'GET'
      );
 
-    $this->engine = new Scrawler\Router\RouterEngine($this->request,$collection);
+    $this->engine = new \Scrawler\Router\RouterEngine($this->request,$collection);
     }
 
     function testRoute(){
@@ -28,5 +28,16 @@ class RouterEngineTest extends TestCase
       $this->assertEquals($this->request->attribute->get('_controller'),'Test\Controllers\Hello::world');
       $this->assertEquals($this->request->attribute->get('_arguments'),'pranjal');
     }
+
+      public function testGetRoutedController(){
+        $this->assertEquals($this->engine->getRoutedController(),'Test\Controllers\Hello');
+
+      }
+
+
+      public function TestGetRoutedMethod(){
+        $this->assertEquals($this->engine->getRoutedMethod(),'world');
+
+      }
 
 }
