@@ -92,7 +92,7 @@ class RouterEngine {
             $this->method = $this->getMethod($controller);
             $this->request->attributes->set('__controller',$controller.'::'.$method);
         } else {
-            $controller = $collection->getNamespace().'\Main';
+            $controller = $this->collection->getNamespace().'\Main';
             array_unshift($this->path_info, '');
             $this->method = $this->getMethod($controller);
             $this->request->attributes->set('__controller',$controller.'::'.$method);
