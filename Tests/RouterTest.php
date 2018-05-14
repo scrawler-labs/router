@@ -25,7 +25,7 @@ class RouterTest extends TestCase
 
     /**
      *
-     * @covers Router
+     * @covers Scrawler\Router\Router
      */
     function testDispatch(){
       $result=$this->router->dispatch();

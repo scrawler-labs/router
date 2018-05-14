@@ -24,7 +24,7 @@ class RouterEngineTest extends TestCase
     }
 
     /**
-     * @covers RouterEngine::<private>
+     * @covers \Scrawler\Router\RouterEngine::<private>
      */
     function testRoute(){
       $this->engine->route();
