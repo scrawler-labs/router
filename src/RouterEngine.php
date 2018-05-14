@@ -54,8 +54,7 @@ class RouterEngine {
      */
     public function __construct(Request $request, RouteCollection $collection) {
         $this->request = $request;
-        $this->$collection = $collection;
-        $this->route();
+        $this->collection = $collection;
     }
 
 //---------------------------------------------------------------//
@@ -67,8 +66,8 @@ class RouterEngine {
      */
     public function route() {
         // Get URL and request method.
-        $this->request_method = $request->getMethod();
-        $this->path_info = $request->getPathInfo();
+        $this->request_method = $this->request->getMethod();
+        $this->path_info = $this->request->getPathInfo();
 
         //Break URL into segments
         if ($this->path_info === 'Index.php') {
@@ -91,12 +90,12 @@ class RouterEngine {
         if (class_exists($this->controller)) {
             $controller = $this->controller();
             $this->method = $this->getMethod($controller);
-            $this->$request->attributes->set('__controller',$controller.'::'.$method);
+            $this->request->attributes->set('__controller',$controller.'::'.$method);
         } else {
             $controller = $collection->getNamespace().'\Main';
             array_unshift($this->path_info, '');
             $this->method = $this->getMethod($controller);
-            $this->$request->attributes->set('__controller',$controller.'::'.$method);
+            $this->request->attributes->set('__controller',$controller.'::'.$method);
 
             }
             $this->setArguments();
@@ -142,7 +141,7 @@ class RouterEngine {
                 $this->error('Not enough arguments given to the method');
             } else {
                 //set arguments
-                $this->$request->attributes->set('__arguments',implode(",",$arguments));
+                $this->request->attributes->set('__arguments',implode(",",$arguments));
 
             }
         }
