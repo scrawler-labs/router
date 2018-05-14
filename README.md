@@ -1,5 +1,5 @@
-# Ghost Route
-An Fully Automatic, Framework independent, RESTful PHP Router.
+# Router
+An Fully Automatic, Framework independent, RESTful PHP Router component used in scrawler.
 
 Why Ghost Route?
 ------------------
@@ -26,20 +26,11 @@ $ php installer.php
 ```
 
 
-Create a `composer.json` file in your project root:
-
-```js
-{
-    "require": {
-        "ghost/route": "dev-master"
-    }
-}
-```
 
 Install via composer:
 
 ```sh
-$ php composer.phar install
+composer require scrawler/router
 ```
 
 
@@ -49,8 +40,8 @@ In your index.php
 ```php
 <?php
 
-use Ghost\Route\RouteCollection;
-use Ghost\Route\Router;
+use Scrawler\Router\RouteCollection;
+use Scrawler\Router\Router;
 
 
 $dir = /path/to/your/controllers;
@@ -96,7 +87,7 @@ The controller and function that would be invoked will be
 class controller{
 
 public function methodFunction(arguments1,arguments2){
-//Defination goes here 
+//Defination goes here
 }
 
 }
@@ -117,7 +108,7 @@ public function getFind($id){
 }
 }
 ```
-In above example `1` will be passed as argument `$id` 
+In above example `1` will be passed as argument `$id`
 
 How should I name my function for automatic routing?
 ----------------------------------------------------
@@ -125,7 +116,7 @@ How should I name my function for automatic routing?
 The function name in the controller should be named according to following convention:
 `methodFunctionname`
 Note:The method should always be written in small and the first word of function name should always start with capital.
-Method is the method used while calling url. Valid methods are: 
+Method is the method used while calling url. Valid methods are:
 
 ```
 all - maps any kind of request method i.e it can be get,post etc
@@ -139,40 +130,6 @@ Some eg. of valid function names are:
 Invalid function names are:
 `GETarticles, Postuser, PutResource`
 
-It is not working in subdirectory:
-----------------------------------
-It is one of the known bug and writing following code before calling the router will fix it.
-NOTE: THIS CODE MUST STRICTLY BE IN YOUR INDEX.PHP IN ORDER TO WORK
-
-```php
-<?php
-
-use Ghost\Route\RouteCollection;
-use Ghost\Route\Router;
-
-//Detect if installation is on a subdirectory
-$root = $_SERVER['DOCUMENT_ROOT'];
-$path = dirname(__FILE__);
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-    define('SEPARATOR', '\\');
-} else {
-    define('SEPARATOR', '/');
-}
-if ($root != $path) {
-    $root = explode('/', $root);
-    $path = explode(SEPARATOR, $path);
-    $subdir = array_diff($path, $root);
-    $subdir = implode('/', $subdir);
-    define('SUBDIR', $subdir);
-}
-
-// Intialize Router
-$dir = /path/to/your/controllers;
-$namespace = Namespace\of\your\controllers;
-
-$collection = new RouteCollection($dir,$namespace);
-$router = new Router($collection);
-```
 
 Server Configuration
 ----------------------
@@ -229,5 +186,3 @@ License
 -------
 Ghost Route is created by [Pranjal Pandey](https://www.physcocode.com) and released under
 the MIT License.
-
-
