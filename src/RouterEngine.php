@@ -88,14 +88,13 @@ class RouterEngine {
 
         //Sets the Request attribute according to the route
         if (class_exists($this->controller)) {
-            $controller = $this->controller();
-            $this->method = $this->getMethod($controller);
-            $this->request->attributes->set('__controller',$controller.'::'.$method);
+            $this->method = $this->getMethod($this->controller);
+            $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
         } else {
-            $controller = $this->collection->getNamespace().'\Main';
+            $this->controller = $this->collection->getNamespace().'\Main';
             array_unshift($this->path_info, '');
-            $this->method = $this->getMethod($controller);
-            $this->request->attributes->set('__controller',$controller.'::'.$method);
+            $this->method = $this->getMethod($this->controller);
+            $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
 
             }
             $this->setArguments();
@@ -142,7 +141,7 @@ class RouterEngine {
                 $this->error('Not enough arguments given to the method');
             } else {
                 //set arguments
-                $this->request->attributes->set('__arguments',implode(",",$arguments));
+                $this->request->attributes->set('_arguments',implode(",",$arguments));
 
             }
         }
