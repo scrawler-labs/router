@@ -4,7 +4,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class RouterEngineTest extends TestCase
+class RouterTest extends TestCase
 {
     private $request;
     private $router;
