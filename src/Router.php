@@ -8,7 +8,7 @@
 
 namespace Scrawler\Router;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class Router{
   //---------------------------------------------------------------//
@@ -53,7 +53,9 @@ class Router{
 
          $controller = $controller->getController($this->request);
          $arguments = $arguments->getArguments($this->request);
-         return call_user_func_array($controller,$arguments);
+         $response->setContent(call_user_func_array($controller,$arguments));
+         $response->prepare($this->request);
+         $response->send();
       }
 
 
