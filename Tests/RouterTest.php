@@ -28,8 +28,7 @@ class RouterTest extends TestCase
      */
     function testDispatch(){
       $response = $this->router->dispatch();
-      $result = $response->send();
-      $this->assertEquals('Hello pranjal',$result);
+      $this->assertEquals('Hello pranjal',$response->getContent());
     }
 
 
