@@ -27,6 +27,8 @@ In your index.php
 
 use Scrawler\Router\RouteCollection;
 use Scrawler\Router\Router;
+use Symfony\Component\HttpFoundation\Response;
+
 
 
 $dir = /path/to/your/controllers;
@@ -34,8 +36,10 @@ $namespace = Namespace\of\your\controllers;
 
 $collection = new RouteCollection($dir,$namespace);
 $router = new Router($collection);
-//Dispatch route using controller and method found
-$router->dispatch()
+//Dispatch route and get back the response
+$response = $router->dispatch();
+//send response
+$response->send();
 ```
 
 Done now whatever request occurs it will be automatically routed . You dont have define a single route
@@ -51,7 +55,7 @@ The automatic routing is possible by following some conventions. Lets take a exa
 class Hello{
 
 public function getWorld(){
-echo "Hello World";
+return "Hello World";
 }
 
 }

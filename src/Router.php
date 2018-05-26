@@ -55,7 +55,7 @@ class Router{
          $arguments = $arguments->getArguments($this->request);
          $response->setContent(call_user_func_array($controller,$arguments));
          $response->prepare($this->request);
-         $response->send();
+         return $response;
       }
 
 
