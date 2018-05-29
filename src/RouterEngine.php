@@ -70,7 +70,7 @@ class RouterEngine {
 
         //Break URL into segments
         $this->path_info = explode('/', $this->request->getPathInfo());
-
+        array_shift($this->path_info);
 
         //Set corrosponding controller
         if (isset($this->path_info[0]) && !empty($this->path_info[0]))
