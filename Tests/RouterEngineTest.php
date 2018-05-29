@@ -4,6 +4,9 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @covers \Scrawler\Router\RouterEngine
+ */
 class RouterEngineTest extends TestCase
 {
     private $engine;
@@ -23,9 +26,7 @@ class RouterEngineTest extends TestCase
     $this->engine = new \Scrawler\Router\RouterEngine($this->request,$collection);
     }
 
-    /**
-     * @covers \Scrawler\Router\RouterEngine::
-     */
+
     function testRoute(){
       $this->engine->route();
       $this->assertEquals('Tests\Demo\Hello::getWorld',$this->request->attributes->get('_controller'));
