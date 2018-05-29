@@ -43,7 +43,7 @@ class RouterEngine {
     private $controller;
 
     /**
-     * Store the method bring dispatched
+     * Store the method being dispatched
      */
     private $method;
 
@@ -67,34 +67,33 @@ class RouterEngine {
     public function route() {
         // Get URL and request method.
         $this->request_method = strtolower($this->request->getMethod());
-        $this->path_info = $this->request->getPathInfo();
 
         //Break URL into segments
-        $this->path_info = explode('/', $this->path_info);
-        array_shift($this->path_info);
+        $this->path_info = explode('/', $this->request->getPathInfo());
 
 
         //Set corrosponding controller
-        if (isset($this->path_info[0]) && !empty($this->path_info[0])) {
+        if (isset($this->path_info[0]) && !empty($this->path_info[0]))
             $this->controller = $this->collection->getController(ucfirst($this->path_info[0]));
-        } else {
+        else
             $this->controller = $this->collection->getNamespace().'\Main';
-        }
+
 
         //Sets the Request attribute according to the route
-        if (class_exists($this->controller)) {
-            $this->method = $this->getMethod($this->controller);
-            $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
-        } else {
+        if (!class_exists($this->controller)) {
+
             $this->controller = $this->collection->getNamespace().'\Main';
             if(class_exists($this->controller)){
             array_unshift($this->path_info, '');
+            }else{
+            $this->error('No Controller could be resolved');
+            }
+
+        }
+
             $this->method = $this->getMethod($this->controller);
             $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
-          }else{
-            $this->error('No Controller could be resolved');
-          }
-            }
+
             $this->setArguments();
     }
 
@@ -118,27 +117,18 @@ class RouterEngine {
      */
     private function setArguments() {
         $controller = new $this->controller;
-        $method = $this->method;
 
-        if (method_exists($controller, $method)) {
-            //Set Arguments from URL
-            $i = count($this->path_info);
-            $arguments = [];
-            for ($j = 2; $j < $i; $j++) {
-                array_push($arguments, $this->path_info[$j]);
-            }
-
+        $arguments = [];
+        for ($j = 2; $j < count($this->path_info); $j++) {
+        array_push($arguments, $this->path_info[$j]);
+        }
             //Check weather arguments are passed else throw a 404 error
-            $classMethod = new \ReflectionMethod($controller, $method);
-            $argumentCount = count($classMethod->getParameters());
-            if (count($arguments) < $argumentCount) {
+            $classMethod = new \ReflectionMethod($controller, $this->method);
+            if (count($arguments) < count($classMethod->getParameters()))
                 $this->error('Not enough arguments given to the method');
-            } else {
-                //set arguments
+            else
                 $this->request->attributes->set('_arguments',implode(",",$arguments));
 
-            }
-        }
     }
 
 //---------------------------------------------------------------//
@@ -154,47 +144,25 @@ class RouterEngine {
 
         //Set Method from second argument from URL
         if (isset($this->path_info[1])) {
-            $function = $this->request_method . ucfirst($this->path_info[1]);
-            if (method_exists($controller, $function)) {
+            if (method_exists($controller, $function =  $this->request_method . ucfirst($this->path_info[1])))
                 return $function;
-            } elseif (method_exists($controller, 'all' . ucfirst($this->path_info[1]))) {
-                return 'all' . ucfirst($this->path_info[1]);
-            } else {
-                $this->error('The '.$function.' method you are looking for is not found in '.$controller.' controller');
-            }
+            if (method_exists($controller, $function = 'all' . ucfirst($this->path_info[1])))
+                return $function;
         }
         //If second argument not set switch to Index function
         else {
-            $function = $this->request_method . 'Index';
-            if (method_exists($controller, $function)) {
+            if (method_exists($controller, $function = $this->request_method . 'Index'))
                 return $function;
-            } elseif (method_exists($controller, 'allIndex')) {
-                return 'allIndex';
-            } else {
-                $this->error('The allIndex method you are looking for is not found in '.$controller.' controller');
-            }
+            if (method_exists($controller, $function = 'allIndex'))
+                return $function;
         }
+
+        $this->error('The '.$function.' method you are looking for is not found in '.$controller.' controller');
+
     }
 
 //---------------------------------------------------------------//
 
-  /**
-   * Returns fully qualified class name of controller being dipatched
-   *
-   * @return String
-   */
-    public function getRoutedController(){
-        return $this->controller;
-    }
 
-//----------------------------------------------------------------//
-    /**
-     * Returns the method to be called
-     *
-     * @return String
-     */
-    public function getRoutedMethod(){
-        return $this->method;
-    }
 
 }

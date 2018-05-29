@@ -24,7 +24,7 @@ class RouterEngineTest extends TestCase
     }
 
     /**
-     * @covers \Scrawler\Router\RouterEngine::<private>
+     * @covers \Scrawler\Router\RouterEngine::
      */
     function testRoute(){
       $this->engine->route();
@@ -32,16 +32,6 @@ class RouterEngineTest extends TestCase
       $this->assertEquals('pranjal',$this->request->attributes->get('_arguments'));
     }
 
-      public function testGetRoutedController(){
-        $this->engine->route();
-        $this->assertEquals('Tests\Demo\Hello',$this->engine->getRoutedController());
-      }
 
-
-      public function testGetRoutedMethod(){
-        $this->engine->route();
-        $this->assertEquals('getWorld',$this->engine->getRoutedMethod());
-
-      }
 
 }

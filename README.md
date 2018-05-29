@@ -38,11 +38,14 @@ $collection = new RouteCollection($dir,$namespace);
 $router = new Router($collection);
 //Dispatch route and get back the response
 $response = $router->dispatch();
+
+//Do anything with your Response object here
+
 //send response
 $response->send();
 ```
 
-Done now whatever request occurs it will be automatically routed . You dont have define a single route
+Done now whatever request occurs it will be automatically routed . You don't have define a single route
 
 How it Works?
 ----------------

@@ -38,6 +38,7 @@ class Router{
         $this->request = Request::createFromGlobals();
         else
         $this->request = $request;
+        
         $this->collection = $collection;
         $this->engine = new RouterEngine($this->request,$this->collection);
         $this->engine->route();
@@ -53,11 +54,7 @@ class Router{
 
          $controller = $controller->getController($this->request);
          $arguments = $arguments->getArguments($this->request);
-         $response = new Response(
-         'Content',
-          Response::HTTP_OK,
-          array('content-type' => 'text/html')
-          );
+         $response = new Response('Content',Response::HTTP_OK,array('content-type' => 'text/html'));
          $response->setContent(call_user_func_array($controller,$arguments));
          $response->prepare($this->request);
          return $response;
