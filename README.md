@@ -30,12 +30,10 @@ use Scrawler\Router\Router;
 use Symfony\Component\HttpFoundation\Response;
 
 
-
 $dir = /path/to/your/controllers;
 $namespace = Namespace\of\your\controllers;
 
-$collection = new RouteCollection($dir,$namespace);
-$router = new Router($collection);
+$router = new Router(new RouteCollection($dir,$namespace));
 //Dispatch route and get back the response
 $response = $router->dispatch();
 
@@ -79,7 +77,7 @@ The controller and function that would be invoked will be
 class controller{
 
 public function methodFunction(arguments1,arguments2){
-//Defination goes here
+//Definition goes here
 }
 
 }
@@ -96,7 +94,7 @@ would invoke following controller and method
 class User{
 
 public function getFind($id){
-//Function defination goes here
+//Function definition goes here
 }
 }
 ```
