@@ -143,19 +143,23 @@ class RouterEngine {
     private function getMethod($controller) {
 
         //Set Method from second argument from URL
-        if (isset($this->path_info[1])) {
             if (method_exists($controller, $function =  $this->request_method . ucfirst($this->path_info[1])))
                 return $function;
             if (method_exists($controller, $function = 'all' . ucfirst($this->path_info[1])))
                 return $function;
-        }
         //If second argument not set switch to Index function
-        else {
-            if (method_exists($controller, $function = $this->request_method . 'Index'))
+            if (method_exists($controller, $function = $this->request_method . 'Index')){
+                $last=end($this->path_info);
+                array_pop($this->path_info);
+                array_push($this->path_info,"",$last);
                 return $function;
-            if (method_exists($controller, $function = 'allIndex'))
+              }
+            if (method_exists($controller, $function = 'allIndex')){
+                $last=end($this->path_info);
+                array_pop($this->path_info);
+                array_push($this->path_info,"",$last);
                 return $function;
-        }
+              }
 
         $this->error('The '.$function.' method you are looking for is not found in '.$controller.' controller');
 
