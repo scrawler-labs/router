@@ -61,6 +61,7 @@ class RouteCollection {
      * @param string $class
      */
     public function registerController($name, $class) {
+        error_log('Registering name:'.$name.' as class '.$class);
         $this->controllers[$name] = $class;
     }
 
