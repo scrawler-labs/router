@@ -34,10 +34,15 @@ $dir = /path/to/your/controllers;
 $namespace = Namespace\of\your\controllers;
 
 $router = new Router(new RouteCollection($dir,$namespace));
+//Optional you can now pass your own vRequest object to Router for Router to work on
+//$router = new Router(new RouteCollection($dir,$namespace,Request $request));
+
+
 //Dispatch route and get back the response
 $response = $router->dispatch();
 
 //Do anything with your Response object here
+//Probably middleware can hook in here
 
 //send response
 $response->send();
