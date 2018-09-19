@@ -9,13 +9,6 @@ namespace Scrawler\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-include_once __DIR__.'/../../../../api/Box.php'; // used for bytbox management
-include_once __DIR__.'/../../../../api/Carrier.php'; // used by delivery carriers
-include_once __DIR__.'/../../../../api/Client.php'; // used by delivery carriers
-include_once __DIR__.'/../../../../api/Consignment.php'; // handle consigments
-
-
-use Api;
 
 class Router {
     //---------------------------------------------------------------//
