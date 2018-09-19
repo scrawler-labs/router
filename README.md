@@ -34,7 +34,7 @@ $dir = /path/to/your/controllers;
 $namespace = Namespace\of\your\controllers;
 
 $router = new Router(new RouteCollection($dir,$namespace));
-//Optional you can now pass your own vRequest object to Router for Router to work on
+//Optional you can now pass your own Request object to Router for Router to work on
 //$router = new Router(new RouteCollection($dir,$namespace,Request $request));
 
 
@@ -125,6 +125,9 @@ Some eg. of valid function names are:
 Invalid function names are:
 `GETarticles, Postuser, PutResource`
 
+Need more information on working?
+----------------------------------------------------
+Test folders are probably the best place where you can see internal working of various functions and use them in your project accordinglt
 
 Server Configuration
 ----------------------
