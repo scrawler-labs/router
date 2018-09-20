@@ -7,6 +7,10 @@
 
 An Fully Automatic, Framework independent, RESTful PHP Router component used in scrawler.
 
+![Demo](http://g.recordit.co/lvQba4mnyB.gif)
+
+
+
 Why Scrawler Router?
 ------------------
 This is an library for automatic restful routing, you do not have to define a single route, it automatically detects the url and calls the corresponding controller.
