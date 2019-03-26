@@ -1,5 +1,5 @@
 # Router
-[![Build Status](https://travis-ci.org/Scrawler-php/Router.svg?branch=master)](https://travis-ci.org/Scrawler-php/Router)
+[![Build Status](https://travis-ci.org/Corpusvision/Router.svg?branch=master)](https://travis-ci.org/Scrawler-php/Router)
 [![Latest Stable Version](https://poser.pugx.org/scrawler/router/v/stable)](https://packagist.org/packages/scrawler/router)
 [![Total Downloads](https://poser.pugx.org/scrawler/router/downloads)](https://packagist.org/packages/scrawler/router)
 [![Latest Unstable Version](https://poser.pugx.org/scrawler/router/v/unstable)](https://packagist.org/packages/scrawler/router)
@@ -23,7 +23,7 @@ Installation
 
 
 ```sh
-composer require scrawler/router
+composer require corpusvision/router
 ```
 
 
