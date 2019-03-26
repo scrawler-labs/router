@@ -23,7 +23,7 @@ Installation
 
 
 ```sh
-composer require corpusvision/router
+composer require scrawler/router
 ```
 
 
