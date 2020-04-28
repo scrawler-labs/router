@@ -143,10 +143,14 @@ class RouterEngine {
     private function getMethod($controller) {
 
         //Set Method from second argument from URL
-            if (method_exists($controller, $function =  $this->request_method . ucfirst($this->path_info[1])))
+        if (isset($this->path_info[1])) {
+            if (method_exists($controller, $function =  $this->request_method . ucfirst($this->path_info[1]))) {
                 return $function;
-            if (method_exists($controller, $function = 'all' . ucfirst($this->path_info[1])))
+            }
+            if (method_exists($controller, $function = 'all' . ucfirst($this->path_info[1]))) {
                 return $function;
+            }
+        }
         //If second argument not set switch to Index function
             if (method_exists($controller, $function = $this->request_method . 'Index')){
                 $last=end($this->path_info);
