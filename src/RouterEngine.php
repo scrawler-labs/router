@@ -152,18 +152,22 @@ class RouterEngine {
             }
         }
         //If second argument not set switch to Index function
-            if (method_exists($controller, $function = $this->request_method . 'Index')){
+        if (!isset($this->path_info[1])) {
+            if (method_exists($controller, $function = $this->request_method . 'Index')) {
                 $last=end($this->path_info);
                 array_pop($this->path_info);
-                array_push($this->path_info,"",$last);
+                array_push($this->path_info, "", $last);
                 return $function;
-              }
-            if (method_exists($controller, $function = 'allIndex')){
-                $last=end($this->path_info);
-                array_pop($this->path_info);
-                array_push($this->path_info,"",$last);
-                return $function;
-              }
+            }
+            if (!isset($this->path_info[0])) {
+                if (method_exists($controller, $function = 'allIndex')) {
+                    $last=end($this->path_info);
+                    array_pop($this->path_info);
+                    array_push($this->path_info, "", $last);
+                    return $function;
+                }
+            }
+        }
 
         $this->error('The '.$function.' method you are looking for is not found in '.$controller.' controller');
 
