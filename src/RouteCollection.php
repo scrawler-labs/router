@@ -25,6 +25,11 @@ class RouteCollection {
      */
     private $namespace;
 
+    /**
+     *  Stores list of directories
+     */
+    private $dir = [];
+
     //---------------------------------------------------------------//
 
     public function __construct($directory, $namespace) {
@@ -73,6 +78,16 @@ class RouteCollection {
     private function autoregister() {
         $files = array_slice(scandir($this->directory), 2);
         foreach ($files as $file) {
+            if(is_dir($file)){
+                $this->registerDir($file);
+               $dir = $this->directory.'/'.$file;
+               $dir_files = array_slice(scandir($dir), 2);
+               foreach ($dir_files as $dir_file) {
+                if ($dir_file != 'Main.php' && !\is_dir($file)) {
+                    $this->registerController(\basename($dir_file, '.php'), $this->namespace . '\\' .\ucfirst($file) . '\\' . \basename($dir_file, '.php'));
+                }
+                }
+            }
             if ($file != 'Main.php') {
                 $this->registerController(\basename($file, '.php'), $this->namespace . '\\' . \basename($file, '.php'));
             }
@@ -100,4 +115,24 @@ class RouteCollection {
     public function getControllers(){
         return $this->controllers;
     }
+
+    //---------------------------------------------------------------//
+    /**
+     * Function to add dir to list of dir
+     *
+     */
+    public function registerDir($dir){
+        array_push($this->dir,$dir);
+    }
+
+   //---------------------------------------------------------------//
+    /**
+     * Function to check if its a registered dir
+     *
+     * @return boolean
+     */
+    public function isDir($dir){
+        return in_array($dir,$this->dir);
+    }
+    
 }

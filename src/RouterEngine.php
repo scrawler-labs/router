@@ -72,6 +72,9 @@ class RouterEngine {
         $this->path_info = explode('/', $this->request->getPathInfo());
         array_shift($this->path_info);
 
+        if(isset($this->path_info[0]) && $this->collection->isDir($this->path_info[0]))
+        array_shift($this->path_info);
+
         //Set corrosponding controller
         if (isset($this->path_info[0]) && !empty($this->path_info[0]))
             $this->controller = $this->collection->getController(ucfirst($this->path_info[0]));
