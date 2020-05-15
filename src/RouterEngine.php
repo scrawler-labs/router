@@ -47,6 +47,17 @@ class RouterEngine {
      */
     private $method;
 
+    
+    /**
+     * Stores dir mode
+     */
+    private $dirMode = false;
+
+    /**
+     * Store Dirctory during dir Mode
+     */
+    private $dir =  '';
+
 //---------------------------------------------------------------//
 
     /**
@@ -71,34 +82,70 @@ class RouterEngine {
         //Break URL into segments
         $this->path_info = explode('/', $this->request->getPathInfo());
         array_shift($this->path_info);
+       
+        $this->getController();
+        $this->method = $this->getMethod($this->controller);
+        $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
 
-        if(isset($this->path_info[0]) && $this->collection->isDir($this->path_info[0]))
-        array_shift($this->path_info);
+        $this->setArguments();
+    }
+
+ //---------------------------------------------------------------//
+
+    /**
+     * Function to get namespace
+     *
+     *@param string $message
+     */
+    private function getNamespace() {
+        if($this->dirMode)
+        return $this->collection->getNamespace().'\\'.$this->dir;
+
+        return $this->collection->getNamespace();
+
+    }
+
+
+//---------------------------------------------------------------//
+
+    /**
+     * Function to get controller
+     *
+     *@param string $message
+     */
+    private function getController() {
+        $this->controller = ucfirst($this->path_info[0]);
+
+        if(isset($this->path_info[0]) && $this->collection->isDir(ucfirst($this->path_info[0]))){
+            $this->dir = ucfirst($this->path_info[0]);
+            $this->dirMode = true;
+            $this->controller  = $this->dir.'/'.ucfirst($this->path_info[1]);
+            array_shift($this->path_info);
+        }
+
 
         //Set corrosponding controller
-        if (isset($this->path_info[0]) && !empty($this->path_info[0]))
-            $this->controller = $this->collection->getController(ucfirst($this->path_info[0]));
+        if (isset($this->path_info[0]) && !empty($this->path_info[0])) 
+            $this->controller = $this->collection->getController($this->controller);
         else
-            $this->controller = $this->collection->getNamespace().'\Main';
+            $this->controller = $this->getNamespace().'\Main';
 
 
         //Sets the Request attribute according to the route
         if (!class_exists($this->controller)) {
-
-            $this->controller = $this->collection->getNamespace().'\Main';
+           
+            $this->controller = $this->getNamespace().'\Main';
             if(class_exists($this->controller)){
             array_unshift($this->path_info, '');
             }else{
-            $this->error('No Controller could be resolved');
+            $this->error('No Controller could be resolved:'.$this->controller);
             }
 
         }
+        //$this->error('No Controller could be resolved:'.$this->controller);
 
-            $this->method = $this->getMethod($this->controller);
-            $this->request->attributes->set('_controller',$this->controller.'::'.$this->method);
-
-            $this->setArguments();
     }
+
 
 //---------------------------------------------------------------//
 

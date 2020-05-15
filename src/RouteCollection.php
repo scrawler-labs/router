@@ -78,17 +78,17 @@ class RouteCollection {
     private function autoregister() {
         $files = array_slice(scandir($this->directory), 2);
         foreach ($files as $file) {
-            if(is_dir($file)){
-                $this->registerDir($file);
+            if(is_dir($this->directory.'/'.$file)){
+               $this->registerDir($file);
                $dir = $this->directory.'/'.$file;
                $dir_files = array_slice(scandir($dir), 2);
                foreach ($dir_files as $dir_file) {
-                if ($dir_file != 'Main.php' && !\is_dir($file)) {
-                    $this->registerController(\basename($dir_file, '.php'), $this->namespace . '\\' .\ucfirst($file) . '\\' . \basename($dir_file, '.php'));
+                if ($dir_file != 'Main.php' && !\is_dir($dir.'/'.$dir_file)) {
+                    $this->registerController($file.'/'.\basename($dir_file, '.php'), $this->namespace . '\\' .\ucfirst($file) . '\\' . \basename($dir_file, '.php'));
                 }
                 }
             }
-            if ($file != 'Main.php') {
+            if ($file != 'Main.php'  && !\is_dir($this->directory.'/'.$file) ) {
                 $this->registerController(\basename($file, '.php'), $this->namespace . '\\' . \basename($file, '.php'));
             }
         }
