@@ -76,8 +76,13 @@ class RouterEngine {
      * of corrosponding controller.
      */
     public function route() {
+
         // Get URL and request method.
         $this->request_method = strtolower($this->request->getMethod());
+
+        if($this->check_manual()){
+            return;
+        }
 
         //Break URL into segments
         $this->path_info = explode('/', $this->request->getPathInfo());
@@ -119,7 +124,7 @@ class RouterEngine {
         if(isset($this->path_info[0]) && $this->collection->isDir(ucfirst($this->path_info[0]))){
             $this->dir = ucfirst($this->path_info[0]);
             $this->dirMode = true;
-            if ($this->path_info[1]) {
+            if(isset($this->path_info[1])){
                 $this->controller  = $this->dir.'/'.ucfirst($this->path_info[1]);
             }
             array_shift($this->path_info);
@@ -227,6 +232,13 @@ class RouterEngine {
 
 //---------------------------------------------------------------//
 
-
+  private function check_manual(){
+      $mcontroller = $this->collection->getRoute($this->request_method,$this->request->getPathInfo());
+      if($mcontroller){
+      $this->request->attributes->set('_controller',$mcontroller);
+       return true;
+      }
+      return false;
+  }
 
 }
