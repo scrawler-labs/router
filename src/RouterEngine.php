@@ -119,7 +119,9 @@ class RouterEngine {
         if(isset($this->path_info[0]) && $this->collection->isDir(ucfirst($this->path_info[0]))){
             $this->dir = ucfirst($this->path_info[0]);
             $this->dirMode = true;
-            $this->controller  = $this->dir.'/'.ucfirst($this->path_info[1]);
+            if ($this->path_info[1]) {
+                $this->controller  = $this->dir.'/'.ucfirst($this->path_info[1]);
+            }
             array_shift($this->path_info);
         }
 
