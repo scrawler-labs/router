@@ -232,12 +232,12 @@ class RouterEngine
         //Store the last tested function before all index used for better debugging
         $last_function = $function;
         if (method_exists($controller, $function = $this->request_method . 'Index')) {
-            array_shift($this->path_info);
+            array_unshift($this->path_info, '');
             return $function;
         }
         //Last attempt to invoke allIndex
         if (method_exists($controller, $function = 'allIndex')) {
-            array_shift($this->path_info);
+            array_unshift($this->path_info, '');
             return $function;
         }
             
