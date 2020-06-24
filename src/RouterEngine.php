@@ -211,16 +211,12 @@ class RouterEngine {
         //If second argument not set switch to Index function
         if (!isset($this->path_info[1])) {
             if (method_exists($controller, $function = $this->request_method . 'Index')) {
-                $last=end($this->path_info);
-                array_pop($this->path_info);
-                array_push($this->path_info, "", $last);
+                array_shift($this->path_info);
                 return $function;
             }
             if (!isset($this->path_info[0])) {
                 if (method_exists($controller, $function = 'allIndex')) {
-                    $last=end($this->path_info);
-                    array_pop($this->path_info);
-                    array_push($this->path_info, "", $last);
+                    array_shift($this->path_info);
                     return $function;
                 }
             }
