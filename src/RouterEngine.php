@@ -230,17 +230,19 @@ class RouterEngine
         //Introduced in v2.1.2
         //Give Scrawler last chance to resolve index method before declaring not found
         //Store the last tested function before all index used for better debugging
-        if (isset($function)) {
-            $last_function = $function;
-        }
-        if (method_exists($controller, $function = $this->request_method . 'Index')) {
-            array_unshift($this->path_info, '');
-            return $function;
-        }
-        //Last attempt to invoke allIndex
-        if (method_exists($controller, $function = 'allIndex')) {
-            array_unshift($this->path_info, '');
-            return $function;
+        if (!isset($this->path_info[1])) {
+            if (isset($function)) {
+                $last_function = $function;
+            }
+            if (method_exists($controller, $function = $this->request_method . 'Index')) {
+                array_unshift($this->path_info, '');
+                return $function;
+            }
+            //Last attempt to invoke allIndex
+            if (method_exists($controller, $function = 'allIndex')) {
+                array_unshift($this->path_info, '');
+                return $function;
+            }
         }
             
         if (isset($last_function)) {
