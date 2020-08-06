@@ -230,7 +230,7 @@ class RouterEngine
         //Introduced in v2.1.2
         //Give Scrawler last chance to resolve index method before declaring not found
         //Store the last tested function before all index used for better debugging
-        if (!isset($this->path_info[1])) {
+        // if (!isset($this->path_info[1])) {
             if (isset($function)) {
                 $last_function = $function;
             }
@@ -243,7 +243,7 @@ class RouterEngine
                 array_unshift($this->path_info, '');
                 return $function;
             }
-        }
+        // }
             
         if (isset($last_function)) {
             $this->error('Neither '.$function.' method nor '.$last_function.' method you found in '.$controller.' controller');
