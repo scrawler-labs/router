@@ -54,6 +54,7 @@ class RouterEngine
      */
     private $dirMode = false;
 
+
     /**
      * Store Dirctory during dir Mode
      */
@@ -187,7 +188,12 @@ class RouterEngine
         $classMethod = new \ReflectionMethod($controller, $this->method);
         if (count($arguments) < count($classMethod->getParameters())) {
             $this->error('Not enough arguments given to the method');
-        } else {
+        } 
+        // finally fix the long awaited allIndex bug !
+        elseif (count($arguments) > count($classMethod->getParameters())) {
+            $this->error('Not able to resolve any method for'.$this->controller.'controller');
+        }            
+        else {
             $this->request->attributes->set('_arguments', implode(",", $arguments));
         }
     }
