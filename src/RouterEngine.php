@@ -66,7 +66,7 @@ class RouterEngine
     /**
      * Stores if not found error occured
      */
-    private $not_found;
+    private $not_found = false;
 
     //---------------------------------------------------------------//
 
@@ -88,12 +88,13 @@ class RouterEngine
      */
     public function route()
     {
+        try{
 
         // Get URL and request method.
         $this->request_method = strtolower($this->request->getMethod());
 
         if ($this->check_manual()) {
-            return;
+            return true;
         }
 
         //Break URL into segments
@@ -109,11 +110,16 @@ class RouterEngine
         $this->request->attributes->set('_controller', $this->controller . '::' . $this->method);
 
         $this->setArguments();
-
-        if($this->not_found)
         return true;
-        else
-        return false;
+    } catch(\Exception $e){
+        if($this->apiMode){
+            return false;
+        }else{
+            throw $e;
+        }
+    }
+
+      
     }
 
     //---------------------------------------------------------------//
@@ -181,8 +187,6 @@ class RouterEngine
     protected function error($message)
     {
         $this->not_found = true;
-
-        if(!$this->apiMode)
         throw new NotFoundException('Oops its an 404 error! :' . $message);
 
     }
@@ -196,7 +200,7 @@ class RouterEngine
     private function setArguments()
     {
         $controller = new $this->controller;
-
+     
         $arguments = [];
         for ($j = 2; $j < count($this->path_info); $j++) {
             array_push($arguments, $this->path_info[$j]);
