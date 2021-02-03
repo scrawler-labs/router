@@ -88,37 +88,28 @@ class RouterEngine
      */
     public function route()
     {
-        try {
 
-            // Get URL and request method.
-            $this->request_method = strtolower($this->request->getMethod());
+        // Get URL and request method.
+        $this->request_method = strtolower($this->request->getMethod());
 
-            if ($this->check_manual()) {
-                return true;
-            }
-
-            //Break URL into segments
-            $this->path_info = explode('/', $this->request->getPathInfo());
-            if ($this->apiMode) {
-                array_shift($this->path_info);
-            }
-
-            array_shift($this->path_info);
-
-            $this->getController();
-            $this->method = $this->getMethod($this->controller);
-            $this->request->attributes->set('_controller', $this->controller . '::' . $this->method);
-
-            $this->setArguments();
+        if ($this->check_manual()) {
             return true;
-        } catch (\Exception $e) {
-
-            if ($this->apiMode) {
-                return false;
-            } else {
-                throw $e;
-            }
         }
+
+        //Break URL into segments
+        $this->path_info = explode('/', $this->request->getPathInfo());
+        if ($this->apiMode) {
+            array_shift($this->path_info);
+        }
+
+        array_shift($this->path_info);
+
+        $this->getController();
+        $this->method = $this->getMethod($this->controller);
+        $this->request->attributes->set('_controller', $this->controller . '::' . $this->method);
+
+        $this->setArguments();
+        return true;
 
     }
 
