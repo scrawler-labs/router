@@ -88,38 +88,38 @@ class RouterEngine
      */
     public function route()
     {
-        try{
+        try {
 
-        // Get URL and request method.
-        $this->request_method = strtolower($this->request->getMethod());
+            // Get URL and request method.
+            $this->request_method = strtolower($this->request->getMethod());
 
-        if ($this->check_manual()) {
-            return true;
-        }
+            if ($this->check_manual()) {
+                return true;
+            }
 
-        //Break URL into segments
-        $this->path_info = explode('/', $this->request->getPathInfo());
-        if ($this->apiMode) {
+            //Break URL into segments
+            $this->path_info = explode('/', $this->request->getPathInfo());
+            if ($this->apiMode) {
+                array_shift($this->path_info);
+            }
+
             array_shift($this->path_info);
+
+            $this->getController();
+            $this->method = $this->getMethod($this->controller);
+            $this->request->attributes->set('_controller', $this->controller . '::' . $this->method);
+
+            $this->setArguments();
+            return true;
+        } catch (\Exception $e) {
+
+            if ($this->apiMode) {
+                return false;
+            } else {
+                throw $e;
+            }
         }
 
-        array_shift($this->path_info);
-
-        $this->getController();
-        $this->method = $this->getMethod($this->controller);
-        $this->request->attributes->set('_controller', $this->controller . '::' . $this->method);
-
-        $this->setArguments();
-        return true;
-    } catch(\Exception $e){
-        if($this->apiMode){
-            return false;
-        }else{
-            throw $e;
-        }
-    }
-
-      
     }
 
     //---------------------------------------------------------------//
@@ -200,14 +200,17 @@ class RouterEngine
     private function setArguments()
     {
         $controller = new $this->controller;
-     
+
         $arguments = [];
         for ($j = 2; $j < count($this->path_info); $j++) {
             array_push($arguments, $this->path_info[$j]);
         }
         //Check weather arguments are passed else throw a 404 error
         $classMethod = new \ReflectionMethod($controller, $this->method);
-        if (count($arguments) < count($classMethod->getParameters())) {
+        $docblock = $this->phpdoc_params($classMethod);
+
+        //Optional parameter introduced in version 3.0.2
+        if (count($arguments) < count($classMethod->getParameters()) && isset($docblock['@param']) && $docblock['@param'][0] != 'optional') {
             $this->error('Not enough arguments given to the method');
         }
         // finally fix the long awaited allIndex bug !
@@ -275,5 +278,32 @@ class RouterEngine
             return true;
         }
         return false;
+    }
+
+    //------------------------------------------------------------------//
+    private function phpdoc_params(\ReflectionMethod $method): array
+    {
+        // Retrieve the full PhpDoc comment block
+        $doc = $method->getDocComment();
+
+        // Trim each line from space and star chars
+        $lines = array_map(function ($line) {
+            return trim($line, " *");
+        }, explode("\n", $doc));
+
+        // Retain lines that start with an @
+        $lines = array_filter($lines, function ($line) {
+            return strpos($line, "@") === 0;
+        });
+
+        $args = [];
+
+        // Push each value in the corresponding @param array
+        foreach ($lines as $line) {
+            list($param, $value) = explode(' ', $line, 2);
+            $args[$param][] = $value;
+        }
+
+        return $args;
     }
 }
