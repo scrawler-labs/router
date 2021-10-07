@@ -21,21 +21,23 @@ class RouterTest extends TestCase
     'GET'
      );
        
-    $this->blank_request = Request::create(
+    $this->bye_request = Request::create(
     '/bye/world/nobody',
     'GET'
      );
    
 
-    $this->router = new \Scrawler\Router\Router($collection,$this->request);
     }
 
     /**
      * @covers Scrawler\Router\Router
      */
     function testDispatch(){
+      $this->router = new \Scrawler\Router\Router($collection,$this->hello_request);
       $response = $this->router->dispatch();
       $this->assertEquals('Hello pranjal',$response->getContent());
+      $this->router = new \Scrawler\Router\Router($collection,$this->bye_request);
+      $response = $this->router->dispatch();
       $this->assertEquals('Bye nobody',$response->getContent());
 
     }
