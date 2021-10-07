@@ -1,5 +1,5 @@
 # Scrawler Router
-[![Build Status](https://travis-ci.org/scrawler-php/router.svg?branch=master)](https://travis-ci.org/Corpusvision/Router) 
+[![Build Status](https://app.travis-ci.com/scrawler-labs/router.svg?branch=master)](https://app.travis-ci.com/scrawler-labs/router)
 [![Latest Stable Version](https://poser.pugx.org/scrawler/router/v/stable)](https://packagist.org/packages/scrawler/router)
 [![Total Downloads](https://poser.pugx.org/scrawler/router/downloads)](https://packagist.org/packages/scrawler/router) [![Latest Unstable Version](https://poser.pugx.org/scrawler/router/v/unstable)](https://packagist.org/packages/scrawler/router)
 [![License](https://poser.pugx.org/scrawler/router/license)](https://packagist.org/packages/scrawler/router)
