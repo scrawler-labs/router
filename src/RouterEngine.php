@@ -139,6 +139,16 @@ class RouterEngine
     private function getController()
     {
         $this->controller = ucfirst($this->path_info[0]);
+        
+        if (isset($this->path_info[0]) && isset($this->path_info[1]) && isset($this->path_info[2]) && !empty($this->path_info[0]) && !empty($this->path_info[1]) && !empty($this->path_info[2])) {
+            $ncontroller = 'App\\Controllers\\'.ucfirst($this->path_info[0]).'\\'.ucfirst($this->path_info[1]).'\\'.ucfirst($this->path_info[2]);
+            if (class_exists($ncontroller)) {
+                $this->controller = $ncontroller;
+                array_shift($this->path_info);
+                array_shift($this->path_info);
+            return;
+            }
+        } 
 
         if (isset($this->path_info[0]) && $this->collection->isDir(ucfirst($this->path_info[0]))) {
             $this->dir = ucfirst($this->path_info[0]);
