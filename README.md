@@ -1,35 +1,37 @@
-# Scrawler Router
-[![Build Status](https://app.travis-ci.com/scrawler-labs/router.svg?branch=master)](https://app.travis-ci.com/scrawler-labs/router)
-[![Latest Stable Version](https://poser.pugx.org/scrawler/router/v/stable)](https://packagist.org/packages/scrawler/router)
-[![Total Downloads](https://poser.pugx.org/scrawler/router/downloads)](https://packagist.org/packages/scrawler/router) [![Latest Unstable Version](https://poser.pugx.org/scrawler/router/v/unstable)](https://packagist.org/packages/scrawler/router)
-[![License](https://poser.pugx.org/scrawler/router/license)](https://packagist.org/packages/scrawler/router)
+<div align="center">
 
-An Fully Automatic, Framework independent, RESTful PHP Router component used in scrawler.
-Scrawler Router is used as default router in Scrawler Framework
+<h1> Scrawler Router </h1>
+    
+<a href="https://app.travis-ci.com/scrawler-labs/router"><img src="https://app.travis-ci.com/scrawler-labs/router.svg?branch=master"></img></a>
+<a href="https://packagist.org/packages/scrawler/router"><img src="https://poser.pugx.org/scrawler/router/v/stable"></img></a>
+<a href="https://packagist.org/packages/scrawler/router"><img src="https://poser.pugx.org/scrawler/router/downloads"></img></a>
+<a href="https://packagist.org/packages/scrawler/router"><img src="https://poser.pugx.org/scrawler/router/license"></img></a>
+<br><br>
+
+
+🔥An Fully Automatic, Framework independent, RESTful PHP Router component🔥
+ 🇮🇳 Made in India 🇮🇳
+</div>
 
 ![Demo](http://g.recordit.co/lvQba4mnyB.gif)
 
 
+## 🤔 Why use Scrawler Router?
+- Fully automatic, you dont need to define single manual route.
+- No configrations , works out of the box with any php project.
+- Stable and used internally within many [Corpuvision](corpusvision.com)'s projects
+- Saves lot of time while building RESTful applications
+<br><br>
 
-Why Scrawler Router?
-------------------
-This is an library for automatic restful routing, you do not have to define a single route, it automatically detects the url and calls the corresponding controller.
-Automatic routing is made possible by following some conventions.
-
-Installation
---------------
-
-### Using Composer
-
+## 💻 Installation
+You can install Scrawler Router via Composer. If you don't have composer installed , you can download composer from [here](https://getcomposer.org/download/)
 
 ```sh
 composer require scrawler/router
 ```
 
+## ✨ Setup
 
-Getting Started
-----------------
-In your index.php
 ```php
 <?php
 
@@ -57,9 +59,10 @@ $response->send();
 ```
 
 Done now whatever request occurs it will be automatically routed . You don't have define a single route
+<br><br>
 
-How it Works?
-----------------
+## 🦊 How it Works?
+
 The automatic routing is possible by following some conventions. Lets take a example lets say a controller Hello
 
 ```php
@@ -75,10 +78,11 @@ return "Hello World";
 }
 ```
 now calling `localhost/hello/world` from your browser you will see `hello world` on your screen.
+<br><br>
 
-How does it do it automatically?
------------------
-Each request to the server is interpreted by ghost route in following way:
+## 🔥 How does it do it automatically?
+
+Each request to the server is interpreted by Scrawler Router in following way:
 
 `METHOD    /controller/function/arguments1/arguments2`
 
@@ -112,9 +116,9 @@ public function getFind($id){
 }
 ```
 In above example `1` will be passed as argument `$id`
+<br><br>
 
-How should I name my function for automatic routing?
-----------------------------------------------------
+## ⁉️ How should I name my function for automatic routing?
 
 The function name in the controller should be named according to following convention:
 `methodFunctionname`
@@ -132,13 +136,14 @@ Some eg. of valid function names are:
 `getArticles, postUser, putResource`
 Invalid function names are:
 `GETarticles, Postuser, PutResource`
+<br><br>
 
-Need more information on working?
-----------------------------------------------------
-Test folders are probably the best place where you can see internal working of various functions and use them in your project accordinglt
+## 👏 Supporters
+If you have reached here consider giving a star to help this project ❤️ 
+[![Stargazers repo roster for @scrawler-labs/router](https://reporoster.com/stars/dark/notext/scrawler-labs/router)](https://github.com/scrawler-labs/router/stargazers)
+<br><br>
 
-Server Configuration
-----------------------
+## 🖥️ Server Configuration
 
 #### Apache
 
@@ -188,7 +193,7 @@ location / {
 }
 ```
 
-License
--------
+## 📄 License
+
 Scrawler Router is created by [Pranjal Pandey](https://www.physcocode.com) and released under
 the MIT License.
