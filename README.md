@@ -132,10 +132,14 @@ post - maps url called by POST method
 put - maps url called by PUT method
 delete - maps url called by DELETE method
 ```
-Some eg. of valid function names are:
-`getArticles, postUser, putResource`
-Invalid function names are:
-`GETarticles, Postuser, PutResource`
+Some eg. of <b>valid</b> function names are:
+```
+getArticles, postUser, putResource
+```
+<b>Invalid</b> function names are:
+```
+GETarticles, Postuser, PutResource
+```
 <br><br>
 
 ## 👏 Supporters
