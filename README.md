@@ -226,7 +226,8 @@ class Hello
       // redirect to external urls
       return new RedirectResponse('http://example.com/');
 
-     // Or alternatively you can set your arguments in flashback and redirect to internal URL 
+     // Or alternatively you can set your arguments in flashbagk and redirect to internal URL 
+     // Note you may use any flash manager to achieve this but as HttpFoundation is already a dependecy of Router here is a exmple with Symfony Session
      $session = new Session();
      $session->start();   
      $session->getFlashBag()->add('notice', 'Profile updated');
