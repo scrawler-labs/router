@@ -213,14 +213,25 @@ class Hello
 If you want to redirect a request you can return a Symphony redirect response
 ```php
  use Symfony\Component\HttpFoundation\RedirectResponse;
+ use Symfony\Component\HttpFoundation\Session\Session;
+
  // Inside hello.php
 class Hello
 {
+
+// set flash messages
     
     public function getAbc()
     {
-      // You can also set session and redirect to internal urls
-      $response = new RedirectResponse('http://example.com/');
+      // redirect to external urls
+      return new RedirectResponse('http://example.com/');
+
+     // Or alternatively you can set your arguments in flashback and redirect ot internal URL 
+     $session = new Session();
+     $session->start();   
+     $session->getFlashBag()->add('notice', 'Profile updated');
+     return new RedirectResponse('http://mydomain.com/profile');
+    
     }
 }
 ```
