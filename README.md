@@ -38,6 +38,7 @@ composer require scrawler/router
 use Scrawler\Router\RouteCollection;
 use Scrawler\Router\Router;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 
 $dir = /path/to/your/controllers;
@@ -50,6 +51,9 @@ $router = new Router(new RouteCollection($dir,$namespace));
 
 //Dispatch route and get back the response
 $response = $router->dispatch();
+// Or Alternatively you can pass header as optional argument
+//$response = $router->dispatch(['content-type' => 'application/json']);
+
 
 //Do anything with your Response object here
 //Probably middleware can hook in here
@@ -204,6 +208,23 @@ class Hello
 }
 ```
 <br><br>
+
+## 🔄 Redirection
+If you want to redirect a request you can return a Symphony redirect response
+```php
+ use Symfony\Component\HttpFoundation\RedirectResponse;
+ // Inside hello.php
+class Hello
+{
+    
+    public function getAbc()
+    {
+      // You can also set session and redirect to internal urls
+      $response = new RedirectResponse('http://example.com/');
+    }
+}
+```
+Infact from Scrawler Router 3.1.0 you can directly return object of [\Symfony\Component\HttpFoundation\Response](https://symfony.com/doc/current/components/http_foundation.html#response) 
 
 ## 👏 Supporters
 If you have reached here consider giving a star to help this project ❤️
