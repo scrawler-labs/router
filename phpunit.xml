@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="Tests/_bootstrap.php" colors="true">
-
+<phpunit bootstrap="./vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         testdox="true">
     <testsuites>
         <testsuite name="Router Basic Unit Tests">
             <directory>./Tests/</directory>

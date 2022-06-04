@@ -31,5 +31,8 @@
             "psr-4": {
                 "Tests\\": "Tests/"
             }
-        }
+        },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
 }
