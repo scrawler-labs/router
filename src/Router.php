@@ -51,15 +51,23 @@ class Router
     /**
      * Dispatch function
      */
-    public function dispatch()
+    public function dispatch($type = null)
     {
         $controller = new ControllerResolver();
         $arguments = new ArgumentResolver();
 
         $controller = $controller->getController($this->request);
         $arguments = $arguments->getArguments($this->request, $controller);
-        $response = new Response('Content', Response::HTTP_OK, array('content-type' => 'text/html'));
-        $response->setContent(call_user_func_array($controller, $arguments));
+        $content = $controller(...$arguments);
+        if ($type == null) {
+            $type = array('content-type' => 'text/html');
+        }
+        if (!$content instanceof \Symfony\Component\HttpFoundation\Response) {
+            $response = new Response($content, Response::HTTP_OK, $type);
+        } else {
+            $response = $content;
+        }
+
         $response->prepare($this->request);
         return $response;
     }
