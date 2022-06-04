@@ -145,7 +145,7 @@ getArticles, postUser, putResource
 ```
 GETarticles, Postuser, PutResource
 ```
-<br><br>
+<br>
 
 ## 🏠 Website home page
 Scrawler Router uses a special function name `allIndex()` and special controller name `Main`. So If you want to make a controller for your landing page `\` the controller will be defines as follows
@@ -160,7 +160,7 @@ class Main
     }
 }
 ```
-<br><br>
+<br>
 
 ## 🌟 Main Controller
 Class name with `Main` signifies special meaning in Scrawler Router , if you wanna define pages route URL you can use main controler
@@ -186,7 +186,7 @@ class Main
     }
 }
 ```
-<br><br>
+<br>
 
 ## 👉 Index function
 Just like `Main` controller `allIndex(), getIndex(), postIndex()` etc signifies a special meaning , urls with only controller name and no function name will try to resolve into this function.
@@ -207,7 +207,7 @@ class Hello
     }
 }
 ```
-<br><br>
+<br>
 
 ## 🔄 Redirection
 If you want to redirect a request you can return a Symphony redirect response
@@ -236,9 +236,8 @@ class Hello
     }
 }
 ```
-<br></br>
-
 Infact from Scrawler Router 3.1.0 you can directly return object of [\Symfony\Component\HttpFoundation\Response](https://symfony.com/doc/current/components/http_foundation.html#response) 
+<br><br>
 
 ## 👏 Supporters
 If you have reached here consider giving a star to help this project ❤️
