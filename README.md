@@ -226,7 +226,7 @@ class Hello
       // redirect to external urls
       return new RedirectResponse('http://example.com/');
 
-     // Or alternatively you can set your arguments in flashback and redirect ot internal URL 
+     // Or alternatively you can set your arguments in flashback and redirect to internal URL 
      $session = new Session();
      $session->start();   
      $session->getFlashBag()->add('notice', 'Profile updated');
@@ -235,6 +235,8 @@ class Hello
     }
 }
 ```
+<br></br>
+
 Infact from Scrawler Router 3.1.0 you can directly return object of [\Symfony\Component\HttpFoundation\Response](https://symfony.com/doc/current/components/http_foundation.html#response) 
 
 ## 👏 Supporters
