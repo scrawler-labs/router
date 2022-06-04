@@ -219,7 +219,7 @@ class Hello
     
     public function getAbc()
     {
-      // You can also set session and redirect to internal urls
+      // You can also set parameters to session and redirect to internal urls
       $response = new RedirectResponse('http://example.com/');
     }
 }
