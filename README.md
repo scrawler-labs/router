@@ -236,7 +236,7 @@ class Hello
     }
 }
 ```
-Infact from Scrawler Router 3.1.0 you can directly return object of [\Symfony\Component\HttpFoundation\Response](https://symfony.com/doc/current/components/http_foundation.html#response) 
+Infact from Scrawler Router 3.1.0 you can directly return object of [\Symfony\Component\HttpFoundation\Response](https://symfony.com/doc/current/components/http_foundation.html#response) from your controller
 <br><br>
 
 ## 👏 Supporters
