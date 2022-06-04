@@ -110,7 +110,6 @@ class RouterEngine
 
         $this->setArguments();
         return true;
-
     }
 
     //---------------------------------------------------------------//
@@ -146,9 +145,9 @@ class RouterEngine
                 $this->controller = $ncontroller;
                 array_shift($this->path_info);
                 array_shift($this->path_info);
-            return;
+                return;
             }
-        } 
+        }
 
         if (isset($this->path_info[0]) && $this->collection->isDir(ucfirst($this->path_info[0]))) {
             $this->dir = ucfirst($this->path_info[0]);
@@ -189,7 +188,6 @@ class RouterEngine
     {
         $this->not_found = true;
         throw new NotFoundException('Oops its an 404 error! :' . $message);
-
     }
 
     //---------------------------------------------------------------//
@@ -265,7 +263,6 @@ class RouterEngine
             $this->error('Neither ' . $function . ' method nor ' . $last_function . ' method you found in ' . $controller . ' controller');
         } else {
             $this->error($function . ' method not found in ' . $controller . ' controller');
-
         }
     }
 
