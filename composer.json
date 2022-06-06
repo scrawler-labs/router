@@ -21,7 +21,8 @@
     ],
     "require": {
         "symfony/http-foundation": "^5.0 || ^6.0",
-        "symfony/http-kernel": "^5.0 || ^6.0"
+        "symfony/http-kernel": "^5.0 || ^6.0",
+        "psr/simple-cache": "^3.0"
     },
     "autoload": {
         "psr-4": {

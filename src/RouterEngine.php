@@ -103,13 +103,27 @@ class RouterEngine
         }
 
         array_shift($this->path_info);
+        if (!$this->getFromCache($this->request_method.'_'.$this->request->getPathInfo())) {
+            $this->setRequestArguments();
+        }
+        return true;
+    }
 
+    //---------------------------------------------------------------//
+
+    /**
+     * Set Arguments on the request object.
+     */
+    private function setRequestArguments()
+    {
         $this->getController();
         $this->method = $this->getMethod($this->controller);
+        $arguments = $this->getArguments();
         $this->request->attributes->set('_controller', $this->controller . '::' . $this->method);
-
-        $this->setArguments();
-        return true;
+        $this->request->attributes->set('_arguments', $arguments);
+        if ($this->collection->isCacheEnabled()) {
+            $this->collection->getCache()->set($this->request_method.'_'.$this->request->getPathInfo(), ['controller'=>$this->controller . '::' . $this->method,'arguments'=>$arguments]);
+        }
     }
 
     //---------------------------------------------------------------//
@@ -196,7 +210,7 @@ class RouterEngine
      * Function to dispach the method if method exist.
      *
      */
-    private function setArguments()
+    private function getArguments()
     {
         $controller = new $this->controller;
 
@@ -216,7 +230,7 @@ class RouterEngine
         elseif (count($arguments) > count($classMethod->getParameters())) {
             $this->error('Not able to resolve any method for' . $this->controller . 'controller');
         } else {
-            $this->request->attributes->set('_arguments', implode(",", $arguments));
+            return implode(",", $arguments);
         }
     }
 
@@ -303,5 +317,21 @@ class RouterEngine
         }
 
         return $args;
+    }
+
+    public function getFromCache($url)
+    {
+        if (!$this->collection->isCacheEnabled()) {
+            return false;
+        }
+        $cache = $this->collection->getCache();
+        if (!$cache->has($url)) {
+            return false;
+        }
+
+        $response = $cache->get($url);
+        $this->request->attributes->set('_controller', $request['controller']);
+        $this->request->attributes->set('_arguments', $request['arguments']);
+        return true;
     }
 }

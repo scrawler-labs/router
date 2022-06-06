@@ -36,13 +36,34 @@ class RouteCollection
      */
     private $manual = [];
 
+    /**
+     *  Stores caching engine
+     */
+    private $cache;
+
+    /**
+     *  Check if caches is enable
+     */
+    private $enableCache = false;
+
     //---------------------------------------------------------------//
 
-    public function __construct($directory, $namespace)
+    public function __construct($directory, $namespace, $enableCache =false, $cache = null)
     {
         $this->directory = $directory;
         $this->namespace = $namespace;
-        $this->autoregister();
+        
+        if ($enableCache) {
+            if ($cache == null) {
+                $this->enableCache();
+            } else {
+                $this->enableCacheWith($cache);
+            }
+        }
+
+        if (!$enableCache || !$this->getCache()->has('collection')) {
+            $this->autoRegister();
+        }
     }
 
     //---------------------------------------------------------------//
@@ -56,6 +77,10 @@ class RouteCollection
      */
     public function getController($controller)
     {
+        if ($this->enableCache && $this->cache->has($controller)) {
+            return $this->cache->get($controller);
+        }
+ 
         foreach ($this->controllers as $key => $value) {
             if ($key == $controller) {
                 return $value;
@@ -64,7 +89,15 @@ class RouteCollection
 
         return false;
     }
-
+    //---------------------------------------------------------------//
+    /**
+     * Returns cache engine
+     *
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
     //---------------------------------------------------------------//
 
     /**
@@ -76,6 +109,10 @@ class RouteCollection
     public function registerController($name, $class)
     {
         $this->controllers[$name] = $class;
+        if ($this->enableCache) {
+            $this->cache->set($name, $class);
+            $this->cache->set('collection', $this->controllers);
+        }
     }
 
     //---------------------------------------------------------------//
@@ -83,7 +120,7 @@ class RouteCollection
     /**
      * Automatically register all controllers in specified directory.
      */
-    private function autoregister()
+    private function autoRegister()
     {
         $files = array_slice(scandir($this->directory), 2);
         foreach ($files as $file) {
@@ -100,6 +137,9 @@ class RouteCollection
             if ($file != 'Main.php'  && !\is_dir($this->directory.'/'.$file)) {
                 $this->registerController(\basename($file, '.php'), $this->namespace . '\\' . \basename($file, '.php'));
             }
+        }
+        if ($this->enableCache) {
+            $this->cache->set('collection', $this->controllers);
         }
     }
 
@@ -136,6 +176,17 @@ class RouteCollection
     {
         array_push($this->dir, $dir);
     }
+
+    //---------------------------------------------------------------//
+    /**
+     * Function to check if cache is enabled
+     *
+     */
+    public function isCacheEnabled()
+    {
+        return $this->enableCache;
+    }
+    
 
     //---------------------------------------------------------------//
     /**
@@ -195,5 +246,36 @@ class RouteCollection
         }
 
         return false;
+    }
+
+    //---------------------------------------------------------------//
+    /**
+     * Enable cache with default cache engine
+     */
+    public function enableCache()
+    {
+        $this->cache = new Cache\FileSystemCache();
+        $this->enableCache = true;
+        if ($this->cache->has('collection')) {
+            $this->controllers = $this->cache->get('collection');
+        }
+        return;
+    }
+
+    //---------------------------------------------------------------//
+    /**
+     * Enable cache with custom cache engine
+     */
+    public function enableCacheWith($cache)
+    {
+        if ($cache instanceof Psr\SimpleCache\CacheInterface) {
+            $this->cache = $cache;
+            $this->enableCache = true;
+            if ($this->cache->has('collection')) {
+                $this->controllers = $this->cache->get('collection');
+            }
+            return;
+        }
+        throw new \Exception('Cache engine must be an instance of Psr\SimpleCache\CacheInterface');
     }
 }
