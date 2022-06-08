@@ -44,9 +44,19 @@ use Symfony\Component\HttpFoundation\Request;
 $dir = /path/to/your/controllers;
 $namespace = Namespace\of\your\controllers;
 
-$router = new Router(new RouteCollection($dir,$namespace));
+$collection = new RouteCollection($dir,$namespace)
+
+/**
+* As of v3.2.0 you can now enblae route caching and optionally pass your own PSR 16 implementation
+* $collection = new RouteCollection($dir,$namespace,true);
+* OR with your own cache adapter
+* $cache = new Psr\SimpleCache\CacheInterface(); 
+* $collection = new RouteCollection($dir,$namespace,true,$cache);
+**/
+
+$router = new Router($collection);
 //Optional you can now pass your own Request object to Router for Router to work on
-//$router = new Router(new RouteCollection($dir,$namespace),Request $request);
+//$router = new Router($collection,Request $request);
 
 
 //Dispatch route and get back the response
