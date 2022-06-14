@@ -19,7 +19,7 @@
 ## 🤔 Why use Scrawler Router?
 - Fully automatic, you dont need to define single manual route.
 - No configrations , works out of the box with any php project.
-- Stable and used internally within many [Corpuvision](corpusvision.com)'s projects
+- Stable and used internally within many [Corpuvision](https://corpusvision.com)'s projects
 - Saves lot of time while building RESTful applications
   <br><br>
 
