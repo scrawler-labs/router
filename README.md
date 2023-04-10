@@ -2,7 +2,7 @@
 
 <h1> Scrawler Router </h1>
 
-<a href="https://app.travis-ci.com/scrawler-labs/router"><img src="https://app.travis-ci.com/scrawler-labs/router.svg?branch=master"></img></a>
+<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/scrawler-labs/router/main.yml?style=flat-square"></a>
 <a href="https://packagist.org/packages/scrawler/router"><img src="https://poser.pugx.org/scrawler/router/v/stable"></img></a>
 <a href="https://packagist.org/packages/scrawler/router"><img src="https://poser.pugx.org/scrawler/router/downloads"></img></a>
 <a href="https://packagist.org/packages/scrawler/router"><img src="https://poser.pugx.org/scrawler/router/license"></img></a>
