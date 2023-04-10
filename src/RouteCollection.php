@@ -56,7 +56,7 @@ class RouteCollection
             }
         }
 
-        if (!$enableCache || !$this->getCache()->has('collection')) {
+        if (!$enableCache || !$this->getCache()->has('collection') || !$this->getCache()->has('dir')) {
             $this->autoRegister();
         }
     }
@@ -133,9 +133,7 @@ class RouteCollection
                 $this->registerController(\basename($file, '.php'), $this->namespace . '\\' . \basename($file, '.php'));
             }
         }
-        if ($this->enableCache) {
-            $this->cache->set('collection', $this->controllers);
-        }
+
     }
 
     //---------------------------------------------------------------//
@@ -170,6 +168,11 @@ class RouteCollection
     public function registerDir($dir)
     {
         array_push($this->dir, $dir);
+
+        if($this->enableCache){
+            $this->cache->set('dir', $this->dir);
+        }
+
     }
 
     //---------------------------------------------------------------//
@@ -191,6 +194,9 @@ class RouteCollection
      */
     public function isDir($dir)
     {
+        if ($this->enableCache && $this->cache->has('dir')) {
+            $this->dir = $this->cache->get('dir');
+        }
         return in_array($dir, $this->dir);
     }
 

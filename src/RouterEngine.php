@@ -207,10 +207,9 @@ class RouterEngine
         }
         //Check weather arguments are passed else throw a 404 error
         $classMethod = new \ReflectionMethod($controller, $this->method);
-        $docblock = $this->phpdoc_params($classMethod);
 
         //Optional parameter introduced in version 3.0.2
-        if (count($arguments) < count($classMethod->getParameters()) && isset($docblock['@param']) && $docblock['@param'][0] != 'optional') {
+        if (count($arguments) < count($classMethod->getParameters())) {
             $this->error('Not enough arguments given to the method');
         }
         // finally fix the long awaited allIndex bug !
