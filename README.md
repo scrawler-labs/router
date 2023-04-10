@@ -16,6 +16,8 @@
 ![Demo](http://g.recordit.co/lvQba4mnyB.gif)
 
 
+Complete docs can be found [here](https://component.scrawlerlabs.com/router/)
+
 ## 🤔 Why use Scrawler Router?
 - Fully automatic, you dont need to define single manual route.
 - No configrations , works out of the box with any php project.
