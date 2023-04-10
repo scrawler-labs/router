@@ -1,0 +1,24 @@
+name: Tests
+on: [push, pull_request,workflow_dispatch]
+jobs:
+  arca-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: ['8. 1']
+        phpunit-versions: ['latest']
+        include:
+          - operating-system: 'ubuntu-latest'
+            php-versions: '8.1'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: nanasess/setup-php@master
+        with:
+          php-version: '8.1'
+      - name: Update Composer
+        run: sudo composer self-update --no-interaction
+      - name: Run Composer Install
+        run: composer install --no-interaction
+      - name: run tests
+        run: vendor/bin/pest
