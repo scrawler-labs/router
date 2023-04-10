@@ -54,11 +54,6 @@ class RouterEngine
     private $dirMode = false;
 
     /**
-     * Stores api mode
-     */
-    private $apiMode = false;
-
-    /**
      * Store Dirctory during dir Mode
      */
     private $dir = '';
@@ -73,11 +68,10 @@ class RouterEngine
     /**
      * constructor overloading for auto routing.
      */
-    public function __construct(Request $request, RouteCollection $collection, $apiMode = false)
+    public function __construct(Request $request, RouteCollection $collection)
     {
         $this->request = $request;
         $this->collection = $collection;
-        $this->apiMode = $apiMode;
     }
 
     //---------------------------------------------------------------//
@@ -92,15 +86,8 @@ class RouterEngine
         // Get URL and request method.
         $this->request_method = strtolower($this->request->getMethod());
 
-        if ($this->check_manual()) {
-            return true;
-        }
-
         //Break URL into segments
         $this->path_info = explode('/', $this->request->getPathInfo());
-        if ($this->apiMode) {
-            array_shift($this->path_info);
-        }
 
         array_shift($this->path_info);
         if (!$this->getFromCache($this->request_method.'_'.$this->request->getPathInfo())) {
@@ -281,44 +268,11 @@ class RouterEngine
     }
 
     //---------------------------------------------------------------//
-
-    private function check_manual()
-    {
-        $mcontroller = $this->collection->getRoute($this->request_method, $this->request->getPathInfo());
-        if ($mcontroller) {
-            $this->request->attributes->set('_controller', $mcontroller);
-            return true;
-        }
-        return false;
-    }
-
-    //------------------------------------------------------------------//
-    private function phpdoc_params(\ReflectionMethod $method): array
-    {
-        // Retrieve the full PhpDoc comment block
-        $doc = $method->getDocComment();
-
-        // Trim each line from space and star chars
-        $lines = array_map(function ($line) {
-            return trim($line, " *");
-        }, explode("\n", $doc));
-
-        // Retain lines that start with an @
-        $lines = array_filter($lines, function ($line) {
-            return strpos($line, "@") === 0;
-        });
-
-        $args = [];
-
-        // Push each value in the corresponding @param array
-        foreach ($lines as $line) {
-            list($param, $value) = explode(' ', $line, 2);
-            $args[$param][] = $value;
-        }
-
-        return $args;
-    }
-
+    /**
+     * Function to get url from cache
+     *
+     *@param string $url
+     */
     public function getFromCache($url)
     {
         if (!$this->collection->isCacheEnabled()) {

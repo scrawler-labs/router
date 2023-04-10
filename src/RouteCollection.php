@@ -32,11 +32,6 @@ class RouteCollection
     private $dir = [];
 
     /**
-     *  Stores all manual routes
-     */
-    private $manual = [];
-
-    /**
      *  Stores caching engine
      */
     private $cache;
@@ -208,45 +203,6 @@ class RouteCollection
         $this->manual[$method][$url] =  $controller;
     }
     
-    //---------------------------------------------------------------//
-    /**
-     * Register route  with get method
-     */
-    public function get($url, $controller)
-    {
-        $this->manual['get'][$url] =  $controller;
-    }
-
-    //---------------------------------------------------------------//
-    /**
-     * Register route  with post method
-     */
-    public function post($url, $controller)
-    {
-        $this->manual['get'][$url] =  $controller;
-    }
-
-    //---------------------------------------------------------------//
-    /**
-     * Register route  with post method
-     */
-    public function all($url, $controller)
-    {
-        $this->manual['all'][$url] =  $controller;
-    }
-
-    //---------------------------------------------------------------//
-    /**
-     * Register controllers manually
-     */
-    public function getRoute($method, $url)
-    {
-        if (isset($this->manual[$method][$url])) {
-            return $this->manual[$method][$url];
-        }
-
-        return false;
-    }
 
     //---------------------------------------------------------------//
     /**
