@@ -200,15 +200,6 @@ class RouteCollection
         return in_array($dir, $this->dir);
     }
 
-    //---------------------------------------------------------------//
-    /**
-     * Register controllers manually
-     */
-    public function registerRoute($method, $url, $controller)
-    {
-        $this->manual[$method][$url] =  $controller;
-    }
-    
 
     //---------------------------------------------------------------//
     /**
@@ -230,7 +221,7 @@ class RouteCollection
      */
     public function enableCacheWith($cache)
     {
-        if ($cache instanceof Psr\SimpleCache\CacheInterface) {
+        if ($cache instanceof \Psr\SimpleCache\CacheInterface) {
             $this->cache = $cache;
             $this->enableCache = true;
             if ($this->cache->has('collection')) {

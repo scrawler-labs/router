@@ -90,9 +90,8 @@ class RouterEngine
         $this->path_info = explode('/', $this->request->getPathInfo());
 
         array_shift($this->path_info);
-        if (!$this->getFromCache($this->request_method.'_'.$this->request->getPathInfo())) {
-            $this->setRequestArguments();
-        }
+        $this->setRequestArguments();
+
         return true;
     }
 
@@ -140,15 +139,6 @@ class RouterEngine
     {
         $this->controller = ucfirst($this->path_info[0]);
         
-        if (isset($this->path_info[0]) && isset($this->path_info[1]) && isset($this->path_info[2]) && !empty($this->path_info[0]) && !empty($this->path_info[1]) && !empty($this->path_info[2])) {
-            $ncontroller = 'App\\Controllers\\'.ucfirst($this->path_info[0]).'\\'.ucfirst($this->path_info[1]).'\\'.ucfirst($this->path_info[2]);
-            if (class_exists($ncontroller)) {
-                $this->controller = $ncontroller;
-                array_shift($this->path_info);
-                array_shift($this->path_info);
-                return;
-            }
-        }
 
         if (isset($this->path_info[0]) && $this->collection->isDir(ucfirst($this->path_info[0]))) {
             $this->dir = ucfirst($this->path_info[0]);
@@ -175,7 +165,6 @@ class RouterEngine
                 $this->error('No Controller could be resolved:' . $this->controller);
             }
         }
-        //$this->error('No Controller could be resolved:'.$this->controller);
     }
 
     //---------------------------------------------------------------//
@@ -214,7 +203,7 @@ class RouterEngine
         }
         // finally fix the long awaited allIndex bug !
         elseif (count($arguments) > count($classMethod->getParameters())) {
-            $this->error('Not able to resolve any method for' . $this->controller . 'controller');
+            $this->error('Not able to resolve '.$this->method. 'for' . $this->controller . 'controller');
         } else {
             return implode(",", $arguments);
         }
@@ -266,25 +255,5 @@ class RouterEngine
         }
     }
 
-    //---------------------------------------------------------------//
-    /**
-     * Function to get url from cache
-     *
-     *@param string $url
-     */
-    public function getFromCache($url)
-    {
-        if (!$this->collection->isCacheEnabled()) {
-            return false;
-        }
-        $cache = $this->collection->getCache();
-        if (!$cache->has($url)) {
-            return false;
-        }
-
-        $response = $cache->get($url);
-        $this->request->attributes->set('_controller', $request['controller']);
-        $this->request->attributes->set('_arguments', $request['arguments']);
-        return true;
-    }
+   
 }
