@@ -58,7 +58,7 @@ class Router
 
         $controller = $controller->getController($this->request);
         $arguments = $arguments->getArguments($this->request, $controller);
-        $content = $controller(...$arguments);
+        $content = call_user_func($controller,...$arguments);
         if ($type == null) {
             $type = array('content-type' => 'text/html');
         }

@@ -16,6 +16,11 @@ class RouteCollection
      */
     private $controllers = [];
 
+    /**
+     * Stores all manual route.
+     */
+    private $route = [];
+
     /*
      * Stores the path of dirctory containing controllers
      */
@@ -231,4 +236,45 @@ class RouteCollection
         }
         throw new \Exception('Cache engine must be an instance of Psr\SimpleCache\CacheInterface');
     }
+
+    //---------------------------------------------------------------//
+    private function registerManual($method,$route,$callable){
+         $this->route[$method][$route] = $callable;
+    }
+
+    //---------------------------------------------------------------//
+    public function get($route,$callable){
+        $this->registerManual('get',$route,$callable);
+    }
+
+    //---------------------------------------------------------------//
+    public function post($route,$callable){
+        $this->registerManual('post',$route,$callable);
+    }
+
+    //---------------------------------------------------------------//
+    public function put($route,$callable){
+        $this->registerManual('put',$route,$callable);
+    }
+
+    //---------------------------------------------------------------//
+    public function delete($route,$callable){
+        $this->registerManual('delete',$route,$callable);
+    }
+
+    //---------------------------------------------------------------//
+    public function getRoute($route,$method){
+        if(isset($this->route[$method][$route])){
+            return $this->route[$method][$route];
+        }
+        return false;
+    }
+
+        //---------------------------------------------------------------//
+        public function getRoutes(){
+            return $this->route;
+        }
 }
+
+
+

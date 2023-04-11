@@ -90,7 +90,10 @@ class RouterEngine
         $this->path_info = explode('/', $this->request->getPathInfo());
 
         array_shift($this->path_info);
+
+        if(!$this->routeManual()){
         $this->setRequestArguments();
+        }
 
         return true;
     }
@@ -255,5 +258,37 @@ class RouterEngine
         }
     }
 
-   
+   private function routeManual(){
+    $controller = null;
+    $arguments = array();
+    $routes = $this->collection->getRoutes();
+    $collection_route = $this->collection->getRoute($this->request->getPathInfo(), $this->request_method);
+    if ($collection_route) {
+        $controller =  $collection_route;
+    } elseif ($routes) {
+        $tokens = array(
+            ':string' => '([a-zA-Z]+)',
+            ':number' => '([0-9]+)',
+            ':alpha'  => '([a-zA-Z0-9-_]+)'
+        );
+
+        foreach ($routes[$this->request_method] as $pattern => $handler_name) {
+            $pattern = strtr($pattern, $tokens);
+            if (preg_match('#^/?' . $pattern . '/?$#', $this->request->getPathInfo(), $matches)) {
+                $controller = $handler_name;
+                $arguments = $matches;
+                break;
+            }
+        }
+    }
+
+    if(is_callable($controller)){
+        $this->request->attributes->set('_controller', $controller);
+        unset($arguments[0]);
+        $this->request->attributes->set('_arguments', implode(',',$arguments));
+        return true;
+    }
+
+    return false;
+   }
 }
