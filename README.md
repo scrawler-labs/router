@@ -3,6 +3,7 @@
 <h1> Scrawler Router </h1>
 
 <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/scrawler-labs/router/main.yml?style=flat-square"></a>
+![Codecov](https://img.shields.io/codecov/c/gh/scrawler-labs/router?style=flat-square)
 ![Packagist Version](https://img.shields.io/packagist/v/scrawler/router?style=flat-square)
 ![Packagist Downloads](https://img.shields.io/packagist/dt/scrawler/router?style=flat-square)
 ![Packagist License](https://img.shields.io/packagist/l/scrawler/router?style=flat-square)
