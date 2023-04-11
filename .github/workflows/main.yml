@@ -13,7 +13,7 @@ jobs:
             php-versions: '8.1'
     steps:
       - uses: actions/checkout@v3
-      - uses: nanasess/setup-php@master
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
       - name: Update Composer
@@ -22,3 +22,5 @@ jobs:
         run: composer install --no-interaction
       - name: run tests
         run: vendor/bin/pest
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v3
