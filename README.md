@@ -21,8 +21,9 @@ Complete docs can be found [here](https://component.scrawlerlabs.com/router/)
 
 ## 🤔 Why use Scrawler Router?
 - Fully automatic, you dont need to define single manual route.
+- Support manual route defination for your edge use case.
 - No configrations , works out of the box with any php project.
-- Stable and used internally within many [Corpuvision](https://corpusvision.com)'s projects
+- Stable and well tested.
 - Saves lot of time while building RESTful applications
   <br><br>
 
@@ -77,6 +78,11 @@ $response->send();
 
 Done now whatever request occurs it will be automatically routed . You don't have define a single route
 <br><br>
+
+## ✏️ Manual routing
+Information on manual routing can be found in [docs](component.scrawlerlabs.com/router/)
+<br><br>
+
 
 ## 🦊 How it Works?
 
