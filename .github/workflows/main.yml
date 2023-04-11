@@ -1,7 +1,7 @@
 name: Tests
 on: [push, pull_request,workflow_dispatch]
 jobs:
-  arca-tests:
+  router-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -21,6 +21,6 @@ jobs:
       - name: Run Composer Install
         run: composer install --no-interaction
       - name: run tests
-        run: vendor/bin/pest
+        run: vendor/bin/pest --coverage-clover ./clover.xml
       - name: Upload to Codecov
         uses: codecov/codecov-action@v3
