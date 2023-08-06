@@ -19,7 +19,7 @@ class RouterEngine
      *
      * @var array
      */
-    private $path_info = [];
+    private array $path_info = [];
 
     /**
      * Stores the request method i.e get,post etc.
@@ -58,10 +58,6 @@ class RouterEngine
      */
     private $dir = '';
 
-    /**
-     * Stores if not found error occured
-     */
-    private $not_found = false;
 
     //---------------------------------------------------------------//
 
@@ -120,7 +116,7 @@ class RouterEngine
     /**
      * Function to get namespace
      *
-     *@param string $message
+     *
      */
     private function getNamespace()
     {
@@ -136,7 +132,6 @@ class RouterEngine
     /**
      * Function to get controller
      *
-     *@param string $message
      */
     private function getController()
     {
@@ -179,7 +174,6 @@ class RouterEngine
      */
     protected function error($message)
     {
-        $this->not_found = true;
         throw new NotFoundException('Oops its an 404 error! :' . $message);
     }
 
@@ -219,7 +213,6 @@ class RouterEngine
      *
      * @param string $controller
      *
-     * @return string
      */
     private function getMethod($controller)
     {
@@ -257,6 +250,7 @@ class RouterEngine
             $this->error($function . ' method not found in ' . $controller . ' controller');
         }
     }
+    //---------------------------------------------------------------//
 
    private function routeManual(){
     $controller = null;
@@ -272,7 +266,13 @@ class RouterEngine
             ':alpha'  => '([a-zA-Z0-9-_]+)'
         );
 
-        foreach ($routes[$this->request_method] as $pattern => $handler_name) {
+        if(isset($routes[$this->request_method])){
+            $final_route = $routes[$this->request_method];
+        }else{
+            $final_route = $routes['all'];
+        }
+
+        foreach ($final_route as $pattern => $handler_name) {
             $pattern = strtr($pattern, $tokens);
             if (preg_match('#^/?' . $pattern . '/?$#', $this->request->getPathInfo(), $matches)) {
                 $controller = $handler_name;
@@ -290,5 +290,11 @@ class RouterEngine
     }
 
     return false;
+   }
+
+   public function getCollection(){
+
+     return $this->collection;
+
    }
 }

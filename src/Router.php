@@ -34,7 +34,7 @@ class Router
     /**
      * constructor overloading for auto routing.
      */
-    public function __construct(RouteCollection $collection, Request $request = null)
+    public function __construct(RouteCollection $collection = null, Request $request = null)
     {
         if ($request == null) {
             $this->request = Request::createFromGlobals();
@@ -42,9 +42,13 @@ class Router
             $this->request = $request;
         }
         
-        $this->collection = $collection;
+        if(is_null($collection)){
+            $this->collection = new RouteCollection();
+        }else{
+            $this->collection = $collection;
+        }
         $this->engine = new RouterEngine($this->request, $this->collection);
-        $this->engine->route();
+        $this->collection = $this->engine->getCollection();
     }
 
     //---------------------------------------------------------------//
@@ -53,6 +57,7 @@ class Router
      */
     public function dispatch($type = null)
     {
+        $this->engine->route();
         $controller = new ControllerResolver();
         $arguments = new ArgumentResolver();
 
@@ -71,4 +76,27 @@ class Router
         $response->prepare($this->request);
         return $response;
     }
+
+    public function get($route,$callable)
+    {
+        $this->collection->get($route,$callable);
+    }
+
+    public function post($route,$callable){
+        $this->collection->post($route,$callable);
+    }
+
+    public function put($route,$callable){
+        $this->collection->put($route,$callable);
+    }
+
+    public function delete($route,$callable){
+        $this->collection->delete($route,$callable);
+    }
+
+    public function all($route,$callable){
+        $this->collection->all($route,$callable);
+    }
+
+
 }

@@ -13,42 +13,44 @@ class RouteCollection
 
     /**
      * Stores all controller and corrosponding route.
+     * @var array<mixed>
      */
-    private $controllers = [];
+    private array $controllers = [];
 
     /**
      * Stores all manual route.
+     * @var array<mixed>
      */
-    private $route = [];
+    private array $route = [];
 
     /*
      * Stores the path of dirctory containing controllers
      */
-    private $directory;
+    private string $directory;
 
     /*
      * Stores the namespace of controllers
      */
-    private $namespace;
+    private string $namespace;
 
     /**
      *  Stores list of directories
      */
-    private $dir = [];
+    private array $dir = [];
 
     /**
      *  Stores caching engine
      */
-    private $cache;
+    private \Psr\SimpleCache\CacheInterface $cache;
 
     /**
      *  Check if caches is enable
      */
-    private $enableCache = false;
+    private bool $enableCache = false;
 
     //---------------------------------------------------------------//
 
-    public function __construct($directory, $namespace, $enableCache =false, $cache = null)
+    public function __construct(string $directory = null, string $namespace = null, bool $enableCache =false, \Psr\SimpleCache\CacheInterface $cache = null)
     {
         $this->directory = $directory;
         $this->namespace = $namespace;
@@ -61,9 +63,19 @@ class RouteCollection
             }
         }
 
-        if (!$enableCache || !$this->getCache()->has('collection') || !$this->getCache()->has('dir')) {
+        if (!is_null($directory) && (!$enableCache || !$this->getCache()->has('collection') || !$this->getCache()->has('dir'))) {
             $this->autoRegister();
         }
+    }
+
+    //---------------------------------------------------------------//
+    
+    public function register(string $directory,string $namespace): void
+    {
+        $this->directory = $directory;
+        $this->namespace = $namespace;
+
+        $this->autoRegister();
     }
 
     //---------------------------------------------------------------//
@@ -71,11 +83,11 @@ class RouteCollection
     /**
      * Function returns the class of corrosponding controller.
      *
-     * @param string $url
+     * @param string $controller
      *
-     * @return string
+     * @return string|bool
      */
-    public function getController($controller)
+    public function getController(string $controller) : bool|string
     {
         if ($this->enableCache && $this->cache->has($controller)) {
             return $this->cache->get($controller);
@@ -94,7 +106,7 @@ class RouteCollection
      * Returns cache engine
      *
      */
-    public function getCache()
+    public function getCache() : \Psr\SimpleCache\CacheInterface
     {
         return $this->cache;
     }
@@ -106,7 +118,7 @@ class RouteCollection
      * @param string $name
      * @param string $class
      */
-    public function registerController($name, $class)
+    public function registerController(string $name,string $class) : void
     {
         $this->controllers[$name] = $class;
         if ($this->enableCache) {
@@ -120,7 +132,7 @@ class RouteCollection
     /**
      * Automatically register all controllers in specified directory.
      */
-    private function autoRegister()
+    private function autoRegister() : void
     {
         $files = array_slice(scandir($this->directory), 2);
         foreach ($files as $file) {
@@ -148,7 +160,7 @@ class RouteCollection
      *
      * @return string
      */
-    public function getNamespace()
+    public function getNamespace() : string
     {
         return $this->namespace;
     }
@@ -158,9 +170,9 @@ class RouteCollection
     /**
      * Function to return list of all controller currently registerd with route collction
      *
-     * @return array
+     * @return array<mixed>
      */
-    public function getControllers()
+    public function getControllers() : array
     {
         return $this->controllers;
     }
@@ -170,7 +182,7 @@ class RouteCollection
      * Function to add dir to list of dir
      *
      */
-    public function registerDir($dir)
+    public function registerDir(string $dir) : void
     {
         array_push($this->dir, $dir);
 
@@ -185,7 +197,7 @@ class RouteCollection
      * Function to check if cache is enabled
      *
      */
-    public function isCacheEnabled()
+    public function isCacheEnabled() : bool
     {
         return $this->enableCache;
     }
@@ -197,7 +209,7 @@ class RouteCollection
      *
      * @return boolean
      */
-    public function isDir($dir)
+    public function isDir(string $dir) : bool
     {
         if ($this->enableCache && $this->cache->has('dir')) {
             $this->dir = $this->cache->get('dir');
@@ -210,70 +222,80 @@ class RouteCollection
     /**
      * Enable cache with default cache engine
      */
-    public function enableCache()
+    public function enableCache() : void
     {
         $this->cache = new Cache\FileSystemCache();
         $this->enableCache = true;
         if ($this->cache->has('collection')) {
             $this->controllers = $this->cache->get('collection');
         }
-        return;
     }
 
     //---------------------------------------------------------------//
     /**
      * Enable cache with custom cache engine
      */
-    public function enableCacheWith($cache)
+    public function enableCacheWith(\Psr\SimpleCache\CacheInterface $cache) : void
     {
-        if ($cache instanceof \Psr\SimpleCache\CacheInterface) {
             $this->cache = $cache;
             $this->enableCache = true;
             if ($this->cache->has('collection')) {
                 $this->controllers = $this->cache->get('collection');
             }
-            return;
-        }
-        throw new \Exception('Cache engine must be an instance of Psr\SimpleCache\CacheInterface');
     }
 
     //---------------------------------------------------------------//
-    private function registerManual($method,$route,$callable){
+    private function registerManual(string $method,string $route,callable $callable) : void
+    {
          $this->route[$method][$route] = $callable;
     }
 
     //---------------------------------------------------------------//
-    public function get($route,$callable){
+    public function get(string $route,callable $callable): void
+    {
         $this->registerManual('get',$route,$callable);
     }
 
     //---------------------------------------------------------------//
-    public function post($route,$callable){
+    public function post(string $route,callable $callable) : void
+    {
         $this->registerManual('post',$route,$callable);
     }
 
     //---------------------------------------------------------------//
-    public function put($route,$callable){
+    public function put(string $route,callable $callable): void
+    {
         $this->registerManual('put',$route,$callable);
     }
 
     //---------------------------------------------------------------//
-    public function delete($route,$callable){
+    public function delete(string $route,callable $callable): void
+    {
         $this->registerManual('delete',$route,$callable);
+    }
+    //---------------------------------------------------------------//
+    public function all(string $route,callable $callable): void
+    {
+        $this->registerManual('all',$route,$callable);
     }
 
     //---------------------------------------------------------------//
-    public function getRoute($route,$method){
+    public function getRoute(string $route,string $method): callable|bool
+    {
         if(isset($this->route[$method][$route])){
             return $this->route[$method][$route];
+        }
+        if(isset($this->route['all'][$route])){
+            return $this->route['all'][$route];
         }
         return false;
     }
 
-        //---------------------------------------------------------------//
-        public function getRoutes(){
-            return $this->route;
-        }
+    //---------------------------------------------------------------//
+    public function getRoutes() : array
+    {
+        return $this->route;
+    }
 }
 
 

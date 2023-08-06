@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1681177438">
+  <project timestamp="1681177438">
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/ArgumentResolver.php">
+      <class name="Scrawler\Router\ArgumentResolver" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
+      </class>
+      <line num="16" type="method" name="getArguments" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="18" type="stmt" count="2"/>
+      <line num="19" type="stmt" count="2"/>
+      <metrics loc="22" ncloc="17" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
+    </file>
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/Cache/Exception.php">
+      <class name="Scrawler\Router\Cache\Exception" namespace="global">
+        <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </class>
+      <metrics loc="13" ncloc="8" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/Cache/FileSystemCache.php">
+      <class name="Scrawler\Router\Cache\FileSystemCache" namespace="global">
+        <metrics complexity="40" methods="14" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="72" coveredstatements="32" elements="86" coveredelements="34"/>
+      </class>
+      <line num="26" type="method" name="__construct" visibility="public" complexity="6" crap="13.15" count="9"/>
+      <line num="28" type="stmt" count="9"/>
+      <line num="29" type="stmt" count="9"/>
+      <line num="30" type="stmt" count="0"/>
+      <line num="31" type="stmt" count="0"/>
+      <line num="32" type="stmt" count="0"/>
+      <line num="35" type="stmt" count="9"/>
+      <line num="36" type="stmt" count="0"/>
+      <line num="37" type="stmt" count="0"/>
+      <line num="38" type="stmt" count="0"/>
+      <line num="41" type="stmt" count="9"/>
+      <line num="42" type="stmt" count="0"/>
+      <line num="45" type="stmt" count="9"/>
+      <line num="56" type="method" name="set" visibility="public" complexity="4" crap="4.05" count="5"/>
+      <line num="58" type="stmt" count="5"/>
+      <line num="59" type="stmt" count="4"/>
+      <line num="62" type="stmt" count="1"/>
+      <line num="63" type="stmt" count="1"/>
+      <line num="64" type="stmt" count="1"/>
+      <line num="65" type="stmt" count="1"/>
+      <line num="69" type="stmt" count="0"/>
+      <line num="79" type="method" name="touch" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="81" type="stmt" count="0"/>
+      <line num="82" type="stmt" count="0"/>
+      <line num="85" type="stmt" count="0"/>
+      <line num="95" type="method" name="get" visibility="public" complexity="7" crap="7.10" count="9"/>
+      <line num="97" type="stmt" count="9"/>
+      <line num="98" type="stmt" count="1"/>
+      <line num="101" type="stmt" count="9"/>
+      <line num="103" type="stmt" count="9"/>
+      <line num="104" type="stmt" count="9"/>
+      <line num="106" type="stmt" count="9"/>
+      <line num="107" type="stmt" count="9"/>
+      <line num="110" type="stmt" count="9"/>
+      <line num="112" type="stmt" count="9"/>
+      <line num="113" type="stmt" count="9"/>
+      <line num="114" type="stmt" count="9"/>
+      <line num="115" type="stmt" count="9"/>
+      <line num="116" type="stmt" count="9"/>
+      <line num="118" type="stmt" count="0"/>
+      <line num="122" type="stmt" count="0"/>
+      <line num="126" type="stmt" count="1"/>
+      <line num="135" type="method" name="delete" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="137" type="stmt" count="0"/>
+      <line num="138" type="stmt" count="0"/>
+      <line num="141" type="stmt" count="0"/>
+      <line num="149" type="method" name="all" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="151" type="stmt" count="0"/>
+      <line num="159" type="method" name="clear" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="161" type="stmt" count="1"/>
+      <line num="176" type="method" name="getMultiple" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="178" type="stmt" count="0"/>
+      <line num="179" type="stmt" count="0"/>
+      <line num="180" type="stmt" count="0"/>
+      <line num="182" type="stmt" count="0"/>
+      <line num="199" type="method" name="setMultiple" visibility="public" complexity="3" crap="12" count="0"/>
+      <line num="201" type="stmt" count="0"/>
+      <line num="202" type="stmt" count="0"/>
+      <line num="203" type="stmt" count="0"/>
+      <line num="205" type="stmt" count="0"/>
+      <line num="219" type="method" name="deleteMultiple" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="221" type="stmt" count="0"/>
+      <line num="222" type="stmt" count="0"/>
+      <line num="223" type="stmt" count="0"/>
+      <line num="225" type="stmt" count="0"/>
+      <line num="243" type="method" name="has" visibility="public" complexity="1" crap="1" count="9"/>
+      <line num="245" type="stmt" count="9"/>
+      <line num="246" type="stmt" count="9"/>
+      <line num="254" type="method" name="deleteByPattern" visibility="public" complexity="3" crap="3.58" count="1"/>
+      <line num="256" type="stmt" count="1"/>
+      <line num="258" type="stmt" count="1"/>
+      <line num="259" type="stmt" count="0"/>
+      <line num="260" type="stmt" count="0"/>
+      <line num="264" type="stmt" count="1"/>
+      <line num="273" type="method" name="isKey" visibility="private" complexity="2" crap="3.19" count="9"/>
+      <line num="276" type="stmt" count="9"/>
+      <line num="277" type="stmt" count="0"/>
+      <line num="278" type="stmt" count="0"/>
+      <line num="287" type="method" name="deleteFile" visibility="private" complexity="4" crap="20" count="0"/>
+      <line num="289" type="stmt" count="0"/>
+      <line num="291" type="stmt" count="0"/>
+      <line num="293" type="stmt" count="0"/>
+      <line num="294" type="stmt" count="0"/>
+      <line num="295" type="stmt" count="0"/>
+      <line num="298" type="stmt" count="0"/>
+      <line num="301" type="stmt" count="0"/>
+      <metrics loc="304" ncloc="184" classes="1" methods="14" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="72" coveredstatements="32" elements="86" coveredelements="34"/>
+    </file>
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/ControllerResolver.php">
+      <class name="Scrawler\Router\ControllerResolver" namespace="global">
+        <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </class>
+      <metrics loc="17" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/NotFoundException.php">
+      <class name="Scrawler\Router\NotFoundException" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
+      </class>
+      <line num="14" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="3"/>
+      <line num="16" type="stmt" count="3"/>
+      <line num="17" type="stmt" count="3"/>
+      <metrics loc="20" ncloc="15" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
+    </file>
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/RouteCollection.php">
+      <class name="Scrawler\Router\RouteCollection" namespace="global">
+        <metrics complexity="35" methods="12" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="51" coveredstatements="48" elements="63" coveredelements="57"/>
+      </class>
+      <line num="46" type="method" name="__construct" visibility="public" complexity="6" crap="6.07" count="20"/>
+      <line num="48" type="stmt" count="20"/>
+      <line num="49" type="stmt" count="20"/>
+      <line num="51" type="stmt" count="20"/>
+      <line num="52" type="stmt" count="8"/>
+      <line num="53" type="stmt" count="8"/>
+      <line num="55" type="stmt" count="0"/>
+      <line num="59" type="stmt" count="20"/>
+      <line num="60" type="stmt" count="12"/>
+      <line num="73" type="method" name="getController" visibility="public" complexity="5" crap="5" count="15"/>
+      <line num="75" type="stmt" count="15"/>
+      <line num="76" type="stmt" count="4"/>
+      <line num="79" type="stmt" count="11"/>
+      <line num="80" type="stmt" count="11"/>
+      <line num="81" type="stmt" count="8"/>
+      <line num="85" type="stmt" count="3"/>
+      <line num="92" type="method" name="getCache" visibility="public" complexity="1" crap="1" count="9"/>
+      <line num="94" type="stmt" count="9"/>
+      <line num="104" type="method" name="registerController" visibility="public" complexity="2" crap="2" count="13"/>
+      <line num="106" type="stmt" count="13"/>
+      <line num="107" type="stmt" count="13"/>
+      <line num="108" type="stmt" count="1"/>
+      <line num="109" type="stmt" count="1"/>
+      <line num="118" type="method" name="autoRegister" visibility="private" complexity="8" crap="8" count="12"/>
+      <line num="120" type="stmt" count="12"/>
+      <line num="121" type="stmt" count="12"/>
+      <line num="122" type="stmt" count="12"/>
+      <line num="123" type="stmt" count="12"/>
+      <line num="124" type="stmt" count="12"/>
+      <line num="125" type="stmt" count="12"/>
+      <line num="126" type="stmt" count="12"/>
+      <line num="127" type="stmt" count="12"/>
+      <line num="128" type="stmt" count="12"/>
+      <line num="132" type="stmt" count="12"/>
+      <line num="133" type="stmt" count="12"/>
+      <line num="146" type="method" name="getNamespace" visibility="public" complexity="1" crap="1" count="7"/>
+      <line num="148" type="stmt" count="7"/>
+      <line num="158" type="method" name="getControllers" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="160" type="stmt" count="2"/>
+      <line num="168" type="method" name="registerDir" visibility="public" complexity="2" crap="2.15" count="12"/>
+      <line num="170" type="stmt" count="12"/>
+      <line num="172" type="stmt" count="12"/>
+      <line num="173" type="stmt" count="0"/>
+      <line num="183" type="method" name="isCacheEnabled" visibility="public" complexity="1" crap="1" count="9"/>
+      <line num="185" type="stmt" count="9"/>
+      <line num="195" type="method" name="isDir" visibility="public" complexity="3" crap="3" count="11"/>
+      <line num="197" type="stmt" count="11"/>
+      <line num="198" type="stmt" count="4"/>
+      <line num="200" type="stmt" count="11"/>
+      <line num="208" type="method" name="enableCache" visibility="public" complexity="2" crap="2" count="8"/>
+      <line num="210" type="stmt" count="8"/>
+      <line num="211" type="stmt" count="8"/>
+      <line num="212" type="stmt" count="8"/>
+      <line num="213" type="stmt" count="8"/>
+      <line num="215" type="stmt" count="8"/>
+      <line num="222" type="method" name="enableCacheWith" visibility="public" complexity="3" crap="3.03" count="1"/>
+      <line num="224" type="stmt" count="1"/>
+      <line num="225" type="stmt" count="1"/>
+      <line num="226" type="stmt" count="1"/>
+      <line num="227" type="stmt" count="1"/>
+      <line num="228" type="stmt" count="1"/>
+      <line num="230" type="stmt" count="1"/>
+      <line num="232" type="stmt" count="0"/>
+      <metrics loc="235" ncloc="151" classes="1" methods="12" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="51" coveredstatements="48" elements="63" coveredelements="57"/>
+    </file>
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/Router.php">
+      <class name="Scrawler\Router\Router" namespace="global">
+        <metrics complexity="5" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="17" elements="20" coveredelements="18"/>
+      </class>
+      <line num="37" type="method" name="__construct" visibility="public" complexity="2" crap="2.02" count="2"/>
+      <line num="39" type="stmt" count="2"/>
+      <line num="40" type="stmt" count="0"/>
+      <line num="42" type="stmt" count="2"/>
+      <line num="45" type="stmt" count="2"/>
+      <line num="46" type="stmt" count="2"/>
+      <line num="47" type="stmt" count="2"/>
+      <line num="54" type="method" name="dispatch" visibility="public" complexity="3" crap="3" count="2"/>
+      <line num="56" type="stmt" count="2"/>
+      <line num="57" type="stmt" count="2"/>
+      <line num="59" type="stmt" count="2"/>
+      <line num="60" type="stmt" count="2"/>
+      <line num="61" type="stmt" count="2"/>
+      <line num="62" type="stmt" count="2"/>
+      <line num="63" type="stmt" count="2"/>
+      <line num="65" type="stmt" count="2"/>
+      <line num="66" type="stmt" count="2"/>
+      <line num="68" type="stmt" count="2"/>
+      <line num="71" type="stmt" count="2"/>
+      <line num="72" type="stmt" count="2"/>
+      <metrics loc="75" ncloc="52" classes="1" methods="2" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="17" elements="20" coveredelements="18"/>
+    </file>
+    <file name="/Users/pranjal/Drive/Scrawler/router/src/RouterEngine.php">
+      <class name="Scrawler\Router\RouterEngine" namespace="global">
+        <metrics complexity="27" methods="8" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="58" elements="68" coveredelements="64"/>
+      </class>
+      <line num="71" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="11"/>
+      <line num="73" type="stmt" count="11"/>
+      <line num="74" type="stmt" count="11"/>
+      <line num="83" type="method" name="route" visibility="public" complexity="1" crap="1" count="11"/>
+      <line num="87" type="stmt" count="11"/>
+      <line num="90" type="stmt" count="11"/>
+      <line num="92" type="stmt" count="11"/>
+      <line num="93" type="stmt" count="11"/>
+      <line num="95" type="stmt" count="8"/>
+      <line num="103" type="method" name="setRequestArguments" visibility="private" complexity="2" crap="2" count="11"/>
+      <line num="105" type="stmt" count="11"/>
+      <line num="106" type="stmt" count="11"/>
+      <line num="107" type="stmt" count="10"/>
+      <line num="108" type="stmt" count="8"/>
+      <line num="109" type="stmt" count="8"/>
+      <line num="110" type="stmt" count="8"/>
+      <line num="111" type="stmt" count="4"/>
+      <line num="122" type="method" name="getNamespace" visibility="private" complexity="2" crap="2" count="5"/>
+      <line num="124" type="stmt" count="5"/>
+      <line num="125" type="stmt" count="2"/>
+      <line num="128" type="stmt" count="3"/>
+      <line num="138" type="method" name="getController" visibility="private" complexity="8" crap="8.02" count="11"/>
+      <line num="140" type="stmt" count="11"/>
+      <line num="143" type="stmt" count="11"/>
+      <line num="144" type="stmt" count="2"/>
+      <line num="145" type="stmt" count="2"/>
+      <line num="146" type="stmt" count="2"/>
+      <line num="147" type="stmt" count="2"/>
+      <line num="149" type="stmt" count="2"/>
+      <line num="153" type="stmt" count="11"/>
+      <line num="154" type="stmt" count="11"/>
+      <line num="156" type="stmt" count="2"/>
+      <line num="160" type="stmt" count="11"/>
+      <line num="161" type="stmt" count="3"/>
+      <line num="162" type="stmt" count="3"/>
+      <line num="163" type="stmt" count="3"/>
+      <line num="165" type="stmt" count="0"/>
+      <line num="177" type="method" name="error" visibility="protected" complexity="1" crap="1" count="3"/>
+      <line num="179" type="stmt" count="3"/>
+      <line num="180" type="stmt" count="3"/>
+      <line num="189" type="method" name="getArguments" visibility="private" complexity="4" crap="4" count="10"/>
+      <line num="191" type="stmt" count="10"/>
+      <line num="193" type="stmt" count="10"/>
+      <line num="194" type="stmt" count="10"/>
+      <line num="195" type="stmt" count="7"/>
+      <line num="198" type="stmt" count="10"/>
+      <line num="201" type="stmt" count="10"/>
+      <line num="202" type="stmt" count="1"/>
+      <line num="205" type="stmt" count="9"/>
+      <line num="206" type="stmt" count="1"/>
+      <line num="208" type="stmt" count="8"/>
+      <line num="221" type="method" name="getMethod" visibility="private" complexity="8" crap="8.02" count="11"/>
+      <line num="225" type="stmt" count="11"/>
+      <line num="226" type="stmt" count="11"/>
+      <line num="227" type="stmt" count="9"/>
+      <line num="229" type="stmt" count="6"/>
+      <line num="230" type="stmt" count="2"/>
+      <line num="238" type="stmt" count="8"/>
+      <line num="239" type="stmt" count="4"/>
+      <line num="241" type="stmt" count="8"/>
+      <line num="242" type="stmt" count="5"/>
+      <line num="243" type="stmt" count="5"/>
+      <line num="246" type="stmt" count="3"/>
+      <line num="247" type="stmt" count="2"/>
+      <line num="248" type="stmt" count="2"/>
+      <line num="251" type="stmt" count="1"/>
+      <line num="252" type="stmt" count="1"/>
+      <line num="254" type="stmt" count="0"/>
+      <metrics loc="260" ncloc="166" classes="1" methods="8" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="60" coveredstatements="58" elements="68" coveredelements="64"/>
+    </file>
+    <metrics files="8" loc="946" ncloc="605" classes="6" methods="38" coveredmethods="20" conditionals="0" coveredconditionals="0" statements="205" coveredstatements="159" elements="243" coveredelements="179"/>
+  </project>
+</coverage>

@@ -36,7 +36,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0",
-        "pestphp/pest": "^2.4"
+        "pestphp/pest": "^2.4",
+        "phpstan/phpstan": "^1.10"
     },
     "config": {
         "allow-plugins": {
