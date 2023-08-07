@@ -51,6 +51,16 @@ class Router
         $this->collection->register($dir,$namespace);
     }
 
+     //---------------------------------------------------------------//
+
+    /**
+     * constructor overloading for auto routing.
+     */
+    public function enableCache(\Psr\SimpleCache\CacheInterface $cache) : void
+    {
+        $this->collection->enableCache($cache);
+    }
+
     //---------------------------------------------------------------//
     /**
      * Dispatch function
