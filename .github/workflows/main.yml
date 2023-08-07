@@ -22,5 +22,7 @@ jobs:
         run: composer install --no-interaction
       - name: run tests
         run: vendor/bin/pest --coverage-clover ./clover.xml
+      - name: run static analysis
+        run: vendor/bin/phpstan analyse src --level 5
       - name: Upload to Codecov
         uses: codecov/codecov-action@v3
