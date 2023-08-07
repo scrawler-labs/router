@@ -2,11 +2,12 @@
 
 <h1> Scrawler Router </h1>
 
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/scrawler-labs/router/main.yml?style=flat-square"></a>
-![Codecov](https://img.shields.io/codecov/c/gh/scrawler-labs/router?style=flat-square)
-![Packagist Version](https://img.shields.io/packagist/v/scrawler/router?style=flat-square)
-![Packagist Downloads](https://img.shields.io/packagist/dt/scrawler/router?style=flat-square)
-![Packagist License](https://img.shields.io/packagist/l/scrawler/router?style=flat-square)
+<a href="https://github.com/scrawler-labs/router/actions/workflows/main.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/scrawler-labs/router/main.yml?style=flat-square">
+</a>
+[![Codecov](https://img.shields.io/codecov/c/gh/scrawler-labs/router?style=flat-square)](https://app.codecov.io/gh/scrawler-labs/router)
+[![Packagist Version](https://img.shields.io/packagist/v/scrawler/router?style=flat-square)](https://packagist.org/packages/scrawler/router)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/scrawler/router?style=flat-square)](https://packagist.org/packages/scrawler/router)
+[![Packagist License](https://img.shields.io/packagist/l/scrawler/router?style=flat-square)](https://packagist.org/packages/scrawler/router)
 <br><br>
 
 
