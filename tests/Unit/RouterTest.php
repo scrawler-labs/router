@@ -3,7 +3,6 @@
 
 it('tests router dispatch method ', function (bool $cache) {
 
-    $collection = getCollection($cache);
 
     $this->router = new \Scrawler\Router\Router();
     $this->router->register(__DIR__."/../Demo","Tests\Demo");
@@ -14,6 +13,8 @@ it('tests router dispatch method ', function (bool $cache) {
     expect($status)->toBe(\Scrawler\Router\Router::FOUND);
     expect($response)->toBe('Hello pranjal');
 
+    $cache = new Kodus\Cache\FileCache(__DIR__.'/cache',10); 
+    $this->router->enableCache($cache);
     [$status,$handler,$args,$debug] = $this->router->dispatch('GET','/hello/world');
     expect($status)->toBe(\Scrawler\Router\Router::NOT_FOUND);
 
