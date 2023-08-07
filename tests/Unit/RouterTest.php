@@ -1,24 +1,24 @@
 <?php
-use Symfony\Component\HttpFoundation\Request;
 
 
 it('tests router dispatch method ', function (bool $cache) {
 
     $collection = getCollection($cache);
 
-    $this->router = new \Scrawler\Router\Router($collection, Request::create(
-        '/hello/world/pranjal',
-        'GET'
-    ));
-    $response = $this->router->dispatch();
+    $this->router = new \Scrawler\Router\Router();
+    $this->router->register(__DIR__."/../Demo","Tests\Demo");
+    [$status,$handler,$args,$debug] = $this->router->dispatch('GET','/hello/world/pranjal');
 
-    expect($response->getContent())->toBe('Hello pranjal');
-    $this->router = new \Scrawler\Router\Router($collection, Request::create(
-        '/bye/world/nobody',
-        'GET'
-    ));
-    $response = $this->router->dispatch();
+    $response = call_user_func($handler,...$args);
 
+    expect($status)->toBe(\Scrawler\Router\Router::FOUND);
+    expect($response)->toBe('Hello pranjal');
+
+
+    [$status,$handler,$args,$debug] = $this->router->dispatch('GET','/bye/world/nobody');
+    $response = call_user_func($handler,...$args);
+
+    expect($status)->toBe(\Scrawler\Router\Router::FOUND);
     expect($response->getContent())->toBe('Bye nobody');
 
 })->with(['cacheEnabled'=>true,'cacheDisabled'=>false]);

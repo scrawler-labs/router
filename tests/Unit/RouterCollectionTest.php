@@ -21,11 +21,3 @@ it('tests getControllers() method',function(bool $cache){
     $collection = getCollection($cache);
     expect($collection->getControllers())->toHaveKey('Hello');
   })->with(['cacheEnabled'=>true,'cacheDisabled'=>false]);
-
-it('test enableCacheWith() function',function(){
-    $collection = getCollection(false);
-    $cache = new \Scrawler\Router\Cache\FileSystemCache();
-    $collection->enableCacheWith($cache);
-    expect($collection->isCacheEnabled())->toBeTrue();
-    expect($collection->getCache())->toBe($cache);
-  });

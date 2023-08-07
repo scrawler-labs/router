@@ -8,7 +8,6 @@
 
 namespace Scrawler\Router;
 
-use Symfony\Component\HttpFoundation\Request;
 
 class RouterEngine
 {
@@ -19,58 +18,51 @@ class RouterEngine
      *
      * @var array
      */
-    private $path_info = [];
+    private array $pathInfo = [];
 
     /**
      * Stores the request method i.e get,post etc.
      *
      * @var string
      */
-    private $request_method;
+    private string $httpMethod;
 
     /**
-     * Stores the Request Object
+     * Stores the request uri.
+     *
+     * @var string
      */
-    private $request;
+    private string $uri;
 
     /**
      * Stores the RouterCollection object.
      */
-    private $collection;
-
-    /**
-     * Stores the controller being dispatched
-     */
-    private $controller;
-
-    /**
-     * Store the method being dispatched
-     */
-    private $method;
+    private RouteCollection $collection;
 
     /**
      * Stores dir mode
      */
-    private $dirMode = false;
+    private bool $dirMode = false;
 
     /**
      * Store Dirctory during dir Mode
      */
-    private $dir = '';
+    private string $dir = '';
 
     /**
-     * Stores if not found error occured
+     * stores debug msg
      */
-    private $not_found = false;
+    private string $debugMsg = '';
+
+
 
     //---------------------------------------------------------------//
 
     /**
      * constructor overloading for auto routing.
      */
-    public function __construct(Request $request, RouteCollection $collection)
+    public function __construct(RouteCollection $collection)
     {
-        $this->request = $request;
         $this->collection = $collection;
     }
 
@@ -80,22 +72,26 @@ class RouterEngine
      * Detects the URL and call the corrosponding method
      * of corrosponding controller.
      */
-    public function route()
+    public function route(string $httpMethod,string $uri) : array
     {
 
-        // Get URL and request method.
-        $this->request_method = strtolower($this->request->getMethod());
+        $this->httpMethod = strtolower($httpMethod);
+        $this->uri = $uri;
 
         //Break URL into segments
-        $this->path_info = explode('/', $this->request->getPathInfo());
+        $this->pathInfo = explode('/', $uri);
+        array_shift($this->pathInfo);
 
-        array_shift($this->path_info);
-
-        if(!$this->routeManual()){
-        $this->setRequestArguments();
+        //Try manual routing 
+        [$status,$handler,$args] = $this->routeManual();
+        if ($status) {
+            return [0,$handler,$args,''];
         }
 
-        return true;
+        //Try auto routing
+        return $this->routeAuto();
+
+        
     }
 
     //---------------------------------------------------------------//
@@ -103,16 +99,21 @@ class RouterEngine
     /**
      * Set Arguments on the request object.
      */
-    private function setRequestArguments()
+    private function routeAuto() : array
     {
-        $this->getController();
-        $this->method = $this->getMethod($this->controller);
-        $arguments = $this->getArguments();
-        $this->request->attributes->set('_controller', $this->controller . '::' . $this->method);
-        $this->request->attributes->set('_arguments', $arguments);
-        if ($this->collection->isCacheEnabled()) {
-            $this->collection->getCache()->set($this->request_method.'_'.$this->request->getPathInfo(), ['controller'=>$this->controller . '::' . $this->method,'arguments'=>$arguments]);
+        $controller = $this->getController();
+        $method = $this->getMethod($controller);
+        if($controller == '' || $method == ''){
+            return [0,'',[],$this->debugMsg];
         }
+        $handler = $controller . '::' . $method;
+        $arguments = $this->getArguments($controller, $method);
+
+        if(is_bool($arguments) && !$arguments){
+            return [0,'',[],$this->debugMsg];
+        }
+
+        return [1,$handler,$arguments,''];
     }
 
     //---------------------------------------------------------------//
@@ -120,9 +121,8 @@ class RouterEngine
     /**
      * Function to get namespace
      *
-     *@param string $message
      */
-    private function getNamespace()
+    private function getNamespace() : string
     {
         if ($this->dirMode) {
             return $this->collection->getNamespace() . '\\' . $this->dir;
@@ -136,38 +136,43 @@ class RouterEngine
     /**
      * Function to get controller
      *
-     *@param string $message
      */
-    private function getController()
+    private function getController() : string
     {
-        $this->controller = ucfirst($this->path_info[0]);
+        $controller = ucfirst($this->pathInfo[0]);
         
-
-        if (isset($this->path_info[0]) && $this->collection->isDir(ucfirst($this->path_info[0]))) {
-            $this->dir = ucfirst($this->path_info[0]);
+        if (isset($this->pathInfo[0]) && $this->collection->isDir(ucfirst($this->pathInfo[0]))) {
+            $this->dir = ucfirst($this->pathInfo[0]);
             $this->dirMode = true;
-            if (isset($this->path_info[1])) {
-                $this->controller = $this->dir . '/' . ucfirst($this->path_info[1]);
-            }
-            array_shift($this->path_info);
+            array_shift($this->pathInfo);
+        }
+
+        if ($this->dirMode && isset($this->pathInfo[0])) {
+            $controller = $this->dir . '/' . ucfirst($this->pathInfo[0]);
         }
 
         //Set corrosponding controller
-        if (isset($this->path_info[0]) && !empty($this->path_info[0])) {
-            $this->controller = $this->collection->getController($this->controller);
+        if (isset($this->pathInfo[0]) && !empty($this->pathInfo[0])) {
+            $controller = $this->collection->getController($controller);
         } else {
-            $this->controller = $this->getNamespace() . '\Main';
+            $controller = $this->getNamespace() . '\Main';
         }
 
-        //Sets the Request attribute according to the route
-        if (!class_exists($this->controller)) {
-            $this->controller = $this->getNamespace() . '\Main';
-            if (class_exists($this->controller)) {
-                array_unshift($this->path_info, '');
-            } else {
-                $this->error('No Controller could be resolved:' . $this->controller);
-            }
+        if(class_exists($controller)){
+            return $controller;
         }
+        
+        $controller = $this->getNamespace() . '\Main';
+
+        if (class_exists($controller)) {
+            array_unshift($this->pathInfo, '');
+            return $controller;
+        } 
+         
+        $this->debug('No Controller could be resolved:' . $controller);
+
+        return '';
+        
     }
 
     //---------------------------------------------------------------//
@@ -177,10 +182,9 @@ class RouterEngine
      *
      *@param string $message
      */
-    protected function error($message)
+    protected function debug(string $message) : void
     {
-        $this->not_found = true;
-        throw new NotFoundException('Oops its an 404 error! :' . $message);
+        $this->debugMsg = $message;
     }
 
     //---------------------------------------------------------------//
@@ -189,27 +193,30 @@ class RouterEngine
      * Function to dispach the method if method exist.
      *
      */
-    private function getArguments()
+    private function getArguments(string $controller,string $method) : bool|array
     {
-        $controller = new $this->controller;
+        $controllerObj = new $controller;
 
         $arguments = [];
-        for ($j = 2; $j < count($this->path_info); $j++) {
-            array_push($arguments, $this->path_info[$j]);
+        for ($j = 2; $j < count($this->pathInfo); $j++) {
+            array_push($arguments, $this->pathInfo[$j]);
         }
         //Check weather arguments are passed else throw a 404 error
-        $classMethod = new \ReflectionMethod($controller, $this->method);
+        $classMethod = new \ReflectionMethod($controllerObj, $method);
 
         //Optional parameter introduced in version 3.0.2
         if (count($arguments) < count($classMethod->getParameters())) {
-            $this->error('Not enough arguments given to the method');
+            $this->debug('Not enough arguments given to the method');
+            return false;
         }
         // finally fix the long awaited allIndex bug !
-        elseif (count($arguments) > count($classMethod->getParameters())) {
-            $this->error('Not able to resolve '.$this->method. 'for' . $this->controller . 'controller');
-        } else {
-            return implode(",", $arguments);
-        }
+        if (count($arguments) > count($classMethod->getParameters())) {
+            $this->debug('Not able to resolve '.$method. 'for' . $controller . 'controller');
+            return false;
+        } 
+        
+        return $arguments;
+        
     }
 
     //---------------------------------------------------------------//
@@ -221,15 +228,15 @@ class RouterEngine
      *
      * @return string
      */
-    private function getMethod($controller)
+    private function getMethod(string $controller) : string
     {
 
         //Set Method from second argument from URL
-        if (isset($this->path_info[1])) {
-            if (method_exists($controller, $function = $this->request_method . ucfirst($this->path_info[1]))) {
+        if (isset($this->pathInfo[1])) {
+            if (method_exists($controller, $function = $this->httpMethod . ucfirst($this->pathInfo[1]))) {
                 return $function;
             }
-            if (method_exists($controller, $function = 'all' . ucfirst($this->path_info[1]))) {
+            if (method_exists($controller, $function = 'all' . ucfirst($this->pathInfo[1]))) {
                 return $function;
             }
         }
@@ -241,28 +248,33 @@ class RouterEngine
         if (isset($function)) {
             $last_function = $function;
         }
-        if (method_exists($controller, $function = $this->request_method . 'Index')) {
-            array_unshift($this->path_info, '');
+        if (method_exists($controller, $function = $this->httpMethod . 'Index')) {
+            array_unshift($this->pathInfo, '');
             return $function;
         }
         //Last attempt to invoke allIndex
         if (method_exists($controller, $function = 'allIndex')) {
-            array_unshift($this->path_info, '');
+            array_unshift($this->pathInfo, '');
             return $function;
         }
 
         if (isset($last_function)) {
-            $this->error('Neither ' . $function . ' method nor ' . $last_function . ' method you found in ' . $controller . ' controller');
-        } else {
-            $this->error($function . ' method not found in ' . $controller . ' controller');
-        }
+            $this->debug('Neither ' . $function . ' method nor ' . $last_function . ' method you found in ' . $controller . ' controller');
+            return '';
+        } 
+        
+        $this->debug($function . ' method not found in ' . $controller . ' controller');
+        return '';
     }
 
-   private function routeManual(){
+    //---------------------------------------------------------------//
+
+   private function routeManual() : array
+   {
     $controller = null;
     $arguments = array();
     $routes = $this->collection->getRoutes();
-    $collection_route = $this->collection->getRoute($this->request->getPathInfo(), $this->request_method);
+    $collection_route = $this->collection->getRoute($this->uri, $this->httpMethod);
     if ($collection_route) {
         $controller =  $collection_route;
     } elseif ($routes) {
@@ -272,9 +284,9 @@ class RouterEngine
             ':alpha'  => '([a-zA-Z0-9-_]+)'
         );
 
-        foreach ($routes[$this->request_method] as $pattern => $handler_name) {
+        foreach ($routes[$this->httpMethod] as $pattern => $handler_name) {
             $pattern = strtr($pattern, $tokens);
-            if (preg_match('#^/?' . $pattern . '/?$#', $this->request->getPathInfo(), $matches)) {
+            if (preg_match('#^/?' . $pattern . '/?$#', $this->uri, $matches)) {
                 $controller = $handler_name;
                 $arguments = $matches;
                 break;
@@ -283,12 +295,10 @@ class RouterEngine
     }
 
     if(is_callable($controller)){
-        $this->request->attributes->set('_controller', $controller);
         unset($arguments[0]);
-        $this->request->attributes->set('_arguments', implode(',',$arguments));
-        return true;
+        return [true,$controller,$arguments];
     }
 
-    return false;
+    return [false,'',''];
    }
 }

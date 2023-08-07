@@ -13,6 +13,8 @@
 
 // uses(Tests\TestCase::class)->in('Feature');
 
-function getCollection($cache=false){
-    return new \Scrawler\Router\RouteCollection(__DIR__."/Demo","Tests\Demo",$cache);
+function getCollection(){
+    $collection = new \Scrawler\Router\RouteCollection();
+    $collection->register(__DIR__."/Demo","Tests\Demo");
+    return $collection;
 }

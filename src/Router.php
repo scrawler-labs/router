@@ -15,11 +15,6 @@ class Router
     //---------------------------------------------------------------//
 
     /**
-     * Stores the Request Object
-     */
-    private $request;
-
-    /**
      * Stores the RouterCollection object.
      */
     private $collection;
@@ -29,46 +24,76 @@ class Router
      */
     private $engine;
 
+
+    public const NOT_FOUND = 0;
+    public const FOUND = 1;
+    public const METHOD_NOT_ALLOWED = 2;
+
     //---------------------------------------------------------------//
 
     /**
      * constructor overloading for auto routing.
      */
-    public function __construct(RouteCollection $collection, Request $request = null)
+    public function __construct()
     {
-        if ($request == null) {
-            $this->request = Request::createFromGlobals();
-        } else {
-            $this->request = $request;
-        }
-        
-        $this->collection = $collection;
-        $this->engine = new RouterEngine($this->request, $this->collection);
-        $this->engine->route();
+
+        $this->collection = new RouteCollection();
+        $this->engine = new RouterEngine($this->collection);
+    }
+
+    //---------------------------------------------------------------//
+
+    /**
+     * constructor overloading for auto routing.
+     */
+    public function register(string $dir,string $namespace) : void
+    {
+        $this->collection->register($dir,$namespace);
     }
 
     //---------------------------------------------------------------//
     /**
      * Dispatch function
      */
-    public function dispatch($type = null)
+    public function dispatch(string $httpMethod,string $uri) : array
     {
-        $controller = new ControllerResolver();
-        $arguments = new ArgumentResolver();
+        $result = $this->engine->route($httpMethod,$uri);
 
-        $controller = $controller->getController($this->request);
-        $arguments = $arguments->getArguments($this->request, $controller);
-        $content = call_user_func($controller,...$arguments);
-        if ($type == null) {
-            $type = array('content-type' => 'text/html');
-        }
-        if (!$content instanceof \Symfony\Component\HttpFoundation\Response) {
-            $response = new Response($content, Response::HTTP_OK, $type);
-        } else {
-            $response = $content;
+        if (\is_callable($result[1])) {
+            return $result;
         }
 
-        $response->prepare($this->request);
-        return $response;
+        [$class, $method] = explode('::', $result[1], 2);
+        $result[1] = [new $class(), $method];
+
+        return $result;
     }
+
+    //---------------------------------------------------------------//
+        public function get(string $route,callable $callable): void
+        {
+            $this->collection->get($route,$callable);
+        }
+    
+        //---------------------------------------------------------------//
+        public function post(string $route,callable $callable) : void
+        {
+            $this->collection->post($route,$callable);        }
+    
+        //---------------------------------------------------------------//
+        public function put(string $route,callable $callable): void
+        {
+            $this->collection->put($route,$callable);
+        }
+    
+        //---------------------------------------------------------------//
+        public function delete(string $route,callable $callable): void
+        {
+            $this->collection->delete($route,$callable);
+        }
+        //---------------------------------------------------------------//
+        public function all(string $route,callable $callable): void
+        {
+            $this->collection->all($route,$callable);
+        }
 }

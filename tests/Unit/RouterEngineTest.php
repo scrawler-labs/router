@@ -1,128 +1,85 @@
 <?php 
-use Symfony\Component\HttpFoundation\Request;
 
 it('tests normal controller resolving',function(bool $cache){
     
-    $collection = getCollection($cache);
+    $collection = getCollection();
 
-    $request = Request::create(
-        '/hello/world/pranjal',
-        'GET'
-         );
-    $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-    $engine->route();
 
-    expect($request->attributes->get('_controller'))->toBe('Tests\Demo\Hello::getWorld');
-    expect($request->attributes->get('_arguments'))->toBe('pranjal');
+    $engine = new \Scrawler\Router\RouterEngine($collection);
+    [$status,$handler,$args,$debug] = $engine->route('GET','/hello/world/pranjal');
 
-    $request = Request::create(
-      '/bye',
-      'GET'
-       );
+    expect($handler)->toBe('Tests\Demo\Hello::getWorld');
+    expect($args)->toBe(['pranjal']);
 
-    $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-    $engine->route();
 
-    expect($request->attributes->get('_controller'))->toBe('Tests\Demo\Bye::allIndex');
+    [$status,$handler,$args,$debug] = $engine->route('GET','/bye');
 
-    $request = Request::create(
-      '/bye/test',
-      'GET'
-       );
+    expect($handler)->toBe('Tests\Demo\Bye::allIndex');
 
-    $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-    $engine->route();
 
-    expect($request->attributes->get('_controller'))->toBe('Tests\Demo\Bye::allTest');
+    [$status,$handler,$args,$debug] = $engine->route('GET','/bye/test');
+
+    expect($handler)->toBe('Tests\Demo\Bye::allTest');
 
 
   })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
 it('tests controller resolver inside directory',function(bool $cache){
-  $collection = getCollection($cache);
+  $collection = getCollection();
 
-  $request = Request::create(
-    '/app/test',
-    'GET'
-  );
-  $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-  $engine->route();
 
-  expect($request->attributes->get('_controller'))->toBe('Tests\Demo\App\Test::getIndex');
+  $engine = new \Scrawler\Router\RouterEngine($collection);
+  [$status,$handler,$args,$debug] = $engine->route('GET','/app/test');
 
-  $request = Request::create(
-    '/app/test/hi',
-    'GET'
-  );
-  $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-  $engine->route();
+  expect($handler)->toBe('Tests\Demo\App\Test::getIndex');
 
-  expect($request->attributes->get('_controller'))->toBe('Tests\Demo\App\Test::getHi');
 
-  $request = Request::create(
-    '/app',
-    'GET'
-  );
-  $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-  $engine->route();
-  expect($request->attributes->get('_controller'))->toBe('Tests\Demo\App\Main::getIndex');
+  [$status,$handler,$args,$debug] = $engine->route('GET','/app/test/hi');
+
+  expect($handler)->toBe('Tests\Demo\App\Test::getHi');
+
+
+  [$status,$handler,$args,$debug] = $engine->route('GET','/app');
+  expect($handler)->toBe('Tests\Demo\App\Main::getIndex');
 
 })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
 it('tests main controller resolving',function(bool $cache){
-  $collection = getCollection($cache);
+  $collection = getCollection();
 
-  if($collection->isCacheEnabled()){
-    $collection->getCache()->clear();
-  }
 
-  $request = Request::create(
-      '/pranjal',
-      'GET'
-       );
-  $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-  $engine->route();
+  $engine = new \Scrawler\Router\RouterEngine($collection);
+  [$status,$handler,$args,$debug] = $engine->route('GET','/pranjal');
 
-  expect($request->attributes->get('_controller'))->toBe('Tests\Demo\Main::getIndex');
-  expect($request->attributes->get('_arguments'))->toBe('pranjal');
+  expect($handler)->toBe('Tests\Demo\Main::getIndex');
+  expect($args)->toBe(['pranjal']);
 
-  $request = Request::create(
-    '/hi',
-    'GET'
-     );
-  $engine = new \Scrawler\Router\RouterEngine($request,$collection);
-  $engine->route();
-  expect($request->attributes->get('_controller'))->toBe('Tests\Demo\Main::getHi');
+
+  [$status,$handler,$args,$debug] = $engine->route('GET','/hi');
+  expect($handler)->toBe('Tests\Demo\Main::getHi');
 
 })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
-it('tests controller not found exception',function(){
-  $request = Request::create(
-    '/random/r',
-    'GET'
-     );
-  $engine = new \Scrawler\Router\RouterEngine($request,getCollection());
-  $engine->route();
-})->throws(\Scrawler\Router\NotFoundException::class);
+it('tests controller not found ',function(){
+
+  $engine = new \Scrawler\Router\RouterEngine(getCollection());
+  [$status,$handler,$args,$debug] = $engine->route('GET','/random/r');
+  expect($status)->toBe(0);
+});
 
 it('tests method not found exception',function(){
 
-  $request = Request::create(
-    '/test/worl',
-    'GET'
-     );
-  $engine = new \Scrawler\Router\RouterEngine($request,getCollection());
-  $engine->route();
+  $engine = new \Scrawler\Router\RouterEngine(getCollection());
+  [$status,$handler,$args,$debug] = $engine->route('GET','/test/worl');
+  expect($status)->toBe(0);
 
-})->throws(\Scrawler\Router\NotFoundException::class);
+
+});
 
 it('tests argument not found exception',function(){
 
-  $request = Request::create(
-    '/bye/world',
-    'GET'
-     );
-  $engine = new \Scrawler\Router\RouterEngine($request,getCollection());
-  $engine->route();
-  
-})->throws(\Scrawler\Router\NotFoundException::class);
+  $engine = new \Scrawler\Router\RouterEngine(getCollection());
+  [$status,$handler,$args,$debug] = $engine->route('GET','/bye/world');
+  expect($status)->toBe(0);
+
+});
