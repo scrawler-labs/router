@@ -19,7 +19,7 @@ it('tests router dispatch method ', function (bool $cache) {
     $response = call_user_func($handler,...$args);
 
     expect($status)->toBe(\Scrawler\Router\Router::FOUND);
-    expect($response->getContent())->toBe('Bye nobody');
+    expect($response)->toBe('Bye nobody');
 
 })->with(['cacheEnabled'=>true,'cacheDisabled'=>false]);
 

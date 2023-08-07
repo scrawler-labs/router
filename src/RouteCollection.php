@@ -70,8 +70,8 @@ class RouteCollection
      */
     public function getController(string $controller) : bool|string
     {
-        if ($this->enableCache && $this->cache->has($controller)) {
-            return $this->cache->get($controller);
+        if ($this->enableCache && $this->cache->has(str_replace('/','_',$controller))) {
+            return $this->cache->get(str_replace('/','_',$controller));
         }
  
         foreach ($this->controllers as $key => $value) {
@@ -103,7 +103,7 @@ class RouteCollection
     {
         $this->controllers[$name] = $class;
         if ($this->enableCache) {
-            $this->cache->set($name, $class);
+            $this->cache->set(str_replace('/','_',$name), $class);
             $this->cache->set('collection', $this->controllers);
         }
     }

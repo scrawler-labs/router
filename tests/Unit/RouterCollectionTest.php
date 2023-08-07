@@ -21,3 +21,15 @@ it('tests getControllers() method',function(bool $cache){
     $collection = getCollection($cache);
     expect($collection->getControllers())->toHaveKey('Hello');
   })->with(['cacheEnabled'=>true,'cacheDisabled'=>false]);
+
+  it('tests cache related methods',function(){
+    $collection = getCollection(true);
+    expect($collection->getCache())->toBeInstanceOf(Kodus\Cache\FileCache::class);
+    expect($collection->isCacheEnabled())->toBe(true);
+  });
+
+  it('tests for dir',function(){
+    $collection = getCollection(true);
+    //expect($collection->getCache())->toBeInstanceOf(Kodus\Cache\FileCache::class);
+    expect($collection->isDir('App'))->toBe(true);
+  });

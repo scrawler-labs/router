@@ -85,7 +85,7 @@ class RouterEngine
         //Try manual routing 
         [$status,$handler,$args] = $this->routeManual();
         if ($status) {
-            return [0,$handler,$args,''];
+            return [1,$handler,$args,''];
         }
 
         //Try auto routing

@@ -1,6 +1,5 @@
 <?php
 namespace Tests\Demo;
-use Symfony\Component\HttpFoundation\Response;
 
 class Bye{
 
@@ -13,7 +12,7 @@ public function allTest(){
 }
     
 public function getWorld($name){
-return new Response("Bye ".$name, Response::HTTP_OK, array('content-type' => 'text/html'));
+    return "Bye ".$name;
 }
 
 }

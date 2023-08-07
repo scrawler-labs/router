@@ -13,8 +13,13 @@
 
 // uses(Tests\TestCase::class)->in('Feature');
 
-function getCollection(){
+function getCollection($cache){
     $collection = new \Scrawler\Router\RouteCollection();
+    if($cache){
+        $cache = new Kodus\Cache\FileCache(__DIR__.'/cache',10); 
+        $collection->enableCache($cache);
+    }
     $collection->register(__DIR__."/Demo","Tests\Demo");
+
     return $collection;
 }

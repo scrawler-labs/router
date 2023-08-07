@@ -3,10 +3,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 it('tests manual route  ', function (bool $cache) {
 
-$collection = getCollection();
-$collection->get('/testo',function(){
-    return 'Hello';
-});
 
 $this->router = new \Scrawler\Router\Router();
 $this->router->get('/testo',function(){
@@ -25,61 +21,62 @@ $response = $this->router->dispatch('post','/testo');
 $response = call_user_func($response[1]);
 expect($response)->toBe('Hello post');
 
-// $collection->delete('/testo',function(){
-//     return 'Hello delete';
-// });
+$this->router->delete('/testo',function(){
+    return 'Hello delete';
+});
 
-// $this->router = new \Scrawler\Router\Router($collection, Request::create(
-//     '/testo',
-//     'DELETE'
-// ));
 
-// $response = $this->router->dispatch();
+$response = $this->router->dispatch('delete','/testo');
+$response = call_user_func($response[1]);
 
-// expect($response->getContent())->toBe('Hello delete');
+expect($response)->toBe('Hello delete');
 
-// $collection->put('/testo',function(){
-//     return 'Hello put';
-// });
+$this->router->put('/testo',function(){
+    return 'Hello put';
+});
 
-// $this->router = new \Scrawler\Router\Router($collection, Request::create(
-//     '/testo',
-//     'PUT'
-// ));
 
-// $response = $this->router->dispatch();
+$response = $this->router->dispatch('put','/testo');
+$response = call_user_func($response[1]);
 
-// expect($response->getContent())->toBe('Hello put');
+ expect($response)->toBe('Hello put');
+
+ $this->router->all('/testall',function(){
+    return 'Hello all';
+});
+
+$response = $this->router->dispatch('post','/testall');
+$response = call_user_func($response[1]);
+expect($response)->toBe('Hello all');
+
+$response = $this->router->dispatch('get','/testall');
+$response = call_user_func($response[1]);
+expect($response)->toBe('Hello all');
+
 
 })->with(['cacheEnabled'=>true,'cacheDisabled'=>false]);
 
-// it('tests manual get with parameters', function (bool $cache) {
+it('tests manual route with parameters', function (bool $cache) {
 
-//     $collection = getCollection($cache);
-//     $collection->get('/testo/:alpha',function($name){
-//         return 'Hello '.$name;
-//     });
+    $this->router = new \Scrawler\Router\Router();
 
-//     $this->router = new \Scrawler\Router\Router($collection, Request::create(
-//         '/testo/sam',
-//         'GET'
-//     ));
+    $this->router->get('/testo/:alpha',function($name){
+        return 'Hello '.$name;
+    });
     
-//     $response = $this->router->dispatch();
-    
-//     expect($response->getContent())->toBe('Hello sam');
+    [$status,$handler,$args,$debug] = $this->router->dispatch('get','/testo/sam');
+    $response = call_user_func($handler,...$args);
 
-//     $collection->get('/test/num/:number',function($num){
-//         return 'num '.$num;
-//     });
+    expect($response)->toBe('Hello sam');
 
-//     $this->router = new \Scrawler\Router\Router($collection, Request::create(
-//         '/test/num/5',
-//         'GET'
-//     ));
+    $this->router->get('/test/num/:number',function($num){
+        return 'num '.$num;
+    });
     
-//     $response = $this->router->dispatch();
-//     expect($response->getContent())->toBe('num 5');
+    [$status,$handler,$args,$debug] = $this->router->dispatch('get', '/test/num/5');
+    $response = call_user_func($handler,...$args);
+
+    expect($response)->toBe('num 5');
 
     
-//     })->with(['cacheEnabled'=>true,'cacheDisabled'=>false]);
+    })->with(['cacheEnabled'=>true,'cacheDisabled'=>false]);

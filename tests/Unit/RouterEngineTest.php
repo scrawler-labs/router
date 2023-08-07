@@ -2,7 +2,7 @@
 
 it('tests normal controller resolving',function(bool $cache){
     
-    $collection = getCollection();
+    $collection = getCollection($cache);
 
 
     $engine = new \Scrawler\Router\RouterEngine($collection);
@@ -25,7 +25,7 @@ it('tests normal controller resolving',function(bool $cache){
   })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
 it('tests controller resolver inside directory',function(bool $cache){
-  $collection = getCollection();
+  $collection = getCollection($cache);
 
 
   $engine = new \Scrawler\Router\RouterEngine($collection);
@@ -45,7 +45,7 @@ it('tests controller resolver inside directory',function(bool $cache){
 })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
 it('tests main controller resolving',function(bool $cache){
-  $collection = getCollection();
+  $collection = getCollection($cache);
 
 
   $engine = new \Scrawler\Router\RouterEngine($collection);
@@ -62,14 +62,18 @@ it('tests main controller resolving',function(bool $cache){
 
 it('tests controller not found ',function(){
 
-  $engine = new \Scrawler\Router\RouterEngine(getCollection());
+  $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
   [$status,$handler,$args,$debug] = $engine->route('GET','/random/r');
   expect($status)->toBe(0);
+
+  [$status,$handler,$args,$debug] = $engine->route('GET','/appo/random');
+  expect($status)->toBe(0);
+
 });
 
 it('tests method not found exception',function(){
 
-  $engine = new \Scrawler\Router\RouterEngine(getCollection());
+  $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
   [$status,$handler,$args,$debug] = $engine->route('GET','/test/worl');
   expect($status)->toBe(0);
 
@@ -78,7 +82,7 @@ it('tests method not found exception',function(){
 
 it('tests argument not found exception',function(){
 
-  $engine = new \Scrawler\Router\RouterEngine(getCollection());
+  $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
   [$status,$handler,$args,$debug] = $engine->route('GET','/bye/world');
   expect($status)->toBe(0);
 
