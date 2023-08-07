@@ -59,6 +59,10 @@ class Router
     {
         $result = $this->engine->route($httpMethod,$uri);
 
+        if($result[0] == 0 || $result[0] == 2){
+            return $result;
+        }
+
         if (\is_callable($result[1])) {
             return $result;
         }

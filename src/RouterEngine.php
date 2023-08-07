@@ -103,7 +103,10 @@ class RouterEngine
     {
         $controller = $this->getController();
         $method = $this->getMethod($controller);
-        if($controller == '' || $method == ''){
+        if($method == ''){
+            if($this->checkMethodNotAllowed($controller)){
+                return [2,'',[],$this->debugMsg];
+            }
             return [0,'',[],$this->debugMsg];
         }
         $handler = $controller . '::' . $method;
@@ -217,6 +220,14 @@ class RouterEngine
         
         return $arguments;
         
+    }
+
+    private function checkMethodNotAllowed($controller): bool
+    {
+       if(method_exists($controller,'get'.ucfirst($this->pathInfo[1])) || method_exists($controller,'post'.ucfirst($this->pathInfo[1])) || method_exists($controller,'put'.ucfirst($this->pathInfo[1])) || method_exists($controller,'delete'.ucfirst($this->pathInfo[1]))){
+            return true;
+       }
+       return false;
     }
 
     //---------------------------------------------------------------//

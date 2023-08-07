@@ -14,6 +14,9 @@ it('tests router dispatch method ', function (bool $cache) {
     expect($status)->toBe(\Scrawler\Router\Router::FOUND);
     expect($response)->toBe('Hello pranjal');
 
+    [$status,$handler,$args,$debug] = $this->router->dispatch('GET','/hello/world');
+    expect($status)->toBe(\Scrawler\Router\Router::NOT_FOUND);
+
 
     [$status,$handler,$args,$debug] = $this->router->dispatch('GET','/bye/world/nobody');
     $response = call_user_func($handler,...$args);

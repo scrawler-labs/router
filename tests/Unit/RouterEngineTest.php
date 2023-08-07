@@ -71,6 +71,17 @@ it('tests controller not found ',function(){
 
 });
 
+it('tests for method not allowed ',function(){
+
+  $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
+  [$status,$handler,$args,$debug] = $engine->route('GET','/random/r');
+  expect($status)->toBe(0);
+
+  [$status,$handler,$args,$debug] = $engine->route('GET','/appo/random');
+  expect($status)->toBe(0);
+
+});
+
 it('tests method not found exception',function(){
 
   $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
@@ -80,10 +91,11 @@ it('tests method not found exception',function(){
 
 });
 
-it('tests argument not found exception',function(){
+it('tests method not allowed exception',function(){
 
   $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
-  [$status,$handler,$args,$debug] = $engine->route('GET','/bye/world');
-  expect($status)->toBe(0);
+  [$status,$handler,$args,$debug] = $engine->route('POST','/hello/world/pranjal');
+
+  expect($status)->toBe(\Scrawler\Router\Router::METHOD_NOT_ALLOWED);
 
 });
