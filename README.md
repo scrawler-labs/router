@@ -90,7 +90,7 @@ Done now whatever request occurs it will be automatically routed . You don't hav
 <br><br>
 
 ## ✏️ Manual routing
-Information on manual routing can be found in [docs](component.scrawlerlabs.com/router/)
+Information on manual routing can be found in [docs](https://component.scrawlerlabs.com/router/)
 <br><br>
 
 
