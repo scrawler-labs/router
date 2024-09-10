@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Scrawler\Router;
 
-class RouteCollection
+final class RouteCollection
 {
 
     /**

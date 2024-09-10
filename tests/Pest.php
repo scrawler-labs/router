@@ -15,6 +15,7 @@ use Symfony\Component\Cache\Psr16Cache;
 
 // uses(Tests\TestCase::class)->in('Feature');
 
+
 function getCollection($cache){
     $collection = new \Scrawler\Router\RouteCollection();
     if($cache){

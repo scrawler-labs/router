@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Scrawler\Router;
 
 
-class RouterEngine
+final class RouterEngine
 {
     //---------------------------------------------------------------//
 
@@ -195,7 +195,7 @@ class RouterEngine
      *
      *@param string $message
      */
-    protected function debug(string $message): void
+    private function debug(string $message): void
     {
         $this->debugMsg = $message;
     }

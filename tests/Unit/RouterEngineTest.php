@@ -1,4 +1,7 @@
 <?php 
+arch()->preset()->php();
+arch()->preset()->security();
+arch()->preset()->strict();
 
 it('tests normal controller resolving',function(bool $cache){
     
