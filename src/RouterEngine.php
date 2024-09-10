@@ -234,7 +234,7 @@ class RouterEngine
 
     private function checkMethodNotAllowed($controller): bool
     {
-        if(!isset($this->pathInfo[1]) || is_null($this->pathInfo[1])){
+        if(!isset($this->pathInfo[1])){
             return false;
         }
         if ( method_exists($controller, 'get' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'post' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'put' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'delete' . ucfirst($this->pathInfo[1]))) {
