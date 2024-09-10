@@ -6,16 +6,16 @@ jobs:
     strategy:
       matrix:
         operating-system: ['ubuntu-latest']
-        php-versions: ['8. 1']
+        php-versions: ['8. 3']
         phpunit-versions: ['latest']
         include:
           - operating-system: 'ubuntu-latest'
-            php-versions: '8.1'
+            php-versions: '8.3'
     steps:
       - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
       - name: Update Composer
         run: sudo composer self-update --no-interaction
       - name: Run Composer Install
