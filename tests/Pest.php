@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +18,9 @@
 function getCollection($cache){
     $collection = new \Scrawler\Router\RouteCollection();
     if($cache){
-        $cache = new Kodus\Cache\FileCache(__DIR__.'/cache',10); 
+        $cache = new FilesystemAdapter();
+        $cache = new Psr16Cache($cache);
+
         $collection->enableCache($cache);
     }
     $collection->register(__DIR__."/Demo","Tests\Demo");

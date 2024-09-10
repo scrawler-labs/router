@@ -1,5 +1,4 @@
 <?php 
-use Symfony\Component\HttpFoundation\Request;
 
 it('tests manual route  ', function (bool $cache) {
 

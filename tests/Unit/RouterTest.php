@@ -13,7 +13,8 @@ it('tests router dispatch method ', function (bool $cache) {
     expect($status)->toBe(\Scrawler\Router\Router::FOUND);
     expect($response)->toBe('Hello pranjal');
 
-    $cache = new Kodus\Cache\FileCache(__DIR__.'/cache',10); 
+    $collection = getCollection(true);
+    $cache = $collection->getCache();
     $this->router->enableCache($cache);
     [$status,$handler,$args,$debug] = $this->router->dispatch('GET','/hello/world');
     expect($status)->toBe(\Scrawler\Router\Router::NOT_FOUND);

@@ -24,7 +24,7 @@ it('tests getControllers() method',function(bool $cache){
 
   it('tests cache related methods',function(){
     $collection = getCollection(true);
-    expect($collection->getCache())->toBeInstanceOf(Kodus\Cache\FileCache::class);
+    expect($collection->getCache())->toBeInstanceOf(\Psr\SimpleCache\CacheInterface ::class);
     expect($collection->isCacheEnabled())->toBe(true);
   });
 

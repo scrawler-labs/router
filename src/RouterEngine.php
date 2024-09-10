@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /**
  * This class routes the URL to corrosponding controller.
@@ -56,6 +57,7 @@ class RouterEngine
 
 
 
+
     //---------------------------------------------------------------//
 
     /**
@@ -72,7 +74,7 @@ class RouterEngine
      * Detects the URL and call the corrosponding method
      * of corrosponding controller.
      */
-    public function route(string $httpMethod,string $uri) : array
+    public function route(string $httpMethod, string $uri): array
     {
 
         $this->httpMethod = strtolower($httpMethod);
@@ -83,15 +85,19 @@ class RouterEngine
         array_shift($this->pathInfo);
 
         //Try manual routing 
-        [$status,$handler,$args] = $this->routeManual();
+        [$status, $handler, $args] = $this->routeManual();
         if ($status) {
-            return [1,$handler,$args,''];
+            return [1, $handler, $args, ''];
         }
 
         //Try auto routing
-        return $this->routeAuto();
+        if ($this->collection->isAutoRegistered()) {
+            return $this->routeAuto();
+        }
 
-        
+        return [0, '', [], $this->debugMsg];
+
+
     }
 
     //---------------------------------------------------------------//
@@ -99,24 +105,24 @@ class RouterEngine
     /**
      * Set Arguments on the request object.
      */
-    private function routeAuto() : array
+    private function routeAuto(): array
     {
         $controller = $this->getController();
         $method = $this->getMethod($controller);
-        if($method == ''){
-            if($this->checkMethodNotAllowed($controller)){
-                return [2,'',[],$this->debugMsg];
+        if ($method == '') {
+            if ($this->checkMethodNotAllowed($controller)) {
+                return [2, '', [], $this->debugMsg];
             }
-            return [0,'',[],$this->debugMsg];
+            return [0, '', [], $this->debugMsg];
         }
         $handler = $controller . '::' . $method;
         $arguments = $this->getArguments($controller, $method);
 
-        if(is_bool($arguments) && !$arguments){
-            return [0,'',[],$this->debugMsg];
+        if (is_bool($arguments) && !$arguments) {
+            return [0, '', [], $this->debugMsg];
         }
 
-        return [1,$handler,$arguments,''];
+        return [1, $handler, $arguments, ''];
     }
 
     //---------------------------------------------------------------//
@@ -125,7 +131,7 @@ class RouterEngine
      * Function to get namespace
      *
      */
-    private function getNamespace() : string
+    private function getNamespace(): string
     {
         if ($this->dirMode) {
             return $this->collection->getNamespace() . '\\' . $this->dir;
@@ -140,10 +146,10 @@ class RouterEngine
      * Function to get controller
      *
      */
-    private function getController() : string
+    private function getController(): string
     {
         $controller = ucfirst($this->pathInfo[0]);
-        
+
         if (isset($this->pathInfo[0]) && $this->collection->isDir(ucfirst($this->pathInfo[0]))) {
             $this->dir = ucfirst($this->pathInfo[0]);
             $this->dirMode = true;
@@ -161,21 +167,25 @@ class RouterEngine
             $controller = $this->getNamespace() . '\Main';
         }
 
-        if(class_exists($controller)){
+        if(!$controller){
+            $controller = '';
+        }
+
+        if (class_exists($controller)) {
             return $controller;
         }
-        
+
         $controller = $this->getNamespace() . '\Main';
 
         if (class_exists($controller)) {
             array_unshift($this->pathInfo, '');
             return $controller;
-        } 
-         
+        }
+
         $this->debug('No Controller could be resolved:' . $controller);
 
         return '';
-        
+
     }
 
     //---------------------------------------------------------------//
@@ -185,7 +195,7 @@ class RouterEngine
      *
      *@param string $message
      */
-    protected function debug(string $message) : void
+    protected function debug(string $message): void
     {
         $this->debugMsg = $message;
     }
@@ -196,7 +206,7 @@ class RouterEngine
      * Function to dispach the method if method exist.
      *
      */
-    private function getArguments(string $controller,string $method) : bool|array
+    private function getArguments(string $controller, string $method): bool|array
     {
         $controllerObj = new $controller;
 
@@ -214,20 +224,23 @@ class RouterEngine
         }
         // finally fix the long awaited allIndex bug !
         if (count($arguments) > count($classMethod->getParameters())) {
-            $this->debug('Not able to resolve '.$method. 'for' . $controller . 'controller');
+            $this->debug('Not able to resolve ' . $method . 'for' . $controller . 'controller');
             return false;
-        } 
-        
+        }
+
         return $arguments;
-        
+
     }
 
     private function checkMethodNotAllowed($controller): bool
     {
-       if(method_exists($controller,'get'.ucfirst($this->pathInfo[1])) || method_exists($controller,'post'.ucfirst($this->pathInfo[1])) || method_exists($controller,'put'.ucfirst($this->pathInfo[1])) || method_exists($controller,'delete'.ucfirst($this->pathInfo[1]))){
+        if(!isset($this->pathInfo[1]) || is_null($this->pathInfo[1])){
+            return false;
+        }
+        if ( method_exists($controller, 'get' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'post' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'put' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'delete' . ucfirst($this->pathInfo[1]))) {
             return true;
-       }
-       return false;
+        }
+        return false;
     }
 
     //---------------------------------------------------------------//
@@ -239,7 +252,7 @@ class RouterEngine
      *
      * @return string
      */
-    private function getMethod(string $controller) : string
+    private function getMethod(string $controller): string
     {
 
         //Set Method from second argument from URL
@@ -272,44 +285,44 @@ class RouterEngine
         if (isset($last_function)) {
             $this->debug('Neither ' . $function . ' method nor ' . $last_function . ' method you found in ' . $controller . ' controller');
             return '';
-        } 
-        
+        }
+
         $this->debug($function . ' method not found in ' . $controller . ' controller');
         return '';
     }
 
     //---------------------------------------------------------------//
 
-   private function routeManual() : array
-   {
-    $controller = null;
-    $arguments = array();
-    $routes = $this->collection->getRoutes();
-    $collection_route = $this->collection->getRoute($this->uri, $this->httpMethod);
-    if ($collection_route) {
-        $controller =  $collection_route;
-    } elseif ($routes) {
-        $tokens = array(
-            ':string' => '([a-zA-Z]+)',
-            ':number' => '([0-9]+)',
-            ':alpha'  => '([a-zA-Z0-9-_]+)'
-        );
+    private function routeManual(): array
+    {
+        $controller = null;
+        $arguments = array();
+        $routes = $this->collection->getRoutes();
+        $collection_route = $this->collection->getRoute($this->uri, $this->httpMethod);
+        if ($collection_route) {
+            $controller = $collection_route;
+        } elseif ($routes) {
+            $tokens = array(
+                ':string' => '([a-zA-Z]+)',
+                ':number' => '([0-9]+)',
+                ':alpha' => '([a-zA-Z0-9-_]+)'
+            );
 
-        foreach ($routes[$this->httpMethod] as $pattern => $handler_name) {
-            $pattern = strtr($pattern, $tokens);
-            if (preg_match('#^/?' . $pattern . '/?$#', $this->uri, $matches)) {
-                $controller = $handler_name;
-                $arguments = $matches;
-                break;
+            foreach ($routes[$this->httpMethod] as $pattern => $handler_name) {
+                $pattern = strtr($pattern, $tokens);
+                if (preg_match('#^/?' . $pattern . '/?$#', $this->uri, $matches)) {
+                    $controller = $handler_name;
+                    $arguments = $matches;
+                    break;
+                }
             }
         }
-    }
 
-    if(is_callable($controller)){
-        unset($arguments[0]);
-        return [true,$controller,$arguments];
-    }
+        if (is_callable($controller)) {
+            unset($arguments[0]);
+            return [true, $controller, $arguments];
+        }
 
-    return [false,'',''];
-   }
+        return [false, '', ''];
+    }
 }
