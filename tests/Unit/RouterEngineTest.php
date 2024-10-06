@@ -102,3 +102,12 @@ it('tests method not allowed exception',function(){
   expect($status)->toBe(\Scrawler\Router\Router::METHOD_NOT_ALLOWED);
 
 });
+
+it('tests no route found exception',function(){
+
+  $engine = new \Scrawler\Router\RouterEngine(new \Scrawler\Router\RouteCollection());
+  [$status,$handler,$args,$debug] = $engine->route('GET','/random/route');
+
+  expect($status)->toBe(\Scrawler\Router\Router::NOT_FOUND);
+
+});

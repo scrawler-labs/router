@@ -17,7 +17,7 @@ final class RouterEngine
     /**
      * Stores the URL broken logic wise.
      *
-     * @var array
+     * @var array<int,string>
      */
     private array $pathInfo = [];
 
@@ -37,21 +37,25 @@ final class RouterEngine
 
     /**
      * Stores the RouterCollection object.
+     * @var RouteCollection
      */
     private RouteCollection $collection;
 
     /**
      * Stores dir mode
+     * @var bool
      */
     private bool $dirMode = false;
 
     /**
      * Store Dirctory during dir Mode
+     * @var string
      */
     private string $dir = '';
 
     /**
      * stores debug msg
+     * @var string
      */
     private string $debugMsg = '';
 
@@ -73,6 +77,9 @@ final class RouterEngine
     /**
      * Detects the URL and call the corrosponding method
      * of corrosponding controller.
+     * @param string $httpMethod
+     * @param string $uri
+     * @return array<int, mixed>
      */
     public function route(string $httpMethod, string $uri): array
     {
@@ -100,10 +107,10 @@ final class RouterEngine
 
     }
 
-    //---------------------------------------------------------------//
 
     /**
      * Set Arguments on the request object.
+     * @return array<int, mixed>
      */
     private function routeAuto(): array
     {
@@ -125,11 +132,10 @@ final class RouterEngine
         return [1, $handler, $arguments, ''];
     }
 
-    //---------------------------------------------------------------//
 
     /**
      * Function to get namespace
-     *
+     * @return string
      */
     private function getNamespace(): string
     {
@@ -144,7 +150,7 @@ final class RouterEngine
 
     /**
      * Function to get controller
-     *
+     * @return string
      */
     private function getController(): string
     {
@@ -167,7 +173,7 @@ final class RouterEngine
             $controller = $this->getNamespace() . '\Main';
         }
 
-        if(!$controller){
+        if (!$controller) {
             $controller = '';
         }
 
@@ -188,12 +194,12 @@ final class RouterEngine
 
     }
 
-    //---------------------------------------------------------------//
 
     /**
      * Function to throw 404 error.
      *
      *@param string $message
+     * @return void
      */
     private function debug(string $message): void
     {
@@ -204,7 +210,9 @@ final class RouterEngine
 
     /**
      * Function to dispach the method if method exist.
-     *
+     * @param string $controller
+     * @param string $method
+     * @return bool|array<mixed>
      */
     private function getArguments(string $controller, string $method): bool|array
     {
@@ -232,18 +240,22 @@ final class RouterEngine
 
     }
 
+    /**
+     * Function to check for 405
+     * @param string $controller
+     * @return bool
+     */
     private function checkMethodNotAllowed($controller): bool
     {
-        if(!isset($this->pathInfo[1])){
+        if (!isset($this->pathInfo[1])) {
             return false;
         }
-        if ( method_exists($controller, 'get' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'post' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'put' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'delete' . ucfirst($this->pathInfo[1]))) {
+        if (method_exists($controller, 'get' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'post' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'put' . ucfirst($this->pathInfo[1])) || method_exists($controller, 'delete' . ucfirst($this->pathInfo[1]))) {
             return true;
         }
         return false;
     }
 
-    //---------------------------------------------------------------//
 
     /**
      * Returns the method to be called according to URL.
@@ -265,10 +277,7 @@ final class RouterEngine
             }
         }
 
-        //Introduced in v2.1.2
-        //Give Scrawler last chance to resolve index method before declaring not found
-        //Store the last tested function before all index used for better debugging
-        // if (!isset($this->path_info[1])) {
+
         if (isset($function)) {
             $last_function = $function;
         }
@@ -291,8 +300,10 @@ final class RouterEngine
         return '';
     }
 
-    //---------------------------------------------------------------//
-
+    /**
+     * Function to route manual routes
+     * @return array<int, mixed>
+     */
     private function routeManual(): array
     {
         $controller = null;
@@ -310,7 +321,7 @@ final class RouterEngine
 
             foreach ($routes[$this->httpMethod] as $pattern => $handler_name) {
                 $pattern = strtr($pattern, $tokens);
-                if (preg_match('#^/?' . $pattern . '/?$#', $this->uri, $matches)) {
+                if (\Safe\preg_match('#^/?' . $pattern . '/?$#', $this->uri, $matches)) {
                     $controller = $handler_name;
                     $arguments = $matches;
                     break;

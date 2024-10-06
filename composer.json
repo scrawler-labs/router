@@ -20,7 +20,8 @@
         }
     ],
     "require": {
-        "psr/simple-cache": "^3.0"
+        "psr/simple-cache": "^3.0",
+        "thecodingmachine/safe": "^2.5"
     },
     "autoload": {
         "psr-4": {
@@ -36,7 +37,9 @@
         "phpunit/phpunit": "^11.0",
         "pestphp/pest": "^3.0",
         "phpstan/phpstan": "^1.10",
-        "symfony/cache": "^7.1"
+        "symfony/cache": "^7.1",
+        "thecodingmachine/phpstan-safe-rule": "^1.2",
+        "rector/rector": "^1.2"
     },
     "config": {
         "allow-plugins": {

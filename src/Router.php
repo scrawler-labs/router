@@ -16,13 +16,15 @@ final class Router
 
     /**
      * Stores the RouterCollection object.
+     * @var RouteCollection
      */
-    private $collection;
+    private RouteCollection $collection;
 
     /**
      * Stores the Engine Instance.
+     * @var RouterEngine
      */
-    private $engine;
+    private RouterEngine $engine;
 
 
     public const NOT_FOUND = 0;
@@ -45,6 +47,9 @@ final class Router
 
     /**
      * constructor overloading for auto routing.
+     * @param string $dir
+     * @param string $namespace
+     * @return void
      */
     public function register(string $dir, string $namespace): void
     {
@@ -54,7 +59,9 @@ final class Router
     //---------------------------------------------------------------//
 
     /**
-     * constructor overloading for auto routing.
+     * Enable cache
+     * @param \Psr\SimpleCache\CacheInterface $cache
+     * @return void
      */
     public function enableCache(\Psr\SimpleCache\CacheInterface $cache): void
     {
@@ -64,6 +71,9 @@ final class Router
     //---------------------------------------------------------------//
     /**
      * Dispatch function
+     * @param string $httpMethod
+     * @param string $uri
+     * @return array<int, mixed>
      */
     public function dispatch(string $httpMethod, string $uri): array
     {
@@ -83,30 +93,56 @@ final class Router
         return $result;
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * register manual get route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function get(string $route, callable $callable): void
     {
         $this->collection->get($route, $callable);
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * Register manual post route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function post(string $route, callable $callable): void
     {
         $this->collection->post($route, $callable);
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * Register manual put route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function put(string $route, callable $callable): void
     {
         $this->collection->put($route, $callable);
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * Register manual delete route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function delete(string $route, callable $callable): void
     {
         $this->collection->delete($route, $callable);
     }
-    //---------------------------------------------------------------//
+
+    /**
+     * Register manual all route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function all(string $route, callable $callable): void
     {
         $this->collection->all($route, $callable);

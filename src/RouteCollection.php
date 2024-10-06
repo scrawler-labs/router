@@ -26,16 +26,19 @@ final class RouteCollection
 
     /*
      * Stores the path of dirctory containing controllers
+     * @var string
      */
     private string $directory;
 
     /*
      * Stores the namespace of controllers
+     * @var string
      */
     private string $namespace;
 
     /**
-     *  Stores list of directories
+     * Stores list of directories
+     * @var array<mixed>
      */
     private array $dir = [];
 
@@ -46,6 +49,7 @@ final class RouteCollection
 
     /**
      *  Check if caches is enable
+     * @var bool
      */
     private bool $enableCache = false;
 
@@ -55,7 +59,6 @@ final class RouteCollection
     private bool $autoRegistered = false;
 
 
-    //---------------------------------------------------------------//
 
     public function register(string $directory, string $namespace): void
     {
@@ -66,16 +69,15 @@ final class RouteCollection
         $this->autoRegister();
     }
 
-    //---------------------------------------------------------------//
 
     /**
      * Function returns the class of corrosponding controller.
      *
      * @param string $controller
      *
-     * @return string|bool
+     * @return string|false
      */
-    public function getController(string $controller): bool|string
+    public function getController(string $controller): false|string
     {
         if ($this->enableCache && $this->cache->has(str_replace('/', '_', $controller))) {
             return $this->cache->get(str_replace('/', '_', $controller));
@@ -89,22 +91,21 @@ final class RouteCollection
 
         return false;
     }
-    //---------------------------------------------------------------//
     /**
      * Returns cache engine
-     *
+     * @return \Psr\SimpleCache\CacheInterface
      */
     public function getCache(): \Psr\SimpleCache\CacheInterface
     {
         return $this->cache;
     }
-    //---------------------------------------------------------------//
 
     /**
-     * Register the list of controllers.
+     * Register controller with route collection.
      *
      * @param string $name
      * @param string $class
+     * @return void
      */
     public function registerController(string $name, string $class): void
     {
@@ -115,19 +116,19 @@ final class RouteCollection
         }
     }
 
-    //---------------------------------------------------------------//
 
     /**
      * Automatically register all controllers in specified directory.
+     * @return void
      */
     private function autoRegister(): void
     {
-        $files = array_slice(scandir($this->directory), 2);
+        $files = array_slice(\Safe\scandir($this->directory), 2);
         foreach ($files as $file) {
             if (is_dir($this->directory . '/' . $file)) {
                 $this->registerDir($file);
                 $dir = $this->directory . '/' . $file;
-                $dir_files = array_slice(scandir($dir), 2);
+                $dir_files = array_slice(\Safe\scandir($dir), 2);
                 foreach ($dir_files as $dir_file) {
                     if ($dir_file != 'Main.php' && !\is_dir($dir . '/' . $dir_file)) {
                         $this->registerController($file . '/' . \basename($dir_file, '.php'), $this->namespace . '\\' . \ucfirst($file) . '\\' . \basename($dir_file, '.php'));
@@ -141,7 +142,7 @@ final class RouteCollection
 
     }
 
-    //---------------------------------------------------------------//
+
 
     /**
      * Function to get the namespace of controllers
@@ -153,7 +154,6 @@ final class RouteCollection
         return $this->namespace;
     }
 
-    //---------------------------------------------------------------//
 
     /**
      * Function to return list of all controller currently registerd with route collction
@@ -165,10 +165,10 @@ final class RouteCollection
         return $this->controllers;
     }
 
-    //---------------------------------------------------------------//
     /**
      * Function to add dir to list of dir
-     *
+     * @param string $dir
+     * @return void
      */
     public function registerDir(string $dir): void
     {
@@ -180,10 +180,9 @@ final class RouteCollection
 
     }
 
-    //---------------------------------------------------------------//
     /**
      * Function to check if cache is enabled
-     *
+     * @return bool
      */
     public function isCacheEnabled(): bool
     {
@@ -191,11 +190,10 @@ final class RouteCollection
     }
 
 
-    //---------------------------------------------------------------//
     /**
      * Function to check if its a registered dir
-     *
-     * @return boolean
+     * @param string $dir
+     * @return bool
      */
     public function isDir(string $dir): bool
     {
@@ -206,9 +204,10 @@ final class RouteCollection
     }
 
 
-    //---------------------------------------------------------------//
     /**
      * Enable cache with custom cache engine
+     * @param \Psr\SimpleCache\CacheInterface $cache
+     * @return void
      */
     public function enableCache(\Psr\SimpleCache\CacheInterface $cache): void
     {
@@ -219,42 +218,79 @@ final class RouteCollection
         }
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * Register manual route in route collection
+     * @param string $method
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     private function registerManual(string $method, string $route, callable $callable): void
     {
         $this->route[$method][$route] = $callable;
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * register manual get route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function get(string $route, callable $callable): void
     {
         $this->registerManual('get', $route, $callable);
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * register manual post route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function post(string $route, callable $callable): void
     {
         $this->registerManual('post', $route, $callable);
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * register manual put route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function put(string $route, callable $callable): void
     {
         $this->registerManual('put', $route, $callable);
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * register manual delete route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function delete(string $route, callable $callable): void
     {
         $this->registerManual('delete', $route, $callable);
     }
-    //---------------------------------------------------------------//
+
+    /**
+     * register manual patch route
+     * @param string $route
+     * @param callable $callable
+     * @return void
+     */
     public function all(string $route, callable $callable): void
     {
         $this->registerManual('all', $route, $callable);
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * get callable using route and method
+     * @param string $route
+     * @param string $method
+     * @return callable|bool
+     */
     public function getRoute(string $route, string $method): callable|bool
     {
         if (isset($this->route[$method][$route])) {
@@ -266,13 +302,19 @@ final class RouteCollection
         return false;
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * get all routes
+     * @return array<mixed>
+     */
     public function getRoutes(): array
     {
         return $this->route;
     }
 
-    //---------------------------------------------------------------//
+    /**
+     * check if auto register is enable
+     * @return bool
+     */
     public function isAutoRegistered(): bool
     {
         return $this->autoRegistered;
