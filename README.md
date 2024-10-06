@@ -5,6 +5,8 @@
 <a href="https://github.com/scrawler-labs/router/actions/workflows/main.yml"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/scrawler-labs/router/main.yml?style=flat-square">
 </a>
 [![Codecov](https://img.shields.io/codecov/c/gh/scrawler-labs/router?style=flat-square)](https://app.codecov.io/gh/scrawler-labs/router)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/quality/g/scrawler-labs/router?style=flat-square)](https://scrutinizer-ci.com/g/scrawler-labs/router/?branch=main)
+<a href="[https://github.com/scrawler-labs/router/actions/workflows/main.yml](https://github.com/scrawler-labs/app/actions/workflows/main.yml)"><img src="https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square" alt="PHPStan Enabled"></a>
 [![Packagist Version](https://img.shields.io/packagist/v/scrawler/router?style=flat-square)](https://packagist.org/packages/scrawler/router)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/scrawler/router?style=flat-square)](https://packagist.org/packages/scrawler/router)
 [![Packagist License](https://img.shields.io/packagist/l/scrawler/router?style=flat-square)](https://packagist.org/packages/scrawler/router)
