@@ -5,7 +5,7 @@ arch()->preset()->security();
 arch()->preset()->strict();
 
 
-it('tests router dispatch method ', function (bool $cache) {
+it('tests router dispatch method ', function (bool $cache): void {
 
 
     $this->router = new \Scrawler\Router\Router();

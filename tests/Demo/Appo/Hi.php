@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Hi{
    
-public function allTest(){
+public function allTest(): string{
     return "Test Hi";
 }
 

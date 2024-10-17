@@ -3,15 +3,15 @@ namespace Tests\Demo;
 class Hello{
 
 
-public function getIndex($name){
+public function getIndex(string $name): string{
     return "Hello Index".$name;
  }
 
-public function getWorld($name){
+public function getWorld(string $name): string{
 return "Hello ".$name;
 }
 
-public function getHi(){
+public function getHi(): string{
     return "Hi";
 }
 

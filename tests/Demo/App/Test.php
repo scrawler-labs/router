@@ -4,11 +4,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Test{
 
-public function getIndex(){
+public function getIndex(): string{
 return 'This is dir test';
 }
 
-public function getHi(){
+public function getHi(): string{
     return 'This is dir hi';
 }
 

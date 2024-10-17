@@ -3,7 +3,7 @@ arch()->preset()->php();
 arch()->preset()->security();
 arch()->preset()->strict();
 
-it('tests normal controller resolving',function(bool $cache){
+it('tests normal controller resolving',function(bool $cache): void{
     
     $collection = getCollection($cache);
 
@@ -27,7 +27,7 @@ it('tests normal controller resolving',function(bool $cache){
 
   })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
-it('tests controller resolver inside directory',function(bool $cache){
+it('tests controller resolver inside directory',function(bool $cache): void{
   $collection = getCollection($cache);
 
 
@@ -47,7 +47,7 @@ it('tests controller resolver inside directory',function(bool $cache){
 
 })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
-it('tests main controller resolving',function(bool $cache){
+it('tests main controller resolving',function(bool $cache): void{
   $collection = getCollection($cache);
 
 
@@ -63,7 +63,7 @@ it('tests main controller resolving',function(bool $cache){
 
 })->with(['cacheDisabled'=>false,'cacheEnabled'=>true]);
 
-it('tests controller not found ',function(){
+it('tests controller not found ',function(): void{
 
   $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
   [$status,$handler,$args,$debug] = $engine->route('GET','/random/r');
@@ -74,7 +74,7 @@ it('tests controller not found ',function(){
 
 });
 
-it('tests for method not allowed ',function(){
+it('tests for method not allowed ',function(): void{
 
   $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
   [$status,$handler,$args,$debug] = $engine->route('GET','/random/r');
@@ -85,7 +85,7 @@ it('tests for method not allowed ',function(){
 
 });
 
-it('tests method not found exception',function(){
+it('tests method not found exception',function(): void{
 
   $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
   [$status,$handler,$args,$debug] = $engine->route('GET','/test/worl');
@@ -94,7 +94,7 @@ it('tests method not found exception',function(){
 
 });
 
-it('tests method not allowed exception',function(){
+it('tests method not allowed exception',function(): void{
 
   $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
   [$status,$handler,$args,$debug] = $engine->route('POST','/hello/world/pranjal');
@@ -103,7 +103,7 @@ it('tests method not allowed exception',function(){
 
 });
 
-it('tests no route found exception',function(){
+it('tests no route found exception',function(): void{
 
   $engine = new \Scrawler\Router\RouterEngine(new \Scrawler\Router\RouteCollection());
   [$status,$handler,$args,$debug] = $engine->route('GET','/random/route');

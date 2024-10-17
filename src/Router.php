@@ -1,85 +1,81 @@
 <?php
+
 declare(strict_types=1);
 
-/**
- * This class is used when it is used as stand alone router
+/*
+ * This file is part of the Scrawler package.
  *
- * @author : Pranjal Pandey
+ * (c) Pranjal Pandey <its.pranjalpandey@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
 namespace Scrawler\Router;
 
-
-final class Router
+/**
+ * This class is used when it is used as stand alone router.
+ */
+final readonly class Router
 {
-    //---------------------------------------------------------------//
+    // ---------------------------------------------------------------//
 
     /**
      * Stores the RouterCollection object.
-     * @var RouteCollection
      */
     private RouteCollection $collection;
 
     /**
      * Stores the Engine Instance.
-     * @var RouterEngine
      */
     private RouterEngine $engine;
-
 
     public const NOT_FOUND = 0;
     public const FOUND = 1;
     public const METHOD_NOT_ALLOWED = 2;
 
-    //---------------------------------------------------------------//
+    // ---------------------------------------------------------------//
 
     /**
      * constructor overloading for auto routing.
      */
     public function __construct()
     {
-
         $this->collection = new RouteCollection();
         $this->engine = new RouterEngine($this->collection);
     }
 
-    //---------------------------------------------------------------//
+    // ---------------------------------------------------------------//
 
     /**
      * constructor overloading for auto routing.
-     * @param string $dir
-     * @param string $namespace
-     * @return void
      */
     public function register(string $dir, string $namespace): void
     {
         $this->collection->register($dir, $namespace);
     }
 
-    //---------------------------------------------------------------//
+    // ---------------------------------------------------------------//
 
     /**
-     * Enable cache
-     * @param \Psr\SimpleCache\CacheInterface $cache
-     * @return void
+     * Enable cache.
      */
     public function enableCache(\Psr\SimpleCache\CacheInterface $cache): void
     {
         $this->collection->enableCache($cache);
     }
 
-    //---------------------------------------------------------------//
+    // ---------------------------------------------------------------//
     /**
-     * Dispatch function
-     * @param string $httpMethod
-     * @param string $uri
+     * Dispatch function.
+     *
      * @return array<int, mixed>
      */
     public function dispatch(string $httpMethod, string $uri): array
     {
         $result = $this->engine->route($httpMethod, $uri);
 
-        if ($result[0] == 0 || $result[0] == 2) {
+        if (0 == $result[0] || 2 == $result[0]) {
             return $result;
         }
 
@@ -87,17 +83,14 @@ final class Router
             return $result;
         }
 
-        [$class, $method] = explode('::', $result[1], 2);
+        [$class, $method] = explode('::', (string) $result[1], 2);
         $result[1] = [new $class(), $method];
 
         return $result;
     }
 
     /**
-     * register manual get route
-     * @param string $route
-     * @param callable $callable
-     * @return void
+     * register manual get route.
      */
     public function get(string $route, callable $callable): void
     {
@@ -105,10 +98,7 @@ final class Router
     }
 
     /**
-     * Register manual post route
-     * @param string $route
-     * @param callable $callable
-     * @return void
+     * Register manual post route.
      */
     public function post(string $route, callable $callable): void
     {
@@ -116,10 +106,7 @@ final class Router
     }
 
     /**
-     * Register manual put route
-     * @param string $route
-     * @param callable $callable
-     * @return void
+     * Register manual put route.
      */
     public function put(string $route, callable $callable): void
     {
@@ -127,10 +114,7 @@ final class Router
     }
 
     /**
-     * Register manual delete route
-     * @param string $route
-     * @param callable $callable
-     * @return void
+     * Register manual delete route.
      */
     public function delete(string $route, callable $callable): void
     {
@@ -138,10 +122,7 @@ final class Router
     }
 
     /**
-     * Register manual all route
-     * @param string $route
-     * @param callable $callable
-     * @return void
+     * Register manual all route.
      */
     public function all(string $route, callable $callable): void
     {

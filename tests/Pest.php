@@ -16,7 +16,7 @@ use Symfony\Component\Cache\Psr16Cache;
 // uses(Tests\TestCase::class)->in('Feature');
 
 
-function getCollection($cache){
+function getCollection($cache): \Scrawler\Router\RouteCollection{
     $collection = new \Scrawler\Router\RouteCollection();
     if($cache){
         $cache = new FilesystemAdapter();

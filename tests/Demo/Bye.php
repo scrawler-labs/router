@@ -3,15 +3,15 @@ namespace Tests\Demo;
 
 class Bye{
 
-public function allIndex(){
+public function allIndex(): string{
     return "Bye";
 }
     
-public function allTest(){
+public function allTest(): string{
     return "Test";
 }
     
-public function getWorld($name){
+public function getWorld(string $name): string{
     return "Bye ".$name;
 }
 

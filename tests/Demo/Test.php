@@ -2,7 +2,7 @@
 namespace Tests\Demo;
 class Test{
 
-public function getHi(){
+public function getHi(): string{
     return "Hi Test";
 }
 
