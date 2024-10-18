@@ -1,9 +1,10 @@
 <?php
 namespace Tests\Demo;
-class Test{
+class Test
+{
 
-public function getHi(): string{
-    return "Hi Test";
-}
-
+    public function getHi(): string
+    {
+        return "Hi Test";
+    }
 }

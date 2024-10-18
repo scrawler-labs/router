@@ -111,3 +111,18 @@ it('tests no route found exception',function(): void{
   expect($status)->toBe(\Scrawler\Router\Router::NOT_FOUND);
 
 });
+
+
+it('tests method call with optional parameter',function(): void{
+
+  $engine = new \Scrawler\Router\RouterEngine(getCollection(false));
+  [$status,$handler,$args,$debug] = $engine->route('GET',uri: '/param');
+  expect($handler)->toBe('Tests\Demo\Param::allIndex');
+  [$status,$handler,$args,$debug] = $engine->route('GET',uri: '/param/12');
+  expect($handler)->toBe('Tests\Demo\Param::allIndex');
+  [$status,$handler,$args,$debug] = $engine->route('GET',uri: '/param/test');
+  expect($handler)->toBe('Tests\Demo\Param::getTest');
+  [$status,$handler,$args,$debug] = $engine->route('GET',uri: '/param/test/12');
+  expect($handler)->toBe('Tests\Demo\Param::getTest');
+
+});

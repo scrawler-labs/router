@@ -207,9 +207,14 @@ final class RouterEngine
         }
         // Check weather arguments are passed else throw a 404 error
         $classMethod = new \ReflectionMethod($controllerObj, $method);
-
-        // Optional parameter introduced in version 3.0.2
-        if (count($arguments) < count($classMethod->getParameters())) {
+        $params = $classMethod->getParameters();
+        // Remove params if it allows null
+        foreach ($params as $key => $param) {
+            if ($param->isOptional()) {
+                unset($params[$key]);
+            }
+        }
+        if (count($arguments) < count($params)) {
             $this->debug('Not enough arguments given to the method');
 
             return false;
