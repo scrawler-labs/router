@@ -54,7 +54,7 @@ $router = new Router();
 $router->register($dir,$namespace);
 
 /**
-* you can now also enblae route caching by passing your own PSR 16 implementation
+* you can now also enable route caching by passing your own PSR 16 implementation
 * $cache = new Psr\SimpleCache\CacheInterface();
 * $router->enableCache($cache);
 **/
