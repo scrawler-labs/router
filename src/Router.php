@@ -30,9 +30,9 @@ final readonly class Router
      */
     private RouterEngine $engine;
 
-    public const NOT_FOUND = 0;
-    public const FOUND = 1;
-    public const METHOD_NOT_ALLOWED = 2;
+    public const int NOT_FOUND = 0;
+    public const int FOUND = 1;
+    public const int METHOD_NOT_ALLOWED = 2;
 
     // ---------------------------------------------------------------//
 
@@ -75,7 +75,7 @@ final readonly class Router
     {
         $result = $this->engine->route($httpMethod, $uri);
 
-        if (0 == $result[0] || 2 == $result[0]) {
+        if (0 === $result[0] || 2 === $result[0]) {
             return $result;
         }
 

@@ -85,7 +85,7 @@ final class RouteCollection
         }
 
         foreach ($this->controllers as $key => $value) {
-            if ($key == $controller) {
+            if ($key === $controller) {
                 return $value;
             }
         }
@@ -125,12 +125,12 @@ final class RouteCollection
                 $dir = $this->directory.'/'.$file;
                 $dir_files = array_slice(\Safe\scandir($dir), 2);
                 foreach ($dir_files as $dir_file) {
-                    if ('Main.php' != $dir_file && !\is_dir($dir.'/'.$dir_file)) {
+                    if ('Main.php' !== $dir_file && !\is_dir($dir.'/'.$dir_file)) {
                         $this->registerController($file.'/'.\basename((string) $dir_file, '.php'), $this->namespace.'\\'.\ucfirst((string) $file).'\\'.\basename((string) $dir_file, '.php'));
                     }
                 }
             }
-            if ('Main.php' != $file && !\is_dir($this->directory.'/'.$file)) {
+            if ('Main.php' !== $file && !\is_dir($this->directory.'/'.$file)) {
                 $this->registerController(\basename((string) $file, '.php'), $this->namespace.'\\'.\basename((string) $file, '.php'));
             }
         }
