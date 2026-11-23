@@ -1,5 +1,6 @@
 <?php
 
+
 it('tests getController() method',function(bool $cache): void{
       $collection = getCollection($cache);
       expect($collection->getController('Hello'))->toBe(\Tests\Demo\Hello::class);
